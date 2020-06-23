@@ -3,7 +3,7 @@
 <%@include file="../include/fix.jsp"%>
 
 <script>
-	document.title="ANBD | 아나바다-글쓰기";
+	document.title="ANBD | 아나바다-글쓰기 git test";
 </script>
 <style>
 	#share, #reuse
