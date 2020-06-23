@@ -7,7 +7,11 @@
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
 <script>
 	//document.title="ANBD | 아나바다-목록";
+<<<<<<< HEAD
 	document.title="ANBD | I'm JDH";
+=======
+	document.title="ANBD | in Master jdh commited?";
+>>>>>>> refs/remotes/origin/master
 </script>
 <% 
 request.setCharacterEncoding("utf-8");
