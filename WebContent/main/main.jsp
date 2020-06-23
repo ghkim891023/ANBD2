@@ -7,7 +7,7 @@
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
 <script>
 	//document.title="ANBD | 아나바다-목록";
-	document.title="ANBD | Hi! I'm JDH changed!!!!!!!!";
+	document.title="ANBD | I'm JDH";
 </script>
 <% 
 request.setCharacterEncoding("utf-8");
