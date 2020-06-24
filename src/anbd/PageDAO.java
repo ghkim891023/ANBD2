@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class PageDAO extends DbInfo{
 	
-	public int count = 0;  //ÀüÃ¼ °Ô½Ã¹° °¹¼ö
+	public int count = 0;  //ì „ì²´ ê²Œì‹œë¬¼ ê°¯ìˆ˜
 	
 	public void selMainList( ArrayList<AnbdVO> mainList, int startRow, int pageSize, String mKey) {
 		String SQL  = "select count(*) as count from board ";
 		System.out.println("mKey: "+mKey);
-		if( !mKey.equals("") || mKey!=null){ //°Ë»ö¾î°¡ ÀÖÀ¸¸é
+		if( !mKey.equals("") || mKey!=null){ //ê²€ìƒ‰ì–´ê°€ ìˆìœ¼ë©´
 			SQL += "where title like '%" + mKey +"%' ";
 			System.out.println("mKey: "+mKey);
 		}
@@ -20,20 +20,20 @@ public class PageDAO extends DbInfo{
 			executeQuery();
 			rs.next();
 			count = Integer.parseInt(rs.getString("count"));
-			System.out.println("ÃÑ °Ô½Ã±Û ¼ö: "+count);
+			System.out.println("ì´ ê²Œì‹œê¸€ ìˆ˜: "+count);
 		} catch (Exception e) {
-			System.out.println("select count(*) ¿¡·¯: "+e.getMessage());
+			System.out.println("select count(*) ì—ëŸ¬: "+e.getMessage());
 			e.printStackTrace();
 		}
 		rsClose();
 		pstateClose();
 		
 		SQL  = "select no, menu, status, title, photo, wdate from board ";
-		if( !mKey.equals("")){ //°Ë»ö¾î°¡ ÀÖÀ¸¸é
+		if( !mKey.equals("")){ //ê²€ìƒ‰ì–´ê°€ ìˆìœ¼ë©´
 			SQL += "where title like '%" + mKey +"%' ";
 		}
 	   	SQL += "order by no desc limit " + startRow + "," + pageSize + "  ";
-	   	System.out.println("10°³¾¿ ¸ñ·Ï select ±¸¹®  : "+SQL);
+	   	System.out.println("10ê°œì”© ëª©ë¡ select êµ¬ë¬¸  : "+SQL);
 		try {
 			prepareStatement(SQL);
 			executeQuery();
@@ -48,14 +48,14 @@ public class PageDAO extends DbInfo{
 				mainList.add(vo);
 			}
 		}catch (Exception e) {
-			System.out.println("selMainList ¿¡·¯: "+e.getMessage()); 
+			System.out.println("selMainList ì—ëŸ¬: "+e.getMessage()); 
 		}
 		rsClose();
 		pstateClose();
 		conClose();
 	}
 	
-	//±Û ¸ñ·Ï¸¸(°Ë»ö¾î Àû¿ë ¾ÈÇÑ°Å)
+	//ê¸€ ëª©ë¡ë§Œ(ê²€ìƒ‰ì–´ ì ìš© ì•ˆí•œê±°)
 	public void selMainList_v1( ArrayList<AnbdVO> mainList, int startRow, int pageSize ) {
 		String SQL  = "select count(*) as count from board ";
 		try {
@@ -64,9 +64,9 @@ public class PageDAO extends DbInfo{
 			executeQuery();
 			rs.next();
 			count = Integer.parseInt(rs.getString("count"));
-			System.out.println("ÃÑ °Ô½Ã±Û ¼ö: "+count);
+			System.out.println("ì´ ê²Œì‹œê¸€ ìˆ˜: "+count);
 		} catch (Exception e) {
-			System.out.println("select count(*) ¿¡·¯: "+e.getMessage());
+			System.out.println("select count(*) ì—ëŸ¬: "+e.getMessage());
 			e.printStackTrace();
 		}
 		rsClose();
@@ -74,7 +74,7 @@ public class PageDAO extends DbInfo{
 		
 		SQL  = "select no, menu, status, title, photo, wdate from board ";
 	   	SQL += "order by no desc limit " + startRow + "," + pageSize + "  ";
-	   	System.out.println("10°³¾¿ ¸ñ·Ï select ±¸¹®  : "+SQL);
+	   	System.out.println("10ê°œì”© ëª©ë¡ select êµ¬ë¬¸  : "+SQL);
 		try {
 			prepareStatement(SQL);
 			executeQuery();
@@ -89,7 +89,7 @@ public class PageDAO extends DbInfo{
 				mainList.add(vo);
 			}
 		}catch (Exception e) {
-			System.out.println("selMainList ¿¡·¯: "+e.getMessage()); 
+			System.out.println("selMainList ì—ëŸ¬: "+e.getMessage()); 
 		}
 		rsClose();
 		pstateClose();
