@@ -1,30 +1,30 @@
-* commit = ³» pc git ÀúÀå¼Ò(repository)¿¡ ¾÷·Îµå(½Ã°£°ú ÇÔ²² ÀúÀå, º¹¿ø °¡´É ÁöÁ¡)(Å¸ÀÓÄ¸½¶st)
-* push = ³» PC gitÀÇ CommitÀ» GitHub¿¡ ¿Ã¸®±â(¿ø°İ¼­¹ö¿¡ ¹İ¿µ)
+* commit = ë‚´ pc git ì €ì¥ì†Œ(repository)ì— ì—…ë¡œë“œ(ì‹œê°„ê³¼ í•¨ê»˜ ì €ì¥, ë³µì› ê°€ëŠ¥ ì§€ì )(íƒ€ì„ìº¡ìŠst)
+* push = ë‚´ PC gitì˜ Commitì„ GitHubì— ì˜¬ë¦¬ê¸°(ì›ê²©ì„œë²„ì— ë°˜ì˜)
 	
-1.ÀÌÅ¬¸³½º¿¡¼­ ÄÚµå ÀÛ¾÷ ÈÄ ÀúÀå(ctrl + s)
+1.ì´í´ë¦½ìŠ¤ì—ì„œ ì½”ë“œ ì‘ì—… í›„ ì €ì¥(ctrl + s)
 
-2-1. Commit°ú Push µû·Î ÇÏ±â
+2-1. Commitê³¼ Push ë”°ë¡œ í•˜ê¸°
 	
-	 Git Staging ÅÇ - add to index(++¾ÆÀÌÄÜ) - ¸Ş¼¼Áö ÀÔ·Â(ÇÊ¼ö) - commit (³» pc git¿¡ ÀúÀå)
+	 Git Staging íƒ­ - add to index(++ì•„ì´ì½˜) - ë©”ì„¸ì§€ ì…ë ¥(í•„ìˆ˜) - commit (ë‚´ pc gitì— ì €ì¥)
 
-	 (±× ÈÄ¿¡µµ ¼öÁ¤ ¿©·¯¹ø ÇÏ°í, ³» pc git¿¡ commit Çß´Ù°¡)
+	 (ê·¸ í›„ì—ë„ ìˆ˜ì • ì—¬ëŸ¬ë²ˆ í•˜ê³ , ë‚´ pc gitì— commit í–ˆë‹¤ê°€)
 	 
-	 Git Repositories ÅÇ - Remotes - origin - https../ANBD2.git - push - Push Result(°á°ú È®ÀÎ) - close
+	 Git Repositories íƒ­ - Remotes - origin - https../ANBD2.git - push - Push Result(ê²°ê³¼ í™•ì¸) - close
 	 
-	 GitHub¿¡ branch kgh¿¡ ¹İ¿µµÊ
+	 GitHubì— branch kghì— ë°˜ì˜ë¨
 or
-2-2. Commit°ú Push °°ÀÌ ÇÏ±â
+2-2. Commitê³¼ Push ê°™ì´ í•˜ê¸°
 	
-	 Git Staging ÅÇ - add to index(++¾ÆÀÌÄÜ) - ¸Ş¼¼Áö ÀÔ·Â(ÇÊ¼ö) - commit and Push (³» pc git¿¡ ÀúÀå + GitHub¿¡ ¿Ã¸®±â)
+	 Git Staging íƒ­ - add to index(++ì•„ì´ì½˜) - ë©”ì„¸ì§€ ì…ë ¥(í•„ìˆ˜) - commit and Push (ë‚´ pc gitì— ì €ì¥ + GitHubì— ì˜¬ë¦¬ê¸°)
  
-	 Push Result(È®ÀÎÃ¢)¿¡  "HEAD -> kgh(ºê·£Ä¡ ÀÌ¸§)"·Î °£°Å È®ÀÎ - close
+	 Push Result(í™•ì¸ì°½)ì—  "HEAD -> kgh(ë¸Œëœì¹˜ ì´ë¦„)"ë¡œ ê°„ê±° í™•ì¸ - close
 	 
-	 GitHub¿¡ branch kgh¿¡ ¹İ¿µµÊ
+	 GitHubì— branch kghì— ë°˜ì˜ë¨
 	 
-3. master·Î merge
+3. masterë¡œ merge
    
    
-4. masterÀÇ ÃÖ½Å ¹öÀüÀ¸·Î ´Ù¿î·Îµå(pull = svn update)
+4. masterì˜ ìµœì‹  ë²„ì „ìœ¼ë¡œ ë‹¤ìš´ë¡œë“œ(pull = svn update)
 
 
-½Ç¹«¿¡¼­´Â branch¸¦ ¾÷¹« ´ÜÀ§·Î ÇÔ  ex) ´ñ±Û, aÈ­¸é..
+ì‹¤ë¬´ì—ì„œëŠ” branchë¥¼ ì—…ë¬´ ë‹¨ìœ„ë¡œ í•¨  ex) ëŒ“ê¸€, aí™”ë©´..
