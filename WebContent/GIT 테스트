@@ -1,21 +1,30 @@
-hi~~~~
-
-this is test by kgh...
-
-i want to push as branch - kgh.
-
-
-
-1. save file (ctrl + s)
-
-2-1. Git Staging - add to index(++아이콘) - 메세지 입력(필수) - commit (내 PC의 git repository에 저장(코드를 타임캡슐로 저장))
-
+* commit = 내 pc git 저장소(repository)에 업로드(시간과 함께 저장, 복원 가능 지점)(타임캡슐st)
+* push = 내 PC git의 Commit을 GitHub에 올리기(원격서버에 반영)
 	
+1.이클립스에서 코드 작업 후 저장(ctrl + s)
 
-or
+2-1. Commit과 Push 따로 하기
+	
+	 Git Staging 탭 - add to index(++아이콘) - 메세지 입력(필수) - commit (내 pc git에 저장)
 
-2-2. Git Staging - add to index(++아이콘) - 메세지 입력(필수) - commit and Push(내 pc git에 저장 + GitHub에 올리기)
- 
-	 Push Result(확인창)에  HEAD -> kgh(브랜치 이름)로 간거 확인 - close
+	 (그 후에도 수정 여러번 하고, 내 pc git에 commit 했다가)
 	 
-	 GitHub에 branch에 저장됨
+	 Git Repositories 탭 - Remotes - origin - https../ANBD2.git - push - Push Result(결과 확인) - close
+	 
+	 GitHub에 branch kgh에 저장됨
+or
+2-2. Commit과 Push 같이 하기
+	
+	 Git Staging 탭 - add to index(++아이콘) - 메세지 입력(필수) - commit and Push (내 pc git에 저장 + GitHub에 올리기)
+ 
+	 Push Result(확인창)에  "HEAD -> kgh(브랜치 이름)"로 간거 확인 - close
+	 
+	 GitHub에 branch kgh에 저장됨
+	 
+3. master로 merge
+   
+   
+4. master의 최신 버전으로 다운로드(pull = svn update)
+
+
+실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
