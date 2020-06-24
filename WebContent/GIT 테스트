@@ -33,7 +33,11 @@ or
    "This branch has conflicts that must be resolved"메세지 - Resolve conflicts 클릭 - 충돌 코드 확인 및 수정 - Mark as resolved 클릭
    - commit merge - Merge pull request 클릭 - commit merge
    
-4. master의 최신 버전으로 다운로드(pull = svn update)
+4. master의 최신 버전으로 다운로드(pull(= svn update) or fetch)
+
+5. 로컬 작업 내역(commit 내역)을 원격 저장소 master에 올리기
+
+     프로젝트 우클릭 - Team - Push branch 'Master' => 바로 master에 merge됨..
 
 
 실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
