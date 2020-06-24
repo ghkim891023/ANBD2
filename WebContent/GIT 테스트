@@ -35,12 +35,15 @@ or
    
 4. master의 최신 버전으로 다운로드(pull(= svn update) or fetch)
 
-5. 로컬 작업 내역(commit 내역)을 원격 저장소 master에 올리기
+5-1. 로컬 작업 내역(commit 내역)을 원격 저장소 branch에 올리기
 
-     프로젝트 우클릭 - Team - Push branch 'Master' => 바로 master에 merge됨..
+	  프로젝트 우클릭 - Team - Push to Upstream => GitHub branch kgh에 반영
 
+5-2. 로컬 작업 내역(commit 내역)을 원격 저장소 master에 올리기
 
-실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
+         프로젝트 우클릭 - Team - Push branch 'Master' => 바로 master에 merge됨..
+
+* 실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
 
 99. 오류
 push 명령을 실행하기 전에는 반드시 fetch(가져오기)나 pull 명령으로 원격 저장소의 마지막 커밋을 다시 받아야 합니다.
