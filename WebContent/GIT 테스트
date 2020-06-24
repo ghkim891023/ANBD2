@@ -26,10 +26,18 @@ or
    2번 후 - GitHub 해당 branch에서 Pull request - merge요청 메세지 작성 - create pull request
    
    (커밋 제목을 클릭하면 코드 리뷰 가능(초록색이 추가된 부분) - 다른 줄을 수정하면 충돌이 안일어나고 github가 자동으로 합침)
-   "This branch has no conflicts" 충돌없다는 메세지 확인 - Merge pull request 클릭 - confirm merge - (delete branch)
+   "This branch has no conflicts.." 충돌없다는 메세지 확인 - Merge pull request 클릭 - confirm merge - (delete branch)
    
+    같은 줄 수정해서 충돌이 있으면
+   "This branch has conflicts that must be resolved"메세지 - Resolve conflicts 클릭 - 충돌 코드 확인 및 수정 - Mark as resolved 클릭
+   - commit merge - Merge pull request 클릭 - commit merge
    
 4. master의 최신 버전으로 다운로드(pull = svn update)
 
 
 실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
+
+99. 오류
+push 명령을 실행하기 전에는 반드시 fetch(가져오기)나 pull 명령으로 원격 저장소의 마지막 커밋을 다시 받아야 합니다.
+그렇지 않으면 다음과 같은 오류 메시지가 출력될 것입니다.
+ ! [rejected]        master -> master (non-fast-forward)
