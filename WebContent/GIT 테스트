@@ -22,6 +22,11 @@ or
 	 GitHub에 branch kgh에 반영됨
 	 
 3. master로 merge
+
+   2번 후 - GitHub 해당 branch에서 Pull request - merge요청 메세지 작성 - create pull request
+   
+   (커밋 제목을 클릭하면 코드 리뷰 가능(초록색이 추가된 부분)) -  
+   "This branch has no conflicts" 충돌없다는 메세지 확인 - Merge pull request 클릭 - confirm merge - (delete branch)
    
    
 4. master의 최신 버전으로 다운로드(pull = svn update)
