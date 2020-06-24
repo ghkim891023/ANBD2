@@ -4,8 +4,18 @@ this is test by kgh...
 
 i want to push as branch - kgh.
 
-but i am still confused..
+
 
 1. save file (ctrl + s)
 
-2-1. Git Staging - add to index(++아이콘) - 메세지 입력(필수) - commit and Push - 
+2-1. Git Staging - add to index(++아이콘) - 메세지 입력(필수) - commit (내 PC의 git repository에 저장(코드를 타임캡슐로 저장))
+
+	
+
+or
+
+2-2. Git Staging - add to index(++아이콘) - 메세지 입력(필수) - commit and Push(내 pc git에 저장 + GitHub에 올리기)
+ 
+	 Push Result(확인창)에  HEAD -> kgh(브랜치 이름)로 간거 확인 - close
+	 
+	 GitHub에 branch에 저장됨
