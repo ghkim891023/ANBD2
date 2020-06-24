@@ -5,3 +5,7 @@ this is test by kgh...
 i want to push as branch - kgh.
 
 but i am still confused..
+
+1. save file (ctrl + s)
+
+2-1. Git Staging - add to index(++아이콘) - 메세지 입력(필수) - commit and Push - 
