@@ -26,6 +26,7 @@ or
    2번 후 - GitHub 해당 branch에서 Pull request - merge요청 메세지 작성 - create pull request
    
    (커밋 제목을 클릭하면 코드 리뷰 가능(초록색이 추가된 부분) - 다른 줄을 수정하면 충돌이 안일어나고 github가 자동으로 합침)
+
    "This branch has no conflicts" 충돌없다는 메세지 확인 - Merge pull request 클릭 - confirm merge - (delete branch)
    
    
@@ -33,3 +34,5 @@ or
 
 
 실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
+
+master edit.. for test 충돌(
