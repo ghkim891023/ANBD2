@@ -11,7 +11,7 @@
 	 
 	 Git Repositories 탭 - Remotes - origin - https../ANBD2.git - push - Push Result(결과 확인) - close
 	 
-	 GitHub에 branch kgh에 저장됨
+	 GitHub에 branch kgh에 반영됨
 or
 2-2. Commit과 Push 같이 하기
 	
@@ -19,7 +19,7 @@ or
  
 	 Push Result(확인창)에  "HEAD -> kgh(브랜치 이름)"로 간거 확인 - close
 	 
-	 GitHub에 branch kgh에 저장됨
+	 GitHub에 branch kgh에 반영됨
 	 
 3. master로 merge
    
