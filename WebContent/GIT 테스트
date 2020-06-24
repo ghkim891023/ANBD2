@@ -25,7 +25,7 @@ or
 
    2번 후 - GitHub 해당 branch에서 Pull request - merge요청 메세지 작성 - create pull request
    
-   (커밋 제목을 클릭하면 코드 리뷰 가능(초록색이 추가된 부분)) -  
+   (커밋 제목을 클릭하면 코드 리뷰 가능(초록색이 추가된 부분)) -  같은 줄 수정 -> 충돌 테스트
    "This branch has no conflicts" 충돌없다는 메세지 확인 - Merge pull request 클릭 - confirm merge - (delete branch)
    
    
