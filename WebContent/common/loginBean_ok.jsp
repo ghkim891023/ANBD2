@@ -62,6 +62,13 @@
 		out.println(" location.href='login.jsp' "); 
 		out.println(" </script> "); 
 	}
+	// -2 로그인 에러 
+	else if( result2 == -2){
+		out.println(" <script> "); 
+		out.println(" alert('로그인에 오류가 발생하였습니다.'); "); 
+		out.println(" location.href='login.jsp' "); 
+		out.println(" </script> "); 
+	}
 %>
 </html>
 
