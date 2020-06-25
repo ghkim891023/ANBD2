@@ -52,12 +52,11 @@ or
 * 실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
 
 99. 오류
-push 명령을 실행하기 전에는 반드시 fetch(가져오기)나 pull 명령으로 원격 저장소의 마지막 커밋을 다시 받아야 합니다.
-그렇지 않으면 다음과 같은 오류 메시지가 출력될 것입니다.
-[ rejected - non-fast-forward ] 
-
-http://blog.naver.com/sim4858/220924984480
-
-※ 작업 환경에 따라 결과가 위 내용과 다를 수도 있음..
+rejected - non-fast-forward
+ - push 명령을 실행하기 전에는 반드시 fetch(가져오기)나 pull 명령으로 원격 저장소의 마지막 커밋을 다시 받아야 합니다.
+ - 그렇지 않으면 다음과 같은 오류 메시지가 출력될 것입니다.
+ - http://blog.naver.com/sim4858/220924984480
 
 pull error - https://m.blog.naver.com/jabel123/220773753438
+
+※ 작업 환경에 따라 결과가 위 내용과 다를 수도 있음..
