@@ -81,6 +81,28 @@ public class AnbdDAO extends DbInfo{
 		return false;
 	}
 	
+	public int selLogin2(String id , String pw) { //로그인 - id가 틀렸는지, pw가 틀렸는지
+		getConnection();
+		String SQL= "select pw from user where id = ?";
+		try {
+			prepareStatement(SQL);   
+			pstate.setString(1, id);
+			rs = pstate.executeQuery();
+			if(rs.next()) {
+				if( rs.getString("pw").equals(pw) ) {
+					return 1; 	//로그인 성공
+				}else return 0; //비밀번호 다름
+			}return -1; 		//id 틀림
+		} catch (Exception e) {
+			System.out.println("selLogin2() 에러: "+e.getMessage());
+			e.printStackTrace();
+		} 
+		rsClose();
+		pstateClose();
+	    conClose();
+		return -2;	//DB 에러
+	}
+	
 	//데이터 베이스에 데이터를  insert 하는 method 
 	public void dbtest2insert (String id, String pw, String name, String email) {
 	   //dbtest2 db = new dbtest2( 1,  id, pw,  name,  email);	 
