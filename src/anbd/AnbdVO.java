@@ -34,9 +34,9 @@ public class AnbdVO {
 	 ****************************************************** */
 	private   int				fileNo;
 	protected int 				size = 10 * 1024 * 1024;//10MB
-	private   ArrayList<String> fileList 	   = null; 	//±Ûº¸±â ÆÄÀÏ¸®½ºÆ®
-	private   ArrayList<String> modifyFileList = null;  //±Û¼öÁ¤ ÆÄÀÏ¸®½ºÆ®
-	protected ArrayList<String> SaveFileName   = null;  //±Û¾²±â ÆÄÀÏ¸®½ºÆ®
+	private   ArrayList<String> fileList 	   = null; 	//ê¸€ë³´ê¸° íŒŒì¼ë¦¬ìŠ¤íŠ¸
+	private   ArrayList<String> modifyFileList = null;  //ê¸€ìˆ˜ì • íŒŒì¼ë¦¬ìŠ¤íŠ¸
+	protected ArrayList<String> SaveFileName   = null;  //ê¸€ì“°ê¸° íŒŒì¼ë¦¬ìŠ¤íŠ¸
 	protected String 			fileName	   = "";
 	protected String 			uploadPath 	   = "";
 	protected String 			tagName		   = "";
@@ -52,36 +52,36 @@ public class AnbdVO {
 	private ArrayList<String> commentList = null;
 
 	/* ******************************************************
-	 * ±× ¿Ü º¯¼ö
+	 * ê·¸ ì™¸ ë³€ìˆ˜
 	 ****************************************************** */
 	private String strDate = "";
 	
 	/* ******************************************************
-	 * Á¤±ÔÈ­ [½ÃÀÛ]
-	 * jsp¿¡¼­ ¸Ş¼Òµå¸¦ È°¿ëÇÏ¸é ¾î¶² ¿ªÇÒÀ» ÇÏ´ÂÁö ÇÑ ´«¿¡ ¾Ë¾Æº¼ ¼ö ÀÖÀ½
-	 * protected·Î¸¸ Á¢±ÙÇÒ ¼ö ÀÖ´ø º¯¼ö¸¦ getÀ» ÀÌ¿ëÇØ ¹Ù²ã ¾µ ¼ö ÀÖ´Ù
+	 * ì •ê·œí™” [ì‹œì‘]
+	 * jspì—ì„œ ë©”ì†Œë“œë¥¼ í™œìš©í•˜ë©´ ì–´ë–¤ ì—­í• ì„ í•˜ëŠ”ì§€ í•œ ëˆˆì— ì•Œì•„ë³¼ ìˆ˜ ìˆìŒ
+	 * protectedë¡œë§Œ ì ‘ê·¼í•  ìˆ˜ ìˆë˜ ë³€ìˆ˜ë¥¼ getì„ ì´ìš©í•´ ë°”ê¿” ì“¸ ìˆ˜ ìˆë‹¤
 	 ****************************************************** */
 	public AnbdVO() 
 	{
 		fileList = new <String>ArrayList();
 		commentList = new <String>ArrayList(); 
-		SaveFileName = new <String>ArrayList();   //±Û¾²±â ÆÄÀÏ¸®½ºÆ® »ı¼º
-		modifyFileList = new <String>ArrayList(); //±Û¼öÁ¤ ÆÄÀÏ¸®½ºÆ® »ı¼º
-		//³¯Â¥ »ı¼º
+		SaveFileName = new <String>ArrayList();   //ê¸€ì“°ê¸° íŒŒì¼ë¦¬ìŠ¤íŠ¸ ìƒì„±
+		modifyFileList = new <String>ArrayList(); //ê¸€ìˆ˜ì • íŒŒì¼ë¦¬ìŠ¤íŠ¸ ìƒì„±
+		//ë‚ ì§œ ìƒì„±
 		SimpleDateFormat sDate = new SimpleDateFormat("yyyy/MM/dd");
 		strDate = sDate.format(Calendar.getInstance().getTime());
 	}
 
 	/* ******************************************************
-	 * ±Ûº¸±â ÆÄÀÏ¸í ¸®½ºÆ®¿¡ ³Ö±â/°¹¼ö/¾ò±â
+	 * ê¸€ë³´ê¸° íŒŒì¼ëª… ë¦¬ìŠ¤íŠ¸ì— ë„£ê¸°/ê°¯ìˆ˜/ì–»ê¸°
 	 ****************************************************** */
-	//Ã·ºÎÆÄÀÏ ÀÌ¸§, Ã·ºÎÆÄÀÏ ÀÌ¸§À» ¸®½ºÆ® ±æÀÌ¸¸Å­ °¡Á®¿È
+	//ì²¨ë¶€íŒŒì¼ ì´ë¦„, ì²¨ë¶€íŒŒì¼ ì´ë¦„ì„ ë¦¬ìŠ¤íŠ¸ ê¸¸ì´ë§Œí¼ ê°€ì ¸ì˜´
 	public int GetFileSize() 
 	{
 		return SaveFileName.size();
 	}
 	
-	//key, Å°¿öµå
+	//key, í‚¤ì›Œë“œ
 	public String getKey() 
 	{
 		return tagName;
@@ -91,7 +91,7 @@ public class AnbdVO {
 		return this.key = key;
 	}
 	
-	//ÆÄÀÏ ÀÌ¸§
+	//íŒŒì¼ ì´ë¦„
 	public String getFileName()
 	{
 		return fileName;
@@ -101,7 +101,7 @@ public class AnbdVO {
 		this.fileName = fileName;
 	}
 	
-	//Size, ÆÄÀÏ Å©±â
+	//Size, íŒŒì¼ í¬ê¸°
 	public int getSize() 
 	{
 		return size;
@@ -110,17 +110,17 @@ public class AnbdVO {
 	{
 		this.size = size;
 	}
-	//¹è¿­¿¡ ³Ö±â
+	//ë°°ì—´ì— ë„£ê¸°
 	public void AddFile(String FileName)
 	{
 		fileList.add(FileName); 
 	}
-	//¹è¿­ °¹¼ö
+	//ë°°ì—´ ê°¯ìˆ˜
 	public int GetFileCount()
 	{
 		return fileList.size(); 
 	}
-	//jsp¿¡¼­ for¹®À¸·Î ÆÄÀÏ¸í °¡Á®¿À±â
+	//jspì—ì„œ forë¬¸ìœ¼ë¡œ íŒŒì¼ëª… ê°€ì ¸ì˜¤ê¸°
 	public String GetFile(int i)
 	{
 		return (String)fileList.get(i); 
@@ -130,7 +130,7 @@ public class AnbdVO {
 		return fileList;
 	}
 	
-	// ±Ûº¸±â ´ñ±Û ¸®½ºÆ®¿¡ ³Ö±â/°¹¼ö/¾ò±â
+	// ê¸€ë³´ê¸° ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ì— ë„£ê¸°/ê°¯ìˆ˜/ì–»ê¸°
 	public void AddCo(String co)
 	{
 		commentList.add(co); 
@@ -147,13 +147,13 @@ public class AnbdVO {
 	{
 		return commentList;
 	}
-	// ±Û¾²±â ÆÄÀÏ¸®½ºÆ®
+	// ê¸€ì“°ê¸° íŒŒì¼ë¦¬ìŠ¤íŠ¸
 	public int getFileSize()
 	{
 		return SaveFileName.size();
 	}
-	//tagName - input fileÀÇ name°ª
-	//Á¤µµÈñ »ç¿ë - jspÀÇ name ÀÌ¸§
+	//tagName - input fileì˜ nameê°’
+	//ì •ë„í¬ ì‚¬ìš© - jspì˜ name ì´ë¦„
 	public String getTagName() 
 	{ 
 		return tagName;
@@ -162,7 +162,7 @@ public class AnbdVO {
 	{
 		return this.tagName = tagName;
 	}
-	//saveName - ½ÇÁ¦ ÀúÀåµÈ ÆÄÀÏ¸í
+	//saveName - ì‹¤ì œ ì €ì¥ëœ íŒŒì¼ëª…
 	public String getSaveName(int i) 
 	{ 
 		return (String)SaveFileName.get(i); 
@@ -174,7 +174,7 @@ public class AnbdVO {
 	}
 	
 	/* ******************************************************
-	 * ±Û¼öÁ¤ ÆÄÀÏ¸®½ºÆ®
+	 * ê¸€ìˆ˜ì • íŒŒì¼ë¦¬ìŠ¤íŠ¸
 	 ****************************************************** */
 	public void addModifyFile(String modifyFile)
 	{
@@ -186,7 +186,7 @@ public class AnbdVO {
 	}
 	public String getModifyFile(int i)
 	{
-		return (String)modifyFileList.get(i); //jsp¿¡¼­ for¹®À¸·Î ÆÄÀÏ¸í °¡Á®¿À±â
+		return (String)modifyFileList.get(i); //jspì—ì„œ forë¬¸ìœ¼ë¡œ íŒŒì¼ëª… ê°€ì ¸ì˜¤ê¸°
 	}
 	public ArrayList getModifyFileList()
 	{
@@ -214,7 +214,7 @@ public class AnbdVO {
 		return email;
 	}
 	
-	//±Û¾²±â - ½ÇÁ¦ ÆÄÀÏ À§Ä¡
+	//ê¸€ì“°ê¸° - ì‹¤ì œ íŒŒì¼ ìœ„ì¹˜
 	public String getUploadPath() 
 	{
 		return uploadPath;
@@ -225,7 +225,7 @@ public class AnbdVO {
 	}
 	
 	/* ******************************************************
-	 * BoardÀÇ Á¤º¸ [½ÃÀÛ]
+	 * Boardì˜ ì •ë³´ [ì‹œì‘]
 	 ****************************************************** */
 	// Board Get
 	public int getNo()
@@ -295,7 +295,7 @@ public class AnbdVO {
 		this.status = status;
 	}
 	/* ******************************************************
-	 * BoardÀÇ Á¤º¸ [³¡]
+	 * Boardì˜ ì •ë³´ [ë]
 	 ****************************************************** */
 	// File Get
 	public int getFileNo() 
