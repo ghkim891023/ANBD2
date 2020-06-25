@@ -1,3 +1,4 @@
+0
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
@@ -7,7 +8,9 @@
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
 <script>
 	//document.title="ANBD | 아나바다-목록";
+
 	document.title="ANBD | in Master jdh commited?";
+
 </script>
 <% 
 request.setCharacterEncoding("utf-8");
