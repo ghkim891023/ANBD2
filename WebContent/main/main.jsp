@@ -1,4 +1,4 @@
-41241212000
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
@@ -13,6 +13,7 @@
 
 </script>
 <% 
+
 request.setCharacterEncoding("utf-8");
 
 int currentPage = 1;  //현재 페이지번호
@@ -21,6 +22,42 @@ int count       = 0;  //전체 게시물 갯수
 int startRow    = 0;  //페이지 시작행 번호
 int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
+String preSeq   = "";
+String afterSeq ="";
+String sql ="";
+
+
+
+
+
+
+
+
+//이전글
+sql = "select seq, title from board where seq=(select max(seq) from board where seq < ?)";
+db.getConnection();
+db.prepareStatement(sql);
+pstmt.setString(1, seq);
+
+rs = pstmt.executeQuery();
+
+if(rs.next()) {
+ preSeq = rs.getString("seq");
+}
+
+// 다음글
+sql = "select seq, title from album where seq=(select min(seq) from album where seq > ?)";
+pstmt = conn.prepareStatement(sql);
+pstmt.setString(1, seq);
+
+rs = pstmt.executeQuery();
+
+if(rs.next()) {
+ afterSeq = rs.getString("seq");
+}
+
+
+
 	
 String mTemp = request.getParameter("page");
 if(mTemp != null){ //키워드 검색하면 무조건 1p
@@ -59,7 +96,17 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	
 	//서버에 attribute를 setting하겠다
 	pageContext.setAttribute("blist", blist);
+
+
+
+
+
+
+
+
 %>
+ 
+
 
 <div style="padding: 20px 40px 20px;">
 	<table id="board">
