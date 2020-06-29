@@ -162,7 +162,7 @@
 <div class="Lst">
 	<button class="site-btn" id="before" onclick="location.href='viewBefore.jsp?no=<%=hereNo%>'">이전글</button>
 	<button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button>
-	<button class="site-btn" id="after" onclick="location.href='viewAfter.jsp'">다음글</button>
+	<button class="site-btn" id="after" onclick="location.href='viewAfter.jsp?no=<%=hereNo%>'">다음글</button>
 </div>
 <%@include file="../include/footer.jsp"%>
 <script type="text/javascript"> 

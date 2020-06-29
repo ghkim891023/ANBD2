@@ -25,4 +25,29 @@ public class NextDAO extends DbInfo{
 		conClose();
 		return preNo;
 	}
-}
+
+
+
+	// 다음글 
+	public int afterNo (int no) {
+		int afNo =0;
+		getConnection();
+		String SQL = "select min(no) as no from board where no >" + no;
+		prepareStatement(SQL);
+		executeQuery();
+		try {
+				while(rs.next()) {
+					afNo =rs.getInt("no");
+					System.out.println("agNo: " + afNo);
+					return afNo;
+				}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		rsClose();
+		pstateClose();
+		return afNo;
+	
+				}
+		
+	}
