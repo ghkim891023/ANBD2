@@ -28,37 +28,6 @@ String sql ="";
 
 
 
-
-
-
-
-
-//이전글
-sql = "select seq, title from board where seq=(select max(seq) from board where seq < ?)";
-db.getConnection();
-db.prepareStatement(sql);
-pstmt.setString(1, seq);
-
-rs = pstmt.executeQuery();
-
-if(rs.next()) {
- preSeq = rs.getString("seq");
-}
-
-// 다음글
-sql = "select seq, title from album where seq=(select min(seq) from album where seq > ?)";
-pstmt = conn.prepareStatement(sql);
-pstmt.setString(1, seq);
-
-rs = pstmt.executeQuery();
-
-if(rs.next()) {
- afterSeq = rs.getString("seq");
-}
-
-
-
-	
 String mTemp = request.getParameter("page");
 if(mTemp != null){ //키워드 검색하면 무조건 1p
 	currentPage = Integer.parseInt(mTemp);
