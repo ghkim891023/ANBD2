@@ -44,7 +44,7 @@
 	<!-- Header Section -->
 	<header class="header-section">
 	    <!-- 로고 -->
-		<a href="../main/mainMenuKgh.jsp" class="site-logo">
+		<a href="../main/mainSearchKgh.jsp" class="site-logo">
 			<img src="../img/logo.png" alt="메인로고입니다">
 		</a>
 
@@ -54,9 +54,11 @@
 				<!-- class="active" -->
 				<!-- DB 연결 후 파라미터 줘야함 ../main/main.jsp&menu=share 
 				<li><a href="../main/main.jsp">아껴쓰고 <b>나눠쓰기</b></a></li>
-				<li><a href="../main/main.jsp">바꿔쓰고 <b>다시쓰기</b></a></li>-->
+				<li><a href="../main/main.jsp">바꿔쓰고 <b>다시쓰기</b></a></li>
 				<li><a href="../main/mainMenuKgh.jsp?menu=share">아껴쓰고 <b>나눠쓰기</b></a></li>
-				<li><a href="../main/mainMenuKgh.jsp?menu=reuse">바꿔쓰고 <b>다시쓰기</b></a></li>
+				<li><a href="../main/mainMenuKgh.jsp?menu=reuse">바꿔쓰고 <b>다시쓰기</b></a></li>-->
+				<li><a href="../main/mainSearchKgh.jsp?menu=share">아껴쓰고 <b>나눠쓰기</b></a></li>
+				<li><a href="../main/mainSearchKgh.jsp?menu=reuse">바꿔쓰고 <b>다시쓰기</b></a></li>
 			</ul>
 			<!-- 로그인, 회원가입 -->
 			<div class="header-right">

@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="../include/headerKgh.jsp"%>
 <%@include file="../include/fix.jsp"%>
-<%@include file="../include/search.jsp"%>
+<%@include file="../include/searchOption.jsp"%>
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
-<jsp:useBean id="me" class="anbd.MenuDAO" scope="page"/>
-
 <script>
-	//document.title="ANBD | 아나바다-목록";
-	document.title="ANBD | in Master jdh commited?";
+	document.title="ANBD | 아나바다-목록";
 </script>
 <% 
 request.setCharacterEncoding("utf-8");
@@ -26,38 +23,19 @@ if(mTemp != null){ //키워드 검색하면 무조건 1p
 	currentPage = Integer.parseInt(mTemp);
 }
 
-String mKey = request.getParameter("key"); 
+String mKey = request.getParameter("key"); //-> 메소드에서도 받기
 if(mKey==null){ //그냥 검색안하면 null
 	mKey="";
-}else{
 }
-
-String menu = request.getParameter("menu");
-String pMenu ="";
-if(menu==null){ //메인은 menu가 null
-	menu="";
-}else if(menu.equals("share")){
-	pMenu="아나";
-}else if(menu.equals("reuse")){
-	pMenu="바다";
-}else{
-	pMenu="";
-}
-out.println("메뉴: "+pMenu);
+//String menu = request.getParameter("menu"); //searchOption.jsp에 있어 쓰면 중복
 
 //시작행 번호 = (현재 페이지번호 - 1) * 페이지당 출력 할 갯수
 startRow    = (currentPage - 1) * pageSize; //페이지 시작행 번호
-seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
+seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
 	//pg.selMainList(mainList, startRow, pageSize, mKey);
-	
-	if(menu==null){
-		pg.selMainList(mainList, startRow, pageSize, mKey);
-	}else{
-		//out.println("메뉴: "+menu);
-		me.selMainList(mainList, startRow, pageSize, mKey, pMenu);
-	}
+	pg.selMainList2(mainList, startRow, pageSize, request);
 	
 	count 	  = pg.count;
 	
@@ -67,7 +45,6 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 		maxPageNo = maxPageNo + 1;
 	}
 	//서버에 attribute를 setting하겠다
-	//pageContext.setAttribute("pgList", mainList);
 	session.setAttribute("pgList", mainList);
 	
 	//String option = request.getParameter("option");
@@ -75,7 +52,7 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	
 	ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
 	dao.selBoardList(blist);
-		
+	
 	//서버에 attribute를 setting하겠다
 	pageContext.setAttribute("blist", blist);
 %>
@@ -176,16 +153,16 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	for(int i=startBlock; i<=endBlock; i++)
 	{
 		if(i==currentPage){
-			%><a href="main.jsp?key=<%=mEncodeKey%>&page=<%= i %>" class="active"> <%= i %>. </a> <%
+			%><a href="mainSearchKgh.jsp?key=<%=mEncodeKey%>&page=<%= i %>&menu=<%=menu %>" class="active"> <%= i %>. </a> <%
 		}else{
-			%><a href="main.jsp?key=<%=mEncodeKey%>&page=<%= i %>"> <%= i %>. </a> <%
+			%><a href="mainSearchKgh.jsp?key=<%=mEncodeKey%>&page=<%= i %>&menu=<%=menu %>"> <%= i %>. </a> <%
 		}
 	}
 
 	//마지막블럭 다음은 안나오게
 	if ( endBlock < maxPageNo ) //currentPage < maxPageNo-10
 	{
-		%><a href="main.jsp?key=<%=mEncodeKey%>&page=<%= endBlock+1 %>"> 다음&gt; </a><%
+		%><a href="mainSearchKgh.jsp?key=<%=mEncodeKey%>&page=<%= endBlock+1 %>&menu=<%=menu %>"> 다음&gt; </a><%
 	}
 %>
 </div>
@@ -202,9 +179,11 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	}
 </script>
 
-<form id="pageForm" name="pageForm" method="post" action="main.jsp">
+<!-- 현재 안쓰여 지는 듯, url에 안보이고 싶으면 post로 form 싸서? -->
+<form id="pageForm" name="pageForm" method="post" action="main.jsp"> 
 	<input type="hidden" id="page" name="page" value="">
 	<input type="hidden" id="kw" name="kw" value="<%=mKey%>">
+	<input type="hidden" name="menu" id="menu" value="<%=menu %>">
 </form>
 
 <%@include file="../include/footer.jsp"%>

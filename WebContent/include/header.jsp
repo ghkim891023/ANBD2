@@ -68,7 +68,9 @@
 					<%
 				}else{
 					String loginId = (String)session.getAttribute("loginId");
-					//out.print(session.getAttribute("loginId"));
+					
+					//세션 시간 설정 60초*60 = 1시간
+					session.setMaxInactiveInterval(60*60);
 					%>
 					<span><%=loginId %>님 반갑습니다.</span>&nbsp;&nbsp;
 					<a href="../common/logout.jsp" class="login">로그아웃</a>
