@@ -19,9 +19,11 @@
 	
 	boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
 	int loginUserNo = vo.getLoginUserNo();
-	
 	int writerUserNo = vo.getUserNo();
+	//out.print("loginId은 "+loginId);
 	%>
+	<!-- 	세션 loginId = ${sessionScope.loginId}<br/> -->
+	
 	<h3>
 		<% String sta = vo.getStatus();
 			if(sta != null){

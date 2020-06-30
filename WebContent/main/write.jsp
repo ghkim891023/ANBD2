@@ -17,13 +17,15 @@
 </style>
 <%
 	int userNo = 2;
+	dao.selJuso();
+	pageContext.setAttribute("boardList", dao.getBoardList());
 %>
+
 <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false">
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
 			<tr>
-			
 				<td>카테고리</td>
 				<td>
 					<div class="search-type2">
@@ -36,6 +38,20 @@
 					</div><!--==== search-type2 클래스 마지막 -->
 				</td>
 			</tr>
+			
+			<tr>
+				<td>지역</td>
+				<td>
+					<select name="sido" id="sido">
+					<option value="">기타</option>
+						<c:forEach items="${boardList}" var="boardList">
+							<option value=${boardList.sido}>${boardList.sido}</option>
+						</c:forEach>
+					</select>
+					<span id=sigun></span>
+				</td>
+			</tr>
+			
 			<tr>
 				<td>제목</td>
 				<td>
@@ -43,12 +59,14 @@
 						    autofocus style="width:580px; ime-mode:active;" value="제목입니다">
 				</td>
 			</tr>
+			
 			<tr>
 				<td>내용</td>
 				<td>
 					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요">내용이에요!</textarea>
 				</td>
 			</tr>
+			
 			<tr >
 				<td>파일</td>
 				<td class="moreFile">
@@ -58,6 +76,7 @@
 					<input type="button" class="site-btn" id="remove" value="삭제"/><!-- 파라미터 안받는건 name필요x -->
 				</td>
 			</tr>
+			
 			<tr>
 				<td colspan="2" style="padding-top:30px;">					 
 					<button class="site-btn" id="save">등록</button>
@@ -107,12 +126,64 @@
 				success: function (data) 
 				{
 	            	//alert("writeOK.jsp에서 온 응답 [" + data + "]");
-	            	alert("글 쓰기를 완료하였습니다.\n\n글 보기 화면으로 이동합니다.");
+	            	alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
 					location.href = "view.jsp?no=" + data;
 	            },
 				
 			});//ajax FLOW
-		});
+		});//save 클릭 이벤트
+		
+		$("input[name='menu']").change(function()
+			{
+				var categoryName = $("input[name='menu']:checked").val();
+				if(categoryName == "바다")
+				{
+					$("#sido, #sigun").attr('disabled', 'disabled');
+				}
+				if(categoryName == "아나")
+				{
+					$("#sido, #sigun").removeAttr('disabled');
+				}
+			});//메뉴 바꿈
+		
+			$("#sido").change(function()
+					{
+					//선택한 시도 값 구하기
+					var changeSigun = $("#sido").val();
+					$.ajax
+						({
+							type:"GET",
+							url:"writeSigun.jsp",
+							data: "sido=" + encodeURIComponent(changeSigun),
+							dataType: "html",
+							success: function (data) 
+							{
+								$("#sigun").html(data);
+								/* ******* 
+								 * [2020.06.29]
+								 * json 형태의 코드, json 타입으로 변환하지 못했음
+								alert(data);
+				            	alert("AJAX success!!!!!!!!!!!");
+				            	i = 0;
+				            	$.each(data, function(name, value)
+				            	{
+				            		if( i <= 2)
+				            		{
+				            			alert(name);
+				            			alert(value);
+				            		}
+				            		$("#sigun").append('<option value=' + value + '>' + value + '</option>');
+				            		i++;
+				            	});
+				            	******* */
+				            },
+				            error: function(xhr, status, error)
+				            {
+				            	alert("지역 정보를 조회할 수 없습니다");
+				            }
+						});//ajax FLOW
+						
+					});//시/도 변화 시 시군구 변화
 		
 		
 		
