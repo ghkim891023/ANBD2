@@ -83,7 +83,7 @@
           */
 					%>
           <!--
-					<span><%=loginId %>님 반갑습니다.</span>&nbsp;&nbsp;
+					<span><%--=loginId --%>님 반갑습니다.</span>&nbsp;&nbsp;
 					<a href="../common/logout.jsp" class="login">로그아웃</a> -->
 					<%
 				//}

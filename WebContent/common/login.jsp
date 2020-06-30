@@ -5,8 +5,8 @@
 <section class="contact-section">
 	<div class="container">
 		<h2>로그인</h2>
-		<!-- <form class="contact-form" id="login" name="login" method="post" action="loginBean_ok.jsp"> -->
-		<form class="contact-form" id="login" name="login" method="post" action="../loginBean_ok">
+		<!-- <form class="contact-form" id="login" name="login" method="post" action="../loginBean_ok"> -->
+		<form class="contact-form" id="login" name="login" method="post" action="loginBean_ok.jsp">
 			<div class="row">
 				<div class="col-lg-12">
 					<p align="left">아이디</p>
