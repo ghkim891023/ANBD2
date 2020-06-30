@@ -133,6 +133,23 @@
 			});//ajax FLOW
 		});//save 클릭 이벤트
 		
+		$("input[name='menu']").change(function()
+			{
+				var categoryName = $("input[name='menu']:checked").val();
+				if(categoryName == "바다")
+				{
+					alert("바다 눌렀음");
+					$("#sido").attr('disabled', 'disabled');
+					$("#sigun").attr('disabled', 'disabled');
+				}
+				if(categoryName == "아나")
+				{
+					alert("아나 눌렀음");
+					$("#sido").removeAttr('disabled');
+					$("#sigun").removeAttr('disabled');
+				}
+			});//메뉴 바꿈
+		
 		$("#sido").change(function()
 			{
 			//선택한 시도 값 구하기
