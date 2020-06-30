@@ -18,6 +18,7 @@
 	dao.selSigun(sido);
  	pageContext.setAttribute("selSigun", dao.getBoardList());
  %>
+ 
 	<select name="sigun" id="sigun">
 		<c:forEach items="${selSigun}" var="selSigun">
 			<option value="${selSigun.sigun}">${selSigun.sigun}</option>

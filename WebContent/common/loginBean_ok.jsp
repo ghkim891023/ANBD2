@@ -17,8 +17,8 @@ pageContext.setAttribute("result", result1);
 	<c:choose>
 		<c:when test="${result eq true}">
 			This id & password is true!<br/>
-			<% session.setAttribute("id", vo.getId()); %>
-			${sessionScope.id }님이 로그인했음
+			<% session.setAttribute("loginId", vo.getId()); %>
+			${sessionScope.loginId }님이 로그인했음
 			<script language="javascript">
 				location.href="../main/main.jsp";
 			</script>

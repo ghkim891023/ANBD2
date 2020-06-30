@@ -48,7 +48,7 @@
 							<option value=${boardList.sido}>${boardList.sido}</option>
 						</c:forEach>
 					</select>
-					<span id="divsigun"></span>
+					<span id=sigun></span>
 				</td>
 			</tr>
 			
@@ -138,56 +138,52 @@
 				var categoryName = $("input[name='menu']:checked").val();
 				if(categoryName == "바다")
 				{
-					alert("바다 눌렀음");
-					$("#sido").attr('disabled', 'disabled');
-					$("#sigun").attr('disabled', 'disabled');
+					$("#sido, #sigun").attr('disabled', 'disabled');
 				}
 				if(categoryName == "아나")
 				{
-					alert("아나 눌렀음");
-					$("#sido").removeAttr('disabled');
-					$("#sigun").removeAttr('disabled');
+					$("#sido, #sigun").removeAttr('disabled');
 				}
 			});//메뉴 바꿈
 		
-		$("#sido").change(function()
-			{
-			//선택한 시도 값 구하기
-			var chanSigun = $("#sido").val();
-			$.ajax
-				({
-					type:"GET",
-					url:"writeSigun.jsp",
-					data: "sido=" + encodeURIComponent(chanSigun),
-					dataType: "html",
-					success: function (data) 
+			$("#sido").change(function()
 					{
-						$("#divsigun").html(data);
-						/* ******* 
-						 * [2020.06.29]
-						 * json 형태의 코드, json 타입으로 변환하지 못했음
-						alert(data);
-		            	alert("AJAX success!!!!!!!!!!!");
-		            	i = 0;
-		            	$.each(data, function(name, value)
-		            	{
-		            		if( i <= 2)
-		            		{
-		            			alert(name);
-		            			alert(value);
-		            		}
-		            		$("#sigun").append('<option value=' + value + '>' + value + '</option>');
-		            		i++;
-		            	});
-		            	******* */
-		            },
-		            error: function(xhr, status, error)
-		            {
-		            	alert("지역 정보를 조회할 수 없습니다");
-		            }
-				});//ajax FLOW
-				
-			})//시/도 변화 시 시군구 변화
+					//선택한 시도 값 구하기
+					var changeSigun = $("#sido").val();
+					$.ajax
+						({
+							type:"GET",
+							url:"writeSigun.jsp",
+							data: "sido=" + encodeURIComponent(changeSigun),
+							dataType: "html",
+							success: function (data) 
+							{
+								$("#sigun").html(data);
+								/* ******* 
+								 * [2020.06.29]
+								 * json 형태의 코드, json 타입으로 변환하지 못했음
+								alert(data);
+				            	alert("AJAX success!!!!!!!!!!!");
+				            	i = 0;
+				            	$.each(data, function(name, value)
+				            	{
+				            		if( i <= 2)
+				            		{
+				            			alert(name);
+				            			alert(value);
+				            		}
+				            		$("#sigun").append('<option value=' + value + '>' + value + '</option>');
+				            		i++;
+				            	});
+				            	******* */
+				            },
+				            error: function(xhr, status, error)
+				            {
+				            	alert("지역 정보를 조회할 수 없습니다");
+				            }
+						});//ajax FLOW
+						
+					});//시/도 변화 시 시군구 변화
 		
 		
 		

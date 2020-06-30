@@ -61,11 +61,11 @@
 				<div class="user-panel">
 			
 			<c:choose>
-				<c:when test="${sessionScope.id ne null}">
-					<span>${sessionScope.id}님 반갑습니다.</span>&nbsp;&nbsp;
+				<c:when test="${sessionScope.loginId ne null}">
+					<span>${sessionScope.loginId}님 반갑습니다.</span>&nbsp;&nbsp;
 					<a href="../common/logout.jsp" class="register">로그아웃</a>
 				</c:when>
-				<c:when test="${sessionScope.id eq null}">
+				<c:when test="${sessionScope.loginId eq null}">
 					<a href="../common/join.jsp" class="login">회원가입</a>
 					<a href="../common/login.jsp" class="register">로그인</a>
 				</c:when>

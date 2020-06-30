@@ -29,10 +29,10 @@
 					<input type="text" placeholder="검색 키워드를 입력해주세요." name="key" id="key">
 					<button class="site-btn" id="search">검색</button>
 					<c:choose>
-						<c:when test="${sessionScope.id eq null}">
+						<c:when test="${sessionScope.loginId eq null}">
 							<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:doAlert();">
 						</c:when>
-						<c:when test="${sessionScope.id ne null}">
+						<c:when test="${sessionScope.loginId ne null}">
 							<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:location.href='write.jsp'">
 						</c:when>
 					</c:choose>
