@@ -7,6 +7,7 @@
  
 
  	<% 
+
  		int no = Integer.parseInt(request.getParameter("no"));
  		int afterNo = before.afterNo(no);
 		if(afterNo==0){
@@ -24,3 +25,4 @@
  		//실행하고 오류 없으면 페이지 바로 이동하는 거 
  	%>
  	
+
