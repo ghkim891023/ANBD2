@@ -6,6 +6,7 @@
 	int pNo = Integer.parseInt(request.getParameter("no"));
 	
 	dao.upStatusDone(pNo);
+	
 	response.sendRedirect("view.jsp?no="+pNo);
 %>
 		

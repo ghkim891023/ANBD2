@@ -1661,7 +1661,9 @@ div.container#view, div.container#Wrt{
 div.Lst{
 	text-align: center;
 }
-button#list{
+button#list,
+button#before,
+button#after{
 	padding: 10px 10px;
 	min-width: 90px;
 	margin-top: 20px;

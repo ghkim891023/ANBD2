@@ -1,1 +1,62 @@
-hi~~~~
+* commit = 내 pc git 저장소(repository)에 업로드(시간과 함께 저장, 복원 가능 지점)(타임캡슐st)
+
+* push = 내 PC git의 Commit을 GitHub에 올리기(원격서버에 반영)
+	
+1.이클립스에서 코드 작업 후 저장(ctrl + s)
+
+2-1. Commit과 Push 따로 하기
+	
+	 Git Staging 탭 - add to index(++아이콘) - 메세지 입력(필수) - commit (내 pc git에 저장)
+
+	 (그 후에도 수정 여러번 하고, 내 pc git에 commit 했다가)
+	 
+	 Git Repositories 탭 - Remotes - origin - (빨강↑)/ANBD2.git - push - Push Result(결과확인) close => GitHub에 branch kgh에 반영됨
+or
+2-2. Commit과 Push 같이 하기
+	
+	 Git Staging 탭 - add to index(++아이콘) - 메세지 입력(필수) - commit and Push (내 pc git에 저장 + GitHub에 올리기)
+ 
+	 Push Result(확인창)에  "HEAD -> kgh(브랜치 이름)"로 간거 확인 - close => GitHub에 branch kgh에 반영됨
+	 
+3. branch kgh -> master로 merge
+
+   2번 후 - GitHub - 해당 branch - Pull request - merge요청 메세지 작성 - create pull request
+   
+   (커밋 제목을 클릭하면 코드 리뷰 가능(초록색이 추가된 부분) - 다른 줄을 수정하면 충돌이 안일어나고 github가 자동으로 합침)
+
+   "This branch has no conflicts" 충돌없다는 메세지 확인 - Merge pull request 클릭 - confirm merge - (delete branch)
+   
+    같은 줄 수정해서 충돌이 있으면
+    
+   "This branch has conflicts that must be resolved"메세지 - Resolve conflicts 클릭 - 충돌 코드 확인 및 수정 - Mark as resolved 클릭
+   - commit merge - Merge pull request 클릭 - commit merge
+   
+4. master의 최신 버전으로 다운로드(pull(= svn update) == fetch + merge)
+						     가져와서 자동 병합			  가져오기    병합
+     프로젝트 - Team - pull (or fetch 후 merge)  
+     
+     *fetch 사용 이유 : 원래 내용과 바뀐 내용과의 차이를 알 수 있다.
+     
+5-1. 로컬 작업 내역(commit 내역)을 원격 저장소 branch에 올리기
+
+	  프로젝트 - Team - Push to Upstream => GitHub branch kgh에 반영
+
+5-2. 로컬 작업 내역(commit 내역)을 원격 저장소 master에 올리기
+
+         프로젝트 - Team - Push branch 'Master' => 바로 master에 merge됨..
+
+6. 내 로컬 작업에서 되돌리고 싶을 때
+
+   History - 해당 시점 더블클릭 - 현재와 비교 가능 - 해당 시점으로 돌아가려면 해당 시점 우클릭 - reset - hard (*이후 충돌 주의)
+   
+* 실무에서는 branch를 업무 단위로 함  ex) 댓글, a화면..
+
+99. 오류
+rejected - non-fast-forward
+ - push 명령을 실행하기 전에는 반드시 fetch(가져오기)나 pull 명령으로 원격 저장소의 마지막 커밋을 다시 받아야 합니다.
+ - 그렇지 않으면 다음과 같은 오류 메시지가 출력될 것입니다.
+ - http://blog.naver.com/sim4858/220924984480
+
+pull error - https://m.blog.naver.com/jabel123/220773753438
+
+※ 작업 환경에 따라 결과가 위 내용과 다를 수도 있음..

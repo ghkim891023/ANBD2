@@ -1,7 +1,4 @@
 package anbd;
-import java.sql.Connection;    
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.*;
 
 public class DbInfo {
@@ -17,22 +14,23 @@ public class DbInfo {
 	Connection 		  con 	 = null; 
 	PreparedStatement pstate = null;
 
+
 	public Connection getConnection()
 	{
 		try
 		{
 		Class.forName(driver);
 		con = DriverManager.getConnection(url, id, pw);
-		System.out.println("===DB ¿¬°á===");
+		System.out.println("===DB ì—°ê²°===");
 		}
 		catch(SQLException se)
 		{   
 			se.printStackTrace();
-			System.out.println("DB ¿¢¼¼½º ¿¡·¯: "+se.getMessage() );
+			System.out.println("DB ì—‘ì„¸ìŠ¤ ì—ëŸ¬: "+se.getMessage() );
 		}
 		catch(Exception e)
 		{
-			System.out.println("getConnection() ¿¡·¯: "+e.getMessage() );
+			System.out.println("getConnection() ì—ëŸ¬: "+e.getMessage() );
 		}
 		return con;
 	}//getConnection METHOD
@@ -45,7 +43,7 @@ public class DbInfo {
 		} 
 		catch (SQLException e) 
 		{
-			System.out.println("prepareStatement() ¿¡·¯: "+e.getMessage() );
+			System.out.println("prepareStatement() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//prepareStatement METHOD
  	
@@ -56,37 +54,37 @@ public class DbInfo {
 			state = con.createStatement();
 		} catch (SQLException e) 
 		{
-			System.out.println("createStatement() ¿¡·¯: "+e.getMessage() );
+			System.out.println("createStatement() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//createStatement METHOD
  	
-	//Insert, Update, Delete Äõ¸®
+	//Insert, Update, Delete ì¿¼ë¦¬
 	public void executeUpdate() 
 	{ 
 		try {
 			pstate.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("executeUpdate() ¿¡·¯: "+e.getMessage() );
+			System.out.println("executeUpdate() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//executeUpdate METHOD
 	
-	//Select Äõ¸®
+	//Select ì¿¼ë¦¬
 	public void executeQuery() {
 		try {
-			rs = pstate.executeQuery(); //Äõ¸®¸¦ ½ÇÇàÇÏ°í °á°ú¸¦ ResultSet °´Ã¼¿¡ ´ã´Â´Ù.
+			rs = pstate.executeQuery(); //ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•˜ê³  ê²°ê³¼ë¥¼ ResultSet ê°ì²´ì— ë‹´ëŠ”ë‹¤.
 		} catch (SQLException e) {
-			System.out.println("executeQuery() ¿¡·¯: "+e.getMessage() );
+			System.out.println("executeQuery() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//executeQuery METHOD
 	
-	//´İ±â
+	//ë‹«ê¸°
 	public void stateClose() {
 		try {
 			if (state != null) {
 				state.close();
 			}
 		} catch (SQLException e) {
-			System.out.println("stateClose() ¿¡·¯: "+e.getMessage() );
+			System.out.println("stateClose() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//stateClose METHOD
 	
@@ -98,7 +96,7 @@ public class DbInfo {
 				pstate.close();
 			}
 		} catch (SQLException e) {
-			System.out.println("pstateClose() ¿¡·¯: "+e.getMessage() );
+			System.out.println("pstateClose() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//pstateClose METHOD
 	
@@ -108,7 +106,7 @@ public class DbInfo {
 				con.close();
 			}
 		} catch (SQLException e) {
-			System.out.println("conClose() ¿¡·¯: "+e.getMessage() );
+			System.out.println("conClose() ì—ëŸ¬: "+e.getMessage() );
 		}
 	}//conClose METHOD
 	
@@ -123,8 +121,9 @@ public class DbInfo {
 		} 
 		catch (SQLException e) 
 		{
-			System.out.println("rsClose() ¿¡·¯: "+e.getMessage() );
+			System.out.println("rsClose() ì—ëŸ¬: "+e.getMessage() );
 		}
+		
 	}//rsClose METHOD
 	
 }//DbInfo CLASS
