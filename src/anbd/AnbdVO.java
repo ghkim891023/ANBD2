@@ -54,7 +54,10 @@ public class AnbdVO {
 	/* ******************************************************
 	 * 그 외 변수
 	 ****************************************************** */
-	private String strDate = "";
+	private   String strDate = "";
+	protected String sigun   = "";
+	protected String sido    = "";
+	protected String juso    = "";
 	
 	/* ******************************************************
 	 * 정규화 [시작]
@@ -362,5 +365,35 @@ public class AnbdVO {
 	{
 		this.cWdate = strDate;
 		System.out.println("cWdate: "+cWdate);
+	}
+
+	//시/군/구 sigun
+	public String getSigun() 
+	{
+		return sigun;
+	}
+	public void setSigun(String sigun) 
+	{
+		this.sigun = sigun;
+	}
+
+	//시/도 sido
+	public String getSido() 
+	{
+		return sido;
+	}
+	public void setSido(String sido) 
+	{
+		this.sido = sido;
+	}
+
+	//주소 juso
+	public String getJuso() 
+	{
+		return juso;
+	}
+	public void setJuso(String juso) 
+	{
+		this.juso = juso;
 	}
 }

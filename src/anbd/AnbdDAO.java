@@ -19,6 +19,11 @@ public class AnbdDAO extends DbInfo{
 	
 	DbInfo db = new DbInfo();
 	AnbdVO vo = new AnbdVO();
+	protected ArrayList<AnbdVO> boardList;
+	public ArrayList<AnbdVO> getBoardList()
+	{
+		return boardList;
+	}
 	
 	//========회원가입, 로그인 메소드========
 	//회원가입한 회원정보 저장 (insert)
@@ -481,8 +486,8 @@ public class AnbdDAO extends DbInfo{
 		String key = request.getParameter("key");
 		try 
 		{
-			db.getConnection();
-			db.state = db.con.createStatement();
+			getConnection();
+			state = con.createStatement();
 			
 			String selectSearchSql = "";
 				   selectSearchSql += "SELECT \n";
@@ -497,36 +502,36 @@ public class AnbdDAO extends DbInfo{
 				   }
 				   selectSearchSql += "ORDER BY no desc \n";
 				   
-		   db.pstate = db.con.prepareStatement(selectSearchSql);
+		   pstate = con.prepareStatement(selectSearchSql);
 		   if(!key.equals(""))
 		   {
-			   db.pstate.setString(1, "%"+key+"%");
+			   pstate.setString(1, "%"+key+"%");
 		   }
 		   System.out.println("키워드 : "+key);
 				   
 		   System.out.println(selectSearchSql);
 			
-		   db.rs = db.pstate.executeQuery();
-			if(db.rs.next()) 
+		   rs = pstate.executeQuery();
+			if(rs.next()) 
 			{
 				do
 				{
 					AnbdVO param = new AnbdVO();
-					param.setMenu(db.rs.getString("menu"));
-					param.setTitle(db.rs.getString("title"));
-					param.setPhoto(db.rs.getString("photo"));
-					param.setWdate(db.rs.getString("wdate"));
-					param.setStatus(db.rs.getString("status"));
+					param.setMenu(rs.getString("menu"));
+					param.setTitle(rs.getString("title"));
+					param.setPhoto(rs.getString("photo"));
+					param.setWdate(rs.getString("wdate"));
+					param.setStatus(rs.getString("status"));
 					
 					searchList.add(param);
 					System.out.println("성공적인 검색");
 				}//do FLOW
-				while(db.rs.next());
+				while(rs.next());
 			}//====if FLOW
-			db.rsClose();
-			db.pstateClose();
-			db.stateClose();
-			db.conClose();
+			rsClose();
+			pstateClose();
+			stateClose();
+			conClose();
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
@@ -671,5 +676,297 @@ public class AnbdDAO extends DbInfo{
 		}//===catch FLOW
 		return true;
 	}//====insertWriteQuery METHOD
+	
+	/* ******************************************************
+	 * 
+	 * 로그인 메소드 [시작]
+	 * 
+	 ****************************************************** */
+	public boolean selLogin() 
+	{	
+		try 
+		{
+			getConnection();
+			state = con.createStatement();
+			
+			String selectLoginSql = "";
+				   selectLoginSql += "SELECT userNo, id, pw \n";
+				   selectLoginSql += "FROM user \n";
+				   selectLoginSql += "WHERE id = ?";
+				   
+		   pstate = db.con.prepareStatement(selectLoginSql);
+		   pstate.setString(1, vo.getId());
+
+		   //콘솔 테스트
+		   System.out.println("키워드 : "+vo.getId());
+		   System.out.println(selectLoginSql);
+			
+		   rs = pstate.executeQuery();
+			if(rs.next()) 
+			{
+				AnbdVO vo = new AnbdVO();
+				rs.getString(vo.getPw());
+			}//====if FLOW
+			db.rsClose();
+			db.pstateClose();
+			db.stateClose();
+			db.conClose();
+		} //=======try FLOW
+		catch (SQLException e) 
+		{
+			System.out.println("로그인 select 쿼리 실행 불가");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	/* ******************************************************
+	 * 
+	 * 로그인 메소드 [종료]
+	 * 
+	 ****************************************************** */
+	
+	/* ******************************************************
+	 * 
+	 * 메뉴 이동 전체 글 개수 [시작]
+	 * 
+	 ****************************************************** */
+	public boolean selCountMenu(String menu, HttpServletRequest request)
+	{
+		String option = request.getParameter("option");
+		String key = request.getParameter("key");
+		try 
+		{
+			getConnection();
+			String selCountMenuSql = "";
+				   selCountMenuSql += "SELECT count(no) AS count ";
+				   selCountMenuSql += "FROM board ";
+				   if(menu.equals("share") || menu=="share")
+					{
+					   selCountMenuSql += "WHERE menu = '아나' ";
+					}
+				   if(menu.equals("reuse") || menu=="reuse")
+					{
+					   selCountMenuSql += "WHERE menu = '바다' ";
+					}
+
+				   pstate = con.prepareStatement(selCountMenuSql);
+				   System.out.println(selCountMenuSql);
+					
+				   executeQuery();
+				   rs.next();
+				   int count = Integer.parseInt(rs.getString("count"));
+				   System.out.println("count 개수 : "+count);
+				   System.out.println("selCountMenu를 성공적으로 수행함");
+		}//try FLOW
+		catch(Exception e)
+		{
+			System.out.println("selCountMenu를 실행할 수 없음");
+			e.printStackTrace();
+		}
+		return true;
+	}
+	/* ******************************************************
+	 * 
+	 * 메뉴 이동 전체 글 개수 [종료]
+	 * 
+	 ****************************************************** */
+	
+	
+	/* ******************************************************
+	 * 
+	 * [메인] 메뉴 이동
+	 * 
+	 ****************************************************** */
+	public boolean selMenu(String menu, HttpServletRequest request, int startRow, int pageSize) 
+	{	
+//		selCountMenu(menu, request);
+//		String key = request.getParameter("key");
+//		String option = request.getParameter("option");
+		boardList  = new ArrayList<AnbdVO>();
+		try 
+		{
+			getConnection();
+			createStatement();
+			
+			String selectSql = "";
+				   selectSql += "SELECT \n";
+				   selectSql += "	b.no, b.menu, b.title, b.photo, b.wdate, b.status, b.content, j.sido, j.sigun \n";
+				   selectSql += "FROM board b \n";
+				   selectSql += "LEFT JOIN juso j \n";
+				   selectSql += "ON b.jusoNo = j.jusoNo \n";
+			if(menu.equals("share") || menu=="share")
+			{
+				   selectSql += "WHERE menu = '아나' \n";
+			}
+			else if(menu.equals("reuse") || menu=="reuse")
+			{
+				   selectSql += "WHERE menu = '바다' \n";
+			}
+//				   selectSql += "AND "+option+" LIKE ? ";
+				   selectSql += "ORDER BY no desc \n";
+				   selectSql += "LIMIT ?, ? \n";
+
+			prepareStatement(selectSql);
+//			if(!key.equals(""))
+//			   {
+//				   pstate.setString(1, "%"+key+"%");
+//			   }
+//			if(key.equals("")||key == ""||key == null)
+//			   {
+//				   pstate.setString(1, "%%");
+//			   }
+			pstate.setInt(1, startRow);
+			pstate.setInt(2, pageSize);
+			System.out.println(selectSql);
+			executeQuery();
+			if(rs.next()) 
+			{
+				do
+				{
+					AnbdVO vo = new AnbdVO();
+					
+					vo.setNo(rs.getInt("no"));
+					vo.setMenu(rs.getString("menu"));
+					vo.setTitle(rs.getString("title"));
+					vo.setPhoto(rs.getString("photo"));
+					vo.setWdate(rs.getString("wdate"));
+					vo.setStatus(rs.getString("status"));
+					vo.setContent(rs.getString("content"));
+					boardList.add(vo);
+						
+				}//do FLOW
+				while(rs.next());
+			}//====if FLOW
+			
+			System.out.println("selMenu를 성공적으로 수행함");
+		} //=======try FLOW
+		catch (SQLException e) 
+		{
+			System.out.println("메뉴 select 쿼리 실행 불가");
+			e.printStackTrace();
+			return false;
+		}
+		finally 
+		{
+			rsClose();
+			stateClose();
+			conClose();
+		}
+		return true;
+	}//============selBoardListMenu METHOD
+	
+	/* ******************************************************
+	 * 
+	 * @author 정도희
+	 * @brif   글쓰기 페이지에서 주소 컬럼을 가져온다
+	 * @date   2020-06-29 작성
+	 * 글쓰기 주소 가져오기 [시작]
+	 * 
+s	 ****************************************************** */
+	public boolean selJuso() 
+	{
+		boardList = new ArrayList<AnbdVO>();
+		try 
+		{
+			getConnection();
+			String selSidoSql =  "";
+				   selSidoSql += "SELECT distinct sido \n";
+				   selSidoSql += "FROM juso \n";
+				   selSidoSql += "ORDER BY jusoNo asc \n";
+			prepareStatement(selSidoSql);
+			System.out.println(selSidoSql);
+			executeQuery();
+			if(rs.next())
+			{
+				do 
+				{
+					AnbdVO vo = new AnbdVO();
+					
+					vo.setSido(rs.getString("sido"));
+					
+					boardList.add(vo);
+				}
+				while(rs.next());
+			}//if FLOW
+			System.out.println("=============selJuso 실행 완료=============");
+		}//====try FLOW
+		catch(Exception e)
+		{
+			System.out.println("=============selJuso를 실행할 수 없음=============");
+			e.printStackTrace();
+		}
+		finally 
+		{
+			rsClose();
+			pstateClose();
+			conClose();
+		}
+		return true;
+	}
+	/* ******************************************************
+	 * 
+	 * 글쓰기 주소 가져오기 [종료]
+	 * 
+	 ****************************************************** */
+	
+	/* ******************************************************
+	 * 
+	 * @author 정도희
+	 * @brif   글쓰기 페이지에서 시/군/구 컬럼을 가져온다
+	 * @date   2020-06-29 작성
+	 * 글쓰기 주소 > 시/군/구 가져오기 [시작]
+	 * 
+s	 ****************************************************** */
+	
+	public boolean selSigun(String sido) 
+	{
+		boardList = new ArrayList<AnbdVO>();
+		try 
+		{
+			getConnection();
+			String selSigunSql =  "";
+				   selSigunSql += "SELECT sido, sigun \n";
+				   selSigunSql += "FROM juso \n";
+				   selSigunSql += "WHERE sido = ? \n";
+				   selSigunSql += "ORDER BY jusoNo asc \n";
+			prepareStatement(selSigunSql);
+			pstate.setString(1, sido);
+			System.out.println(selSigunSql);
+			executeQuery();
+			if(rs.next())
+			{
+				do 
+				{
+					AnbdVO vo = new AnbdVO();
+					
+					vo.setSigun(rs.getString("sigun"));
+					vo.setSido(rs.getString("sido"));
+					
+					boardList.add(vo);
+				}
+				while(rs.next());
+			}//if FLOW
+			System.out.println("=============selSigun 실행 완료=============");
+		}//====try FLOW
+		catch(Exception e)
+		{
+			System.out.println("=============selSigun 실행 불가=============");
+			e.printStackTrace();
+		}
+		finally 
+		{
+			rsClose();
+			pstateClose();
+			conClose();
+		}
+		return true;
+	}
+	
+	/* ******************************************************
+	 * 
+	 * 글쓰기 주소 가져오기 [종료]
+	 * 
+	 ****************************************************** */
 	
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <body>
@@ -27,23 +28,15 @@
 				<div class="search-input">
 					<input type="text" placeholder="검색 키워드를 입력해주세요." name="key" id="key">
 					<button class="site-btn" id="search">검색</button>
-					<%
-						//세션 변수에 저장된 userId값이 비어있으면 로그인 안한것
-						if(session.getAttribute("loginId")==null)
-						{
-							%>
-								<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:doAlert();">
-							<%
-						}
-						else
-						{
-							String loginId = (String)session.getAttribute("loginId");
-							//out.print(session.getAttribute("loginId"));
-							%>
+					<c:choose>
+						<c:when test="${sessionScope.id eq null}">
+							<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:doAlert();">
+						</c:when>
+						<c:when test="${sessionScope.id ne null}">
 							<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:location.href='write.jsp'">
-							<%
-						}
-					%>
+						</c:when>
+					</c:choose>
+					
 				</div>
 			</form>
 		</div>

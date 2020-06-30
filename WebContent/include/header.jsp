@@ -53,28 +53,23 @@
 			<ul class="main-menu">
 				<!-- class="active" -->
 				<!-- DB 연결 후 파라미터 줘야함 ../main/main.jsp&menu=share -->
-				<li><a href="../main/main.jsp">아껴쓰고 <b>나눠쓰기</b></a></li>
-				<li><a href="../main/main.jsp">바꿔쓰고 <b>다시쓰기</b></a></li>
+				<li><a href="../main/mainMenu.jsp?menu=share">아껴쓰고 <b>나눠쓰기</b></a></li>
+				<li><a href="../main/mainMenu.jsp?menu=reuse">바꿔쓰고 <b>다시쓰기</b></a></li>
 			</ul>
 			<!-- 로그인, 회원가입 -->
 			<div class="header-right">
 				<div class="user-panel">
-			<%
-				//세션 변수에 저장된 userId값이 비어있으면 로그인 안한것
-				if(session.getAttribute("loginId")==null){
-					%>
+			
+			<c:choose>
+				<c:when test="${sessionScope.id ne null}">
+					<span>${sessionScope.id}님 반갑습니다.</span>&nbsp;&nbsp;
+					<a href="../common/logout.jsp" class="register">로그아웃</a>
+				</c:when>
+				<c:when test="${sessionScope.id eq null}">
 					<a href="../common/join.jsp" class="login">회원가입</a>
 					<a href="../common/login.jsp" class="register">로그인</a>
-					<%
-				}else{
-					String loginId = (String)session.getAttribute("loginId");
-					//out.print(session.getAttribute("loginId"));
-					%>
-					<span><%=loginId %>님 반갑습니다.</span>&nbsp;&nbsp;
-					<a href="../common/logout.jsp" class="login">로그아웃</a>
-					<%
-				}
-			%>
+				</c:when>
+			</c:choose>
 				</div>
 			</div>
 		</nav>
