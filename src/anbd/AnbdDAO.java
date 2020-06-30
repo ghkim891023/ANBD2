@@ -25,15 +25,15 @@ public class AnbdDAO extends DbInfo{
 		return boardList;
 	}
 	
-	//========È¸¿ø°¡ÀÔ, ·Î±×ÀÎ ¸Ş¼Òµå========
-	//È¸¿ø°¡ÀÔÇÑ È¸¿øÁ¤º¸ ÀúÀå (insert)
-    public int inJoin (AnbdVO db2) {    //°¡Á®¿Ã get,set, db¿¡ »õ·Î¿î º¯¼ö¸í
+	//========íšŒì›ê°€ì…, ë¡œê·¸ì¸ ë©”ì†Œë“œ========
+	//íšŒì›ê°€ì…í•œ íšŒì›ì •ë³´ ì €ì¥ (insert)
+    public int inJoin (AnbdVO db2) {    //ê°€ì ¸ì˜¬ get,set, dbì— ìƒˆë¡œìš´ ë³€ìˆ˜ëª…
     	getConnection();
-    	//SQL¹®¿¡¼­ º¯¼ö°¡ µé¾î°¥ ÀÚ¸®´Â ' ? ' ·Î Ç¥½Ã
+    	//SQLë¬¸ì—ì„œ ë³€ìˆ˜ê°€ ë“¤ì–´ê°ˆ ìë¦¬ëŠ” ' ? ' ë¡œ í‘œì‹œ
     	String SQL= "INSERT INTO user (id,pw,name,email) VALUES(?, ?, ?, ?) ";
         try {
         	pstate = con.prepareStatement(SQL);
-        	pstate.setString(1,db2.getId()); //ÁöÁ¤µÈ ¸Å°³ º¯¼ö¸¦ ÁöÁ¤µÈ ¹®ÀÚ¿­ °ªÀ¸·Î ¼³Á¤
+        	pstate.setString(1,db2.getId()); //ì§€ì •ëœ ë§¤ê°œ ë³€ìˆ˜ë¥¼ ì§€ì •ëœ ë¬¸ìì—´ ê°’ìœ¼ë¡œ ì„¤ì •
         	pstate.setString(2,db2.getPw());
         	pstate.setString(3,db2.getName());
         	pstate.setString(4,db2.getEmail());
@@ -47,12 +47,12 @@ public class AnbdDAO extends DbInfo{
         return 1;
 	}
 	
-	public boolean selIdCheck(String id) { //ID Áßº¹°Ë»ç
+	public boolean selIdCheck(String id) { //ID ì¤‘ë³µê²€ì‚¬
 		//boolean result = false;
 		getConnection();
 		String SQL= "select id from user where id = '"+id+"' ";
-		prepareStatement(SQL);    //Äõ¸®¸¦ ¹Ì¸® ÁØºñÇØ¼­ ¸Ş¸ğ¸®¿¡ ÀúÀå½ÃÅ°´Â °Å
-		executeQuery(); 		//Äõ¸® ½ÇÇà
+		prepareStatement(SQL);    //ì¿¼ë¦¬ë¥¼ ë¯¸ë¦¬ ì¤€ë¹„í•´ì„œ ë©”ëª¨ë¦¬ì— ì €ì¥ì‹œí‚¤ëŠ” ê±°
+		executeQuery(); 		//ì¿¼ë¦¬ ì‹¤í–‰
 		try {
 			while(rs.next()){
 				return true;
@@ -66,13 +66,13 @@ public class AnbdDAO extends DbInfo{
 		return false;
 	}
 		  
-	public boolean selLogin(String id , String pw) { //·Î±×ÀÎ ID °Ë»ç, ºñ¹Ğ¹øÈ£ °Ë»ç
+	public boolean selLogin(String id , String pw) { //ë¡œê·¸ì¸ ID ê²€ì‚¬, ë¹„ë°€ë²ˆí˜¸ ê²€ì‚¬
 		//boolean result = false;
 		getConnection();
 		String SQL= "select id from user where id = '"+id+"' and pw= '"+pw+"' ";
 			
-		prepareStatement(SQL);    //Äõ¸®¸¦ ¹Ì¸® ÁØºñÇØ¼­ ¸Ş¸ğ¸®¿¡ ÀúÀå½ÃÅ°´Â °Å
-		executeQuery(); 		//Äõ¸® ½ÇÇà
+		prepareStatement(SQL);    //ì¿¼ë¦¬ë¥¼ ë¯¸ë¦¬ ì¤€ë¹„í•´ì„œ ë©”ëª¨ë¦¬ì— ì €ì¥ì‹œí‚¤ëŠ” ê±°
+		executeQuery(); 		//ì¿¼ë¦¬ ì‹¤í–‰
 		try {
 			while(rs.next()){
 				return true;
@@ -86,23 +86,23 @@ public class AnbdDAO extends DbInfo{
 		return false;
 	}
 	
-	//µ¥ÀÌÅÍ º£ÀÌ½º¿¡ µ¥ÀÌÅÍ¸¦  insert ÇÏ´Â method 
+	//ë°ì´í„° ë² ì´ìŠ¤ì— ë°ì´í„°ë¥¼  insert í•˜ëŠ” method 
 	public void dbtest2insert (String id, String pw, String name, String email) {
 	   //dbtest2 db = new dbtest2( 1,  id, pw,  name,  email);	 
-//	   //µ¥ÀÌÅÍº£ÀÌ½º Á¢¼ÓÇÏ±â
+//	   //ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì†í•˜ê¸°
 //	   try {
 //		    getConnection();
-//	 	    if (con != null) {System.out.println("¼º°ø");}   //Á¢¼Ó °á°ú Ãâ·Â
-//			else {System.out.println("½ÇÆĞ");}
+//	 	    if (con != null) {System.out.println("ì„±ê³µ");}   //ì ‘ì† ê²°ê³¼ ì¶œë ¥
+//			else {System.out.println("ì‹¤íŒ¨");}
 //	   String sql = "insert into user "
-//	   		+ "(id, pw, name, email)"    //ÄÃ·³¸í
-//	   		+ " values (?, ?, ?, ?)";	 //°ª
+//	   		+ "(id, pw, name, email)"    //ì»¬ëŸ¼ëª…
+//	   		+ " values (?, ?, ?, ?)";	 //ê°’
 //	   pstate = con.prepareStatement(sql);
 //	   pstate.setString(1, id);
 //	   pstate.setString(2, pw);
 //	   pstate.setString(3, name);
 //	   pstate.setString(4, email);
-//	   pstate.executeUpdate();      //executeUpdatd´Â insert, update, delete¹®¿¡¼­ »ç¿ëÇÏ´Â°Å
+//	   pstate.executeUpdate();      //executeUpdatdëŠ” insert, update, deleteë¬¸ì—ì„œ ì‚¬ìš©í•˜ëŠ”ê±°
 //	   pstate.close();
 //	   con.close();
 //	   }catch (SQLException e) {
@@ -110,8 +110,8 @@ public class AnbdDAO extends DbInfo{
 //	   }
 	 }
 	
-	//========±Ûº¸±â/¼öÁ¤/»èÁ¦, ´ñ±Û º¸±â/¾²±â/¼öÁ¤/»èÁ¦, ³ª´®¿Ï·á/Ãë¼Ò ¸Ş¼Òµå========
-	public boolean selLoginUserNo(AnbdVO vo, String id) { //¼¼¼Ç id·Î È¸¿ø¹øÈ£ °¡Á®¿À±â
+	//========ê¸€ë³´ê¸°/ìˆ˜ì •/ì‚­ì œ, ëŒ“ê¸€ ë³´ê¸°/ì“°ê¸°/ìˆ˜ì •/ì‚­ì œ, ë‚˜ëˆ”ì™„ë£Œ/ì·¨ì†Œ ë©”ì†Œë“œ========
+	public boolean selLoginUserNo(AnbdVO vo, String id) { //ì„¸ì…˜ idë¡œ íšŒì›ë²ˆí˜¸ ê°€ì ¸ì˜¤ê¸°
 		try {
 			String SQL  = "SELECT userNo from user where id='"+id+"'";
 			System.out.println("selLoginUserNo: "+SQL);
@@ -120,10 +120,10 @@ public class AnbdDAO extends DbInfo{
 			executeQuery();
 			if(rs.next()) { 
 				vo.setLoginUserNo(rs.getInt("userNo"));
-				System.out.println("È¸¿ø¹øÈ£: "+vo.getLoginUserNo());
+				System.out.println("íšŒì›ë²ˆí˜¸: "+vo.getLoginUserNo());
 			}
 		}catch (Exception e) {
-			System.out.println("selLoginUserNo() ¿¡·¯: "+e.getMessage());
+			System.out.println("selLoginUserNo() ì—ëŸ¬: "+e.getMessage());
 			return false;
 		}
    	   	rsClose();
@@ -132,7 +132,7 @@ public class AnbdDAO extends DbInfo{
 		return true;
 	}
 	
-	public void selViewBoard(AnbdVO vo, int no) { //±Ûº¸±â
+	public void selViewBoard(AnbdVO vo, int no) { //ê¸€ë³´ê¸°
 		String SQL  = "";
 		   	   SQL += "SELECT ";
 			   SQL += "	b.no, b.menu, b.status, b.photo, u.id, u.userNo, u.email, b.title, b.content ";
@@ -141,13 +141,13 @@ public class AnbdDAO extends DbInfo{
 		       SQL += "WHERE ";
 		       SQL += "	b.no=" + no;
 		
-		//======================== °Ô½Ã¹°ÀÇ ÄÁÅÙÃ÷¸¦ ¾ò´Â ºí·°
+		//======================== ê²Œì‹œë¬¼ì˜ ì»¨í…ì¸ ë¥¼ ì–»ëŠ” ë¸”ëŸ­
 		try {
 			getConnection();
 			prepareStatement(SQL);
 			executeQuery();
 			
-			if(rs.next()) { //next() Ä¿¼­°¡ ´ÙÀ½À¸·Î ¿Å±â¸ç Ã³¸®µÈ´Ù
+			if(rs.next()) { //next() ì»¤ì„œê°€ ë‹¤ìŒìœ¼ë¡œ ì˜®ê¸°ë©° ì²˜ë¦¬ëœë‹¤
 				vo.setNo(rs.getInt("no")); 
 				vo.setStatus(rs.getString("status")); 
 				vo.setMenu(rs.getString("menu")); 
@@ -159,10 +159,10 @@ public class AnbdDAO extends DbInfo{
 				vo.setContent(rs.getString("content"));
 			}
 		}catch (Exception e) {
-			System.out.println("viewBoard °Ô½Ã¹° rs.next() ¿¡·¯: "+e.getMessage()); 
+			System.out.println("viewBoard ê²Œì‹œë¬¼ rs.next() ì—ëŸ¬: "+e.getMessage()); 
 		}
 		
-		//======================== °Ô½Ã¹°ÀÇ Ã·ºÎÆÄÀÏÀ» ¾ò´Â ºí·°		
+		//======================== ê²Œì‹œë¬¼ì˜ ì²¨ë¶€íŒŒì¼ì„ ì–»ëŠ” ë¸”ëŸ­		
 		SQL  = "";
 		SQL += "SELECT saveFileName ";
 		SQL += "FROM file  ";
@@ -172,17 +172,17 @@ public class AnbdDAO extends DbInfo{
 		try {
 			while(rs.next()) {   
 				String filename = rs.getString("saveFileName");
-				vo.AddFile(filename); //ÆÄÀÏ array¿¡ ´ã±â
+				vo.AddFile(filename); //íŒŒì¼ arrayì— ë‹´ê¸°
 			}
 		}catch (SQLException e) {
-			System.out.println("viewBoard Ã·ºÎÆÄÀÏ rs.next() ¿¡·¯: "+e.getMessage()); 
+			System.out.println("viewBoard ì²¨ë¶€íŒŒì¼ rs.next() ì—ëŸ¬: "+e.getMessage()); 
 		}	
 		rsClose();
 		pstateClose();
 		conClose();
 	}
 
-	public ArrayList<AnbdVO> selViewComment(int no) { //´ñ±Ûº¸±â v2
+	public ArrayList<AnbdVO> selViewComment(int no) { //ëŒ“ê¸€ë³´ê¸° v2
 		ArrayList<AnbdVO> coList = new ArrayList<AnbdVO>();
 		String SQL  = "";
 			   SQL += "SELECT ";
@@ -197,30 +197,30 @@ public class AnbdDAO extends DbInfo{
 		executeQuery();
 		try {
 			while(rs.next()) {   
-				//coList = new ArrayList<AnbdVO>(); //´ñ±ÛÀÌ ÀÖ¾î¾ß array»ı¼º, ¾Æ´Ï¸é null
+				//coList = new ArrayList<AnbdVO>(); //ëŒ“ê¸€ì´ ìˆì–´ì•¼ arrayìƒì„±, ì•„ë‹ˆë©´ null
 				AnbdVO vo = new AnbdVO();
 				vo.setCoNo(rs.getInt("coNo"));
 				vo.setId(rs.getString("id"));
-					System.out.println("´ñ±Û ÀÛ¼ºÀÚ: "+vo.getId());
+					System.out.println("ëŒ“ê¸€ ì‘ì„±ì: "+vo.getId());
 				vo.setcContent(rs.getString("content"));
-					System.out.println("´ñ±Û: "+vo.getcContent());
+					System.out.println("ëŒ“ê¸€: "+vo.getcContent());
 				vo.setWdate(rs.getString("wdate"));
 				
 				vo.setCWriterNo(rs.getInt("userNo"));
-					System.out.println("´ñ±Û ÀÛ¼ºÀÚ ¹øÈ£: "+vo.getCWriterNo());
+					System.out.println("ëŒ“ê¸€ ì‘ì„±ì ë²ˆí˜¸: "+vo.getCWriterNo());
 				coList.add(vo);
 			}
 		}catch (SQLException e) {
-			System.out.println("viewComment v2 ¿¡·¯: "+e.getMessage()); 
+			System.out.println("viewComment v2 ì—ëŸ¬: "+e.getMessage()); 
 		}
 		rsClose();
 		pstateClose();
 		conClose();
-		System.out.println("coList »çÀÌÁî:"+ coList.size());
+		System.out.println("coList ì‚¬ì´ì¦ˆ:"+ coList.size());
 		return coList;
 	}
 	
-	public void selViewComment_v1(AnbdVO vo, int no) { //´ñ±Ûº¸±â v1
+	public void selViewComment_v1(AnbdVO vo, int no) { //ëŒ“ê¸€ë³´ê¸° v1
 		String SQL  = "";
 			   SQL += "SELECT ";
 			   SQL += "	c.no, c.coNo, c.content, c.wdate, u.userNo, u.id ";
@@ -234,7 +234,7 @@ public class AnbdDAO extends DbInfo{
 		executeQuery();
 		try {
 			while(rs.next()) {   
-				//ArrayList¿¡ ÀúÀå
+				//ArrayListì— ì €ì¥
 				String coNo = rs.getString("coNo");
 				vo.AddCo(coNo);
 				String id = rs.getString("id");
@@ -247,7 +247,7 @@ public class AnbdDAO extends DbInfo{
 				vo.AddCo(userNo);
 			}
 		}catch (SQLException e) {
-			System.out.println("viewComment rs.next() ¿¡·¯: "+e.getMessage()); 
+			System.out.println("viewComment rs.next() ì—ëŸ¬: "+e.getMessage()); 
 		}
 		rsClose();
 		pstateClose();
@@ -257,9 +257,9 @@ public class AnbdDAO extends DbInfo{
 	public boolean upModifyBoard(AnbdVO vo, HttpServletRequest request) { 
 		try{
 			String savePath = request.getSession().getServletContext().getRealPath("/upload");
-				System.out.println("ÀúÀå °æ·Î: "+savePath);
+				System.out.println("ì €ì¥ ê²½ë¡œ: "+savePath);
 			int size = 1024*1024*10;
-			//MultipartRequest°´Ã¼ »ı¼º½Ã ¾÷·Îµå ½ÇÇà
+			//MultipartRequestê°ì²´ ìƒì„±ì‹œ ì—…ë¡œë“œ ì‹¤í–‰
 			MultipartRequest multi = new MultipartRequest(request, savePath, size, "utf-8", new DefaultFileRenamePolicy());
 			
 			int pNo = Integer.parseInt(request.getParameter("no"));
@@ -270,50 +270,50 @@ public class AnbdDAO extends DbInfo{
 			
 			getConnection();
 			
-			//ÆÄÀÏ ¼öÁ¤ - ±âÁ¸ ¾÷·ÎµµµÈ ÆÄÀÏ ñé »èÁ¦ Å¬¸¯ÇÑ ÆÄÀÏÀÖÀ¸¸é »èÁ¦ ÈÄ insert
-			int preFileCount = Integer.parseInt(multi.getParameter("fileCount")); //±âÁ¸ ÆÄÀÏ °¹¼ö
+			//íŒŒì¼ ìˆ˜ì • - ê¸°ì¡´ ì—…ë¡œë„ëœ íŒŒì¼ ä¸­ ì‚­ì œ í´ë¦­í•œ íŒŒì¼ìˆìœ¼ë©´ ì‚­ì œ í›„ insert
+			int preFileCount = Integer.parseInt(multi.getParameter("fileCount")); //ê¸°ì¡´ íŒŒì¼ ê°¯ìˆ˜
 			int delCount = 0;
-			//±âÁ¸ ÆÄÀÏÀÇ ÆÄÀÏ¸í ºÒ·¯¿À±â
+			//ê¸°ì¡´ íŒŒì¼ì˜ íŒŒì¼ëª… ë¶ˆëŸ¬ì˜¤ê¸°
 			for(int i=1; i<=preFileCount; i++) {
-				String preFile = multi.getParameter("filename"+i);//ÀÌÀü ÆÄÀÏÀ» valÀ» name°ªÀ» ÅëÇØ °¡Á®¿À±â
-					System.out.println("±âÁ¸ filename "+i+"¹øÀç ÆÄÀÏ¸í : "+preFile);
-				//±âÁ¸ ÆÄÀÏÀ» »èÁ¦ÇØ¼­ ÆÄÀÏ¸í(val)ÀÌ °ø¹éÀÌ¸é
-				if(preFile==null || preFile.equals("")){ //¼öÁ¤ÆäÀÌÁö¿¡¼­ »èÁ¦¸¦ ´­·¯¼­ val°ªÀÌ ¾øÀ¸¸é ÇØ´çÆÄÀÏ »èÁ¦
-					String hiddenfilename = multi.getParameter("hiddenfilename"+i);//input hiddenÀÇ ÇØ´ç i¹øÂ° val(ÆÄÀÏ¸í)À» °¡Á®¿Í¼­ »èÁ¦
+				String preFile = multi.getParameter("filename"+i);//ì´ì „ íŒŒì¼ì„ valì„ nameê°’ì„ í†µí•´ ê°€ì ¸ì˜¤ê¸°
+					System.out.println("ê¸°ì¡´ filename "+i+"ë²ˆì¬ íŒŒì¼ëª… : "+preFile);
+				//ê¸°ì¡´ íŒŒì¼ì„ ì‚­ì œí•´ì„œ íŒŒì¼ëª…(val)ì´ ê³µë°±ì´ë©´
+				if(preFile==null || preFile.equals("")){ //ìˆ˜ì •í˜ì´ì§€ì—ì„œ ì‚­ì œë¥¼ ëˆŒëŸ¬ì„œ valê°’ì´ ì—†ìœ¼ë©´ í•´ë‹¹íŒŒì¼ ì‚­ì œ
+					String hiddenfilename = multi.getParameter("hiddenfilename"+i);//input hiddenì˜ í•´ë‹¹ ië²ˆì§¸ val(íŒŒì¼ëª…)ì„ ê°€ì ¸ì™€ì„œ ì‚­ì œ
 					String SQL2  = "delete from file where saveFileName='"+hiddenfilename+"'";
-						System.out.println(i+"¹øÀç ±âÁ¸ ÆÄÀÏ »èÁ¦: "+SQL2);
+						System.out.println(i+"ë²ˆì¬ ê¸°ì¡´ íŒŒì¼ ì‚­ì œ: "+SQL2);
 					prepareStatement(SQL2);
 					executeUpdate(); 
-					delCount++; //»èÁ¦ÆÄÀÏ°¹¼ö Áõ°¡
+					delCount++; //ì‚­ì œíŒŒì¼ê°¯ìˆ˜ ì¦ê°€
 				}else {}
 			}
-			int remainFileCount = preFileCount - delCount; //³²Àº ÆÄÀÏ =±âÁ¸ ÆÄÀÏ °¹¼ö-»èÁ¦ ÆÄÀÏ °¹¼ö
+			int remainFileCount = preFileCount - delCount; //ë‚¨ì€ íŒŒì¼ =ê¸°ì¡´ íŒŒì¼ ê°¯ìˆ˜-ì‚­ì œ íŒŒì¼ ê°¯ìˆ˜
 				System.out.println("preFileCount: "+preFileCount);
 				System.out.println("delCount: "+delCount);
 				System.out.println("remainFileCount: "+remainFileCount);
-			if(remainFileCount == 0) { //±âÁ¸ÆÄÀÏ ´Ù »èÁ¦½Ã photo N
+			if(remainFileCount == 0) { //ê¸°ì¡´íŒŒì¼ ë‹¤ ì‚­ì œì‹œ photo N
 				photo = "N";
 			}
-			//Ãß°¡ÇÑ ÆÄÀÏ insert
-			Enumeration inputFileNames = multi.getFileNames();  //input fileÅÂ±×ÀÇ  name ¼Ó¼º°ªÀ» ¸ğµÎ °¡Á®¿È
-			while(inputFileNames.hasMoreElements()) { //inputFileNamesÀÇ ¿ä¼Ò°¡ ÀÖÀ¸¸é true, ¾Æ´Ï¸é false ¹İÈ¯
-				String inputFileName = (String)inputFileNames.nextElement(); //nameµé Áß¿¡ name ÇÑ°³
-					//System.out.println("name='"+inputFileName+ "' : ÆÄÀÏÀÖÀ½");
+			//ì¶”ê°€í•œ íŒŒì¼ insert
+			Enumeration inputFileNames = multi.getFileNames();  //input fileíƒœê·¸ì˜  name ì†ì„±ê°’ì„ ëª¨ë‘ ê°€ì ¸ì˜´
+			while(inputFileNames.hasMoreElements()) { //inputFileNamesì˜ ìš”ì†Œê°€ ìˆìœ¼ë©´ true, ì•„ë‹ˆë©´ false ë°˜í™˜
+				String inputFileName = (String)inputFileNames.nextElement(); //nameë“¤ ì¤‘ì— name í•œê°œ
+					//System.out.println("name='"+inputFileName+ "' : íŒŒì¼ìˆìŒ");
 				String serverSaveName;
 					serverSaveName = (String)multi.getFilesystemName(inputFileName);
-					//vo.addModifyFile(serverSaveName); //ÇÊ¿ä¾ø´Âµí..
-					if( serverSaveName != null || remainFileCount>0 ) { //Ãß°¡µÈ ÆÄÀÏ ÀÖ°Å³ª or ³²Àº ÆÄÀÏ ÀÖÀ¸¸é
+					//vo.addModifyFile(serverSaveName); //í•„ìš”ì—†ëŠ”ë“¯..
+					if( serverSaveName != null || remainFileCount>0 ) { //ì¶”ê°€ëœ íŒŒì¼ ìˆê±°ë‚˜ or ë‚¨ì€ íŒŒì¼ ìˆìœ¼ë©´
 						photo = "Y";
 						String SQL3  = "INSERT INTO file (saveFileName, no) ";
 						SQL3 += "VALUES ('" +serverSaveName+ "', "+pNo+") ";
-						System.out.println("ÆÄÀÏ ¼öÁ¤ insert: "+SQL3);
+						System.out.println("íŒŒì¼ ìˆ˜ì • insert: "+SQL3);
 						prepareStatement(SQL3);
 						executeUpdate(); 
 					}else {
 						photo = "N"; 
 					}
 			}
-			//±Û ¼öÁ¤
+			//ê¸€ ìˆ˜ì •
 			String SQL  = "UPDATE board SET title='"+pTitle+"', ";
 				   SQL += "content='"+pContent+"', ";
 				   SQL += "menu='"+pMenu+"', ";
@@ -322,7 +322,7 @@ public class AnbdDAO extends DbInfo{
 			prepareStatement(SQL);
 			executeUpdate(); 
 		}catch(Exception e) {
-			System.out.println("±Û¼öÁ¤ ¸Ş¼Òµå ¿¡·¯: "+e.getMessage());
+			System.out.println("ê¸€ìˆ˜ì • ë©”ì†Œë“œ ì—ëŸ¬: "+e.getMessage());
 			return false;
 		}
 		pstateClose(); 
@@ -330,15 +330,15 @@ public class AnbdDAO extends DbInfo{
 		return true;
 	}
 
-	public void delDelBoard(int no) { //±Û»èÁ¦
+	public void delDelBoard(int no) { //ê¸€ì‚­ì œ
 		getConnection();
 		
-		//ÀÌ ÇØ´ç °Ô½Ã±ÛÀÇ Ã·ºÎÆÄÀÏ ¸ÕÀú »èÁ¦
+		//ì´ í•´ë‹¹ ê²Œì‹œê¸€ì˜ ì²¨ë¶€íŒŒì¼ ë¨¼ì € ì‚­ì œ
 		String SQL  = "delete from file where no="+no;
 		prepareStatement(SQL);
 		executeUpdate();
 		
-		//ÀÌ ÇØ´ç °Ô½Ã±ÛÀÇ ´ñ±Û »èÁ¦
+		//ì´ í•´ë‹¹ ê²Œì‹œê¸€ì˜ ëŒ“ê¸€ ì‚­ì œ
 		String SQL2  = "delete from comment where no="+no;
 		prepareStatement(SQL2);
 		executeUpdate();
@@ -351,7 +351,7 @@ public class AnbdDAO extends DbInfo{
 		conClose();
 	}
 
-	public void inSaveComment(AnbdVO vo, int no, int userNo, String content) { //´ñ±Û¾²±â
+	public void inSaveComment(AnbdVO vo, int no, int userNo, String content) { //ëŒ“ê¸€ì“°ê¸°
 		String SQL  = "INSERT INTO comment (no, userNo, content, wdate) ";
 			   SQL += "values (?, ?, ?, ?);"; 
 		getConnection();
@@ -361,17 +361,17 @@ public class AnbdDAO extends DbInfo{
 			pstate.setInt(2, userNo);
 			pstate.setString(3, content);
 			pstate.setString(4, vo.getcWdate()); 
-			System.out.println("´ñ±Û¾²±â SQL: "+SQL);
+			System.out.println("ëŒ“ê¸€ì“°ê¸° SQL: "+SQL);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("saveComment setString()¿¡·¯: "+e.getMessage());
+			System.out.println("saveComment setString()ì—ëŸ¬: "+e.getMessage());
 		}
 		executeUpdate();		
 		pstateClose();		
 		conClose();		
 	}
 
-	public void upModifyComment(int coNo, String content) { //´ñ±Û¼öÁ¤
+	public void upModifyComment(int coNo, String content) { //ëŒ“ê¸€ìˆ˜ì •
 		getConnection();
 		String SQL  = "UPDATE comment SET content='"+content+"' where coNo="+coNo;
 		prepareStatement(SQL);
@@ -380,7 +380,7 @@ public class AnbdDAO extends DbInfo{
 		conClose(); 
 	}
 
-	public void delDelComment(int coNo) { //´ñ±Û»èÁ¦
+	public void delDelComment(int coNo) { //ëŒ“ê¸€ì‚­ì œ
 		getConnection();
 		String SQL  = "delete from comment where coNo="+coNo;
 		prepareStatement(SQL);
@@ -389,7 +389,7 @@ public class AnbdDAO extends DbInfo{
 		conClose(); 
 	}
 	
-	public void upStatusDone(int no) { //°Å·¡¿Ï·á
+	public void upStatusDone(int no) { //ê±°ë˜ì™„ë£Œ
 		getConnection();
 		String SQL  = " UPDATE board SET status='done' where no="+no;
 		prepareStatement(SQL);
@@ -398,7 +398,7 @@ public class AnbdDAO extends DbInfo{
 		conClose(); 
 	}	
 
-	public void upStatusCancel(int no) { //°Å·¡¿Ï·áÃë¼Ò
+	public void upStatusCancel(int no) { //ê±°ë˜ì™„ë£Œì·¨ì†Œ
 		getConnection();
 		String SQL  = " UPDATE board SET status='cancel' where no="+no;
 		prepareStatement(SQL);
@@ -410,24 +410,24 @@ public class AnbdDAO extends DbInfo{
 	
 	/* ******************************************************
 	 * 
-	 * [¸ŞÀÎ] ¸ñ·Ï ºÒ·¯¿À±â
+	 * [ë©”ì¸] ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
 	 * 
 	 ****************************************************** */
 	public boolean selBoardList(ArrayList<AnbdVO> blist) 
-	//BoardParamÀÇ Á¤º¸¸¦ ArrayList Çü½ÄÀ¸·Î ´ã°Ú´Ù
-	//¸®½ºÆ®´Â ¾î¶² Å¸ÀÔÀÌ ¿ÃÁö ¸ğ¸¥´Ù - int¸¦ °¡Á®¿Íµµ ÁÁ°í, StringÀ» °¡Á®¿Íµµ ÁÁ´Ù
-	//´ã°í ½ÍÀº ³»¿ëÀ» <> »çÀÌ¿¡ Ç¥ÇöÇÑ´Ù
-	//Á¦³×¸¯, ÅÛÇÃ¸´À» ¾Ë¾Æº¸ÀÚ
-	//booleanÀ¸·Î ÇÑ ÀÌÀ¯´Â tryÇÑ °á°ú°¡ true¶ó¸é °ªÀ» ¹İÈ¯ÇÏ´Â ÀÇ¹Ì
-	//= °Ë»öÇÑ °á°ú¸¦ ¸ğµÎ ºÁ¾ß ÇÏ°í, ÇÏ³ªÀÇ ·¹ÄÚµå¸¸ ÀÖ´Â °ÍÀÌ ¾Æ´Ô = 
-	//= ¹İº¹ÇØ¾ß ÇÔ = for ±¸¹® »ç¿ëÇÏ¸é ÁÁÀ½ = list¸¦ for ±¸¹®À¸·Î ¹ŞÀ» ¼ö ÀÖÀ½
+	//BoardParamì˜ ì •ë³´ë¥¼ ArrayList í˜•ì‹ìœ¼ë¡œ ë‹´ê² ë‹¤
+	//ë¦¬ìŠ¤íŠ¸ëŠ” ì–´ë–¤ íƒ€ì…ì´ ì˜¬ì§€ ëª¨ë¥¸ë‹¤ - intë¥¼ ê°€ì ¸ì™€ë„ ì¢‹ê³ , Stringì„ ê°€ì ¸ì™€ë„ ì¢‹ë‹¤
+	//ë‹´ê³  ì‹¶ì€ ë‚´ìš©ì„ <> ì‚¬ì´ì— í‘œí˜„í•œë‹¤
+	//ì œë„¤ë¦­, í…œí”Œë¦¿ì„ ì•Œì•„ë³´ì
+	//booleanìœ¼ë¡œ í•œ ì´ìœ ëŠ” tryí•œ ê²°ê³¼ê°€ trueë¼ë©´ ê°’ì„ ë°˜í™˜í•˜ëŠ” ì˜ë¯¸
+	//= ê²€ìƒ‰í•œ ê²°ê³¼ë¥¼ ëª¨ë‘ ë´ì•¼ í•˜ê³ , í•˜ë‚˜ì˜ ë ˆì½”ë“œë§Œ ìˆëŠ” ê²ƒì´ ì•„ë‹˜ = 
+	//= ë°˜ë³µí•´ì•¼ í•¨ = for êµ¬ë¬¸ ì‚¬ìš©í•˜ë©´ ì¢‹ìŒ = listë¥¼ for êµ¬ë¬¸ìœ¼ë¡œ ë°›ì„ ìˆ˜ ìˆìŒ
 	
 	{	
 		try 
 		{
 			db.getConnection();
 			db.createStatement();
-			//photo ¾ÆÁ÷ ¾È ³¡³², userNo´Â ¿Ö ³Ö¾ú´õ¶ó...>06.10userNo Áö¿üÀ½
+			//photo ì•„ì§ ì•ˆ ëë‚¨, userNoëŠ” ì™œ ë„£ì—ˆë”ë¼...>06.10userNo ì§€ì› ìŒ
 			
 			String selectSql = "";
 			selectSql += "SELECT no, menu, title, photo, wdate, status, content ";
@@ -440,7 +440,7 @@ public class AnbdDAO extends DbInfo{
 			{
 				do
 				{
-					//BoardParam¸¦ »õ·Î 1°³¸¸ ¸¸µé°Ú¾î
+					//BoardParamë¥¼ ìƒˆë¡œ 1ê°œë§Œ ë§Œë“¤ê² ì–´
 					AnbdVO vo = new AnbdVO();
 					
 					//BoardParam boardList = blist.get(i);
@@ -452,14 +452,14 @@ public class AnbdDAO extends DbInfo{
 					vo.setStatus(db.rs.getString("status"));
 					vo.setContent(db.rs.getString("content"));
 					
-					//¼¼ÆÃÇÑ no, menu µîÀÇ Á¤º¸¸¦ blist¿¡ ´ã°Ú´Ù
+					//ì„¸íŒ…í•œ no, menu ë“±ì˜ ì •ë³´ë¥¼ blistì— ë‹´ê² ë‹¤
 					blist.add(vo);
 						
 				}//do FLOW
 				while(db.rs.next());
-				//do¸¦ ½ÇÇàÇÑ ÈÄ while¿¡¼­ Á¶°ÇÀ» È®ÀÎ
-				//´ÙÀ½ °á°ú°¡ ÀÖÀ¸¸é true, do¸¦ ´Ù½Ã ½ÇÇà
-				//´ÙÀ½ °á°ú°¡ ¾øÀ¸¸é false, ¸ØÃã
+				//doë¥¼ ì‹¤í–‰í•œ í›„ whileì—ì„œ ì¡°ê±´ì„ í™•ì¸
+				//ë‹¤ìŒ ê²°ê³¼ê°€ ìˆìœ¼ë©´ true, doë¥¼ ë‹¤ì‹œ ì‹¤í–‰
+				//ë‹¤ìŒ ê²°ê³¼ê°€ ì—†ìœ¼ë©´ false, ë©ˆì¶¤
 			}//====if FLOW
 			db.rsClose();
 			db.stateClose();
@@ -467,17 +467,17 @@ public class AnbdDAO extends DbInfo{
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
-			System.out.println("¸ñ·Ï select Äõ¸® ½ÇÇà ºÒ°¡");
+			System.out.println("ëª©ë¡ select ì¿¼ë¦¬ ì‹¤í–‰ ë¶ˆê°€");
 			e.printStackTrace();
 			return false;
 		}
 		return true;
-		//booleanÇüÀÌ´Ï±î ¿À·ù°¡ ÀÖÀ¸¸é false¸¦ ¹İÈ¯
+		//booleaní˜•ì´ë‹ˆê¹Œ ì˜¤ë¥˜ê°€ ìˆìœ¼ë©´ falseë¥¼ ë°˜í™˜
 	}//============selectBoard METHOD
 	
 	/* ******************************************************
 	 * 
-	 * [¸ŞÀÎ] ±Û °Ë»öÇÏ±â
+	 * [ë©”ì¸] ê¸€ ê²€ìƒ‰í•˜ê¸°
 	 * 
 	 ****************************************************** */
 	public boolean selSearch(ArrayList<AnbdVO> searchList, HttpServletRequest request) 
@@ -507,7 +507,7 @@ public class AnbdDAO extends DbInfo{
 		   {
 			   pstate.setString(1, "%"+key+"%");
 		   }
-		   System.out.println("Å°¿öµå : "+key);
+		   System.out.println("í‚¤ì›Œë“œ : "+key);
 				   
 		   System.out.println(selectSearchSql);
 			
@@ -524,7 +524,7 @@ public class AnbdDAO extends DbInfo{
 					param.setStatus(rs.getString("status"));
 					
 					searchList.add(param);
-					System.out.println("¼º°øÀûÀÎ °Ë»ö");
+					System.out.println("ì„±ê³µì ì¸ ê²€ìƒ‰");
 				}//do FLOW
 				while(rs.next());
 			}//====if FLOW
@@ -535,7 +535,7 @@ public class AnbdDAO extends DbInfo{
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
-			System.out.println("°Ë»ö select Äõ¸® ½ÇÇà ºÒ°¡");
+			System.out.println("ê²€ìƒ‰ select ì¿¼ë¦¬ ì‹¤í–‰ ë¶ˆê°€");
 			e.printStackTrace();
 			return false;
 		}
@@ -544,7 +544,7 @@ public class AnbdDAO extends DbInfo{
 	
 	/* ******************************************************
 	 * 
-	 * [±Û¾²±â] ÆÄÀÏ ¾÷·Îµå, ±Û¾²±â, ÆÄÀÏ ÀúÀå
+	 * [ê¸€ì“°ê¸°] íŒŒì¼ ì—…ë¡œë“œ, ê¸€ì“°ê¸°, íŒŒì¼ ì €ì¥
 	 * 
 	 ****************************************************** */
 	public boolean inWrite(AnbdVO vo, HttpServletRequest request, int userNo) 
@@ -552,10 +552,10 @@ public class AnbdDAO extends DbInfo{
 		MultipartRequest multi;
 		vo.SaveFileName = new ArrayList<>();
 		System.out.println("uploadPath: " +vo.uploadPath);
-		//ÆÄÀÏ °æ·Î ¾øÀ» ¶§
+		//íŒŒì¼ ê²½ë¡œ ì—†ì„ ë•Œ
 		if(vo.uploadPath == null || vo.uploadPath == "")
 		{
-			System.out.println("ÆÄÀÏ °æ·Î¸¦ Ã£À» ¼ö ¾øÀ½");
+			System.out.println("íŒŒì¼ ê²½ë¡œë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŒ");
 			return false;
 		}//if FLOW
 		
@@ -563,18 +563,18 @@ public class AnbdDAO extends DbInfo{
 		{
 			multi = new MultipartRequest(request,vo.uploadPath,vo.size,"UTF-8",new DefaultFileRenamePolicy());
 			
-			//name¿¡ ´ã±ä °ªÀ» enumeration ÁıÇÕ¿¡ Áı¾î³ÖÀ½
+			//nameì— ë‹´ê¸´ ê°’ì„ enumeration ì§‘í•©ì— ì§‘ì–´ë„£ìŒ
 			Enumeration contents = multi.getFileNames();
 			
-			//contents¿¡ ¿ä¼Ò°¡ ÀÖ´ÂÁö °Ë»ç
+			//contentsì— ìš”ì†Œê°€ ìˆëŠ”ì§€ ê²€ì‚¬
 			while(contents.hasMoreElements()) 
 			{
-				//ÅÂ±×ÀÇ name °ªÀ» °¡Á®¿È
+				//íƒœê·¸ì˜ name ê°’ì„ ê°€ì ¸ì˜´
 				vo.tagName  = (String)contents.nextElement();
 				vo.saveName = (String) multi.getFilesystemName(vo.tagName);
 				if(vo.saveName != null) 
 				{
-					//ÅÂ±×ÀÇ name°ªÀÌ ~ÀÎ °Í¿¡ ´ã±ä value°ªÀ» °¡Á®¿È
+					//íƒœê·¸ì˜ nameê°’ì´ ~ì¸ ê²ƒì— ë‹´ê¸´ valueê°’ì„ ê°€ì ¸ì˜´
 					vo.SaveFileName.add(vo.saveName);
 				}//if FLOW
 			}//====while FLOW
@@ -582,15 +582,15 @@ public class AnbdDAO extends DbInfo{
 		catch (IOException e1) 
 		{
 			e1.printStackTrace();
-			System.out.println("Ã·ºÎÆÄÀÏ ¿¡·¯" +e1.getMessage());
+			System.out.println("ì²¨ë¶€íŒŒì¼ ì—ëŸ¬" +e1.getMessage());
 			return false;
 		}//========catch FLOW
 		
-		//Äõ¸® ±¸¹®
+		//ì¿¼ë¦¬ êµ¬ë¬¸
 		try 
 		{
 			db.getConnection();
-			//==±Û insert ½ÃÀÛ
+			//==ê¸€ insert ì‹œì‘
 			String menu   = multi.getParameter("menu");
 			String title  = multi.getParameter("title");
 			String content= multi.getParameter("content");
@@ -626,9 +626,9 @@ public class AnbdDAO extends DbInfo{
 			
 			db.pstate.executeUpdate();
 			
-			//==±Û insert Á¾·á
+			//==ê¸€ insert ì¢…ë£Œ
 			
-			//==±Û ¹øÈ£ ±¸ÇÏ±â ½ÃÀÛ
+			//==ê¸€ ë²ˆí˜¸ êµ¬í•˜ê¸° ì‹œì‘
 			int a;
 			String selectBoardNoSql = "SELECT LAST_INSERT_ID() as insertNo ";
 			db.state = db.con.createStatement();
@@ -640,18 +640,18 @@ public class AnbdDAO extends DbInfo{
 				vo.setNo(a);
 			}//====while FLOW
 			db.rsClose();
-			//==±Û ¹øÈ£ ±¸ÇÏ±â Á¾·á
+			//==ê¸€ ë²ˆí˜¸ êµ¬í•˜ê¸° ì¢…ë£Œ
 			
-			//==ÆÄÀÏ insert ½ÃÀÛ
+			//==íŒŒì¼ insert ì‹œì‘
 			
 			//if(vo.SaveFileName.isEmpty())
 			if(vo.SaveFileName != null || !vo.SaveFileName.equals("") || vo.SaveFileName.size() != 1)
 			{
-				System.out.println("===========ÆÄÀÏÀ» Ã·ºÎÇÏÁö ¾Ê¾ÒÀ½, null===========");
+				System.out.println("===========íŒŒì¼ì„ ì²¨ë¶€í•˜ì§€ ì•Šì•˜ìŒ, null===========");
 			}
 			if(!vo.SaveFileName.isEmpty() )
 			{
-				System.out.println("===========ÆÄÀÏÀ» Ã·ºÎÇßÀ½, not null===========");
+				System.out.println("===========íŒŒì¼ì„ ì²¨ë¶€í–ˆìŒ, not null===========");
 				
 				for(int i=0; i<vo.SaveFileName.size(); i++)
 				{
@@ -664,13 +664,13 @@ public class AnbdDAO extends DbInfo{
 					db.pstate.executeUpdate();
 					System.out.println(insertFileSql);
 				}//for FLOW
-			}//====if FLOW == ÆÄÀÏ insert Á¾·á
+			}//====if FLOW == íŒŒì¼ insert ì¢…ë£Œ
 			db.pstateClose();
 			db.conClose();
 		}//====try FLOW
 		catch (SQLException e) 
 		{
-			System.out.println("insert Äõ¸® ½ÇÇà ºÒ°¡");
+			System.out.println("insert ì¿¼ë¦¬ ì‹¤í–‰ ë¶ˆê°€");
 			e.printStackTrace();
 			return false;
 		}//===catch FLOW
@@ -679,7 +679,7 @@ public class AnbdDAO extends DbInfo{
 	
 	/* ******************************************************
 	 * 
-	 * ·Î±×ÀÎ ¸Ş¼Òµå [½ÃÀÛ]
+	 * ë¡œê·¸ì¸ ë©”ì†Œë“œ [ì‹œì‘]
 	 * 
 	 ****************************************************** */
 	public boolean selLogin() 
@@ -697,8 +697,8 @@ public class AnbdDAO extends DbInfo{
 		   pstate = db.con.prepareStatement(selectLoginSql);
 		   pstate.setString(1, vo.getId());
 
-		   //ÄÜ¼Ö Å×½ºÆ®
-		   System.out.println("Å°¿öµå : "+vo.getId());
+		   //ì½˜ì†” í…ŒìŠ¤íŠ¸
+		   System.out.println("í‚¤ì›Œë“œ : "+vo.getId());
 		   System.out.println(selectLoginSql);
 			
 		   rs = pstate.executeQuery();
@@ -714,7 +714,7 @@ public class AnbdDAO extends DbInfo{
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
-			System.out.println("·Î±×ÀÎ select Äõ¸® ½ÇÇà ºÒ°¡");
+			System.out.println("ë¡œê·¸ì¸ select ì¿¼ë¦¬ ì‹¤í–‰ ë¶ˆê°€");
 			e.printStackTrace();
 			return false;
 		}
@@ -722,13 +722,13 @@ public class AnbdDAO extends DbInfo{
 	}
 	/* ******************************************************
 	 * 
-	 * ·Î±×ÀÎ ¸Ş¼Òµå [Á¾·á]
+	 * ë¡œê·¸ì¸ ë©”ì†Œë“œ [ì¢…ë£Œ]
 	 * 
 	 ****************************************************** */
 	
 	/* ******************************************************
 	 * 
-	 * ¸Ş´º ÀÌµ¿ ÀüÃ¼ ±Û °³¼ö [½ÃÀÛ]
+	 * ë©”ë‰´ ì´ë™ ì „ì²´ ê¸€ ê°œìˆ˜ [ì‹œì‘]
 	 * 
 	 ****************************************************** */
 	public boolean selCountMenu(String menu, HttpServletRequest request)
@@ -743,11 +743,11 @@ public class AnbdDAO extends DbInfo{
 				   selCountMenuSql += "FROM board ";
 				   if(menu.equals("share") || menu=="share")
 					{
-					   selCountMenuSql += "WHERE menu = '¾Æ³ª' ";
+					   selCountMenuSql += "WHERE menu = 'ì•„ë‚˜' ";
 					}
 				   if(menu.equals("reuse") || menu=="reuse")
 					{
-					   selCountMenuSql += "WHERE menu = '¹Ù´Ù' ";
+					   selCountMenuSql += "WHERE menu = 'ë°”ë‹¤' ";
 					}
 
 				   pstate = con.prepareStatement(selCountMenuSql);
@@ -756,26 +756,26 @@ public class AnbdDAO extends DbInfo{
 				   executeQuery();
 				   rs.next();
 				   int count = Integer.parseInt(rs.getString("count"));
-				   System.out.println("count °³¼ö : "+count);
-				   System.out.println("selCountMenu¸¦ ¼º°øÀûÀ¸·Î ¼öÇàÇÔ");
+				   System.out.println("count ê°œìˆ˜ : "+count);
+				   System.out.println("selCountMenuë¥¼ ì„±ê³µì ìœ¼ë¡œ ìˆ˜í–‰í•¨");
 		}//try FLOW
 		catch(Exception e)
 		{
-			System.out.println("selCountMenu¸¦ ½ÇÇàÇÒ ¼ö ¾øÀ½");
+			System.out.println("selCountMenuë¥¼ ì‹¤í–‰í•  ìˆ˜ ì—†ìŒ");
 			e.printStackTrace();
 		}
 		return true;
 	}
 	/* ******************************************************
 	 * 
-	 * ¸Ş´º ÀÌµ¿ ÀüÃ¼ ±Û °³¼ö [Á¾·á]
+	 * ë©”ë‰´ ì´ë™ ì „ì²´ ê¸€ ê°œìˆ˜ [ì¢…ë£Œ]
 	 * 
 	 ****************************************************** */
 	
 	
 	/* ******************************************************
 	 * 
-	 * [¸ŞÀÎ] ¸Ş´º ÀÌµ¿
+	 * [ë©”ì¸] ë©”ë‰´ ì´ë™
 	 * 
 	 ****************************************************** */
 	public boolean selMenu(String menu, HttpServletRequest request, int startRow, int pageSize) 
@@ -797,11 +797,11 @@ public class AnbdDAO extends DbInfo{
 				   selectSql += "ON b.jusoNo = j.jusoNo \n";
 			if(menu.equals("share") || menu=="share")
 			{
-				   selectSql += "WHERE menu = '¾Æ³ª' \n";
+				   selectSql += "WHERE menu = 'ì•„ë‚˜' \n";
 			}
 			else if(menu.equals("reuse") || menu=="reuse")
 			{
-				   selectSql += "WHERE menu = '¹Ù´Ù' \n";
+				   selectSql += "WHERE menu = 'ë°”ë‹¤' \n";
 			}
 //				   selectSql += "AND "+option+" LIKE ? ";
 				   selectSql += "ORDER BY no desc \n";
@@ -839,11 +839,11 @@ public class AnbdDAO extends DbInfo{
 				while(rs.next());
 			}//====if FLOW
 			
-			System.out.println("selMenu¸¦ ¼º°øÀûÀ¸·Î ¼öÇàÇÔ");
+			System.out.println("selMenuë¥¼ ì„±ê³µì ìœ¼ë¡œ ìˆ˜í–‰í•¨");
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
-			System.out.println("¸Ş´º select Äõ¸® ½ÇÇà ºÒ°¡");
+			System.out.println("ë©”ë‰´ select ì¿¼ë¦¬ ì‹¤í–‰ ë¶ˆê°€");
 			e.printStackTrace();
 			return false;
 		}
@@ -858,10 +858,10 @@ public class AnbdDAO extends DbInfo{
 	
 	/* ******************************************************
 	 * 
-	 * @author Á¤µµÈñ
-	 * @brif   ±Û¾²±â ÆäÀÌÁö¿¡¼­ ÁÖ¼Ò ÄÃ·³À» °¡Á®¿Â´Ù
-	 * @date   2020-06-29 ÀÛ¼º
-	 * ±Û¾²±â ÁÖ¼Ò °¡Á®¿À±â [½ÃÀÛ]
+	 * @author ì •ë„í¬
+	 * @brif   ê¸€ì“°ê¸° í˜ì´ì§€ì—ì„œ ì£¼ì†Œ ì»¬ëŸ¼ì„ ê°€ì ¸ì˜¨ë‹¤
+	 * @date   2020-06-29 ì‘ì„±
+	 * ê¸€ì“°ê¸° ì£¼ì†Œ ê°€ì ¸ì˜¤ê¸° [ì‹œì‘]
 	 * 
 s	 ****************************************************** */
 	public boolean selJuso() 
@@ -889,11 +889,11 @@ s	 ****************************************************** */
 				}
 				while(rs.next());
 			}//if FLOW
-			System.out.println("=============selJuso ½ÇÇà ¿Ï·á=============");
+			System.out.println("=============selJuso ì‹¤í–‰ ì™„ë£Œ=============");
 		}//====try FLOW
 		catch(Exception e)
 		{
-			System.out.println("=============selJuso¸¦ ½ÇÇàÇÒ ¼ö ¾øÀ½=============");
+			System.out.println("=============selJusoë¥¼ ì‹¤í–‰í•  ìˆ˜ ì—†ìŒ=============");
 			e.printStackTrace();
 		}
 		finally 
@@ -906,16 +906,16 @@ s	 ****************************************************** */
 	}
 	/* ******************************************************
 	 * 
-	 * ±Û¾²±â ÁÖ¼Ò °¡Á®¿À±â [Á¾·á]
+	 * ê¸€ì“°ê¸° ì£¼ì†Œ ê°€ì ¸ì˜¤ê¸° [ì¢…ë£Œ]
 	 * 
 	 ****************************************************** */
 	
 	/* ******************************************************
 	 * 
-	 * @author Á¤µµÈñ
-	 * @brif   ±Û¾²±â ÆäÀÌÁö¿¡¼­ ½Ã/±º/±¸ ÄÃ·³À» °¡Á®¿Â´Ù
-	 * @date   2020-06-29 ÀÛ¼º
-	 * ±Û¾²±â ÁÖ¼Ò > ½Ã/±º/±¸ °¡Á®¿À±â [½ÃÀÛ]
+	 * @author ì •ë„í¬
+	 * @brif   ê¸€ì“°ê¸° í˜ì´ì§€ì—ì„œ ì‹œ/êµ°/êµ¬ ì»¬ëŸ¼ì„ ê°€ì ¸ì˜¨ë‹¤
+	 * @date   2020-06-29 ì‘ì„±
+	 * ê¸€ì“°ê¸° ì£¼ì†Œ > ì‹œ/êµ°/êµ¬ ê°€ì ¸ì˜¤ê¸° [ì‹œì‘]
 	 * 
 s	 ****************************************************** */
 	
@@ -947,11 +947,11 @@ s	 ****************************************************** */
 				}
 				while(rs.next());
 			}//if FLOW
-			System.out.println("=============selSigun ½ÇÇà ¿Ï·á=============");
+			System.out.println("=============selSigun ì‹¤í–‰ ì™„ë£Œ=============");
 		}//====try FLOW
 		catch(Exception e)
 		{
-			System.out.println("=============selSigun ½ÇÇà ºÒ°¡=============");
+			System.out.println("=============selSigun ì‹¤í–‰ ë¶ˆê°€=============");
 			e.printStackTrace();
 		}
 		finally 
@@ -965,7 +965,7 @@ s	 ****************************************************** */
 	
 	/* ******************************************************
 	 * 
-	 * ±Û¾²±â ÁÖ¼Ò °¡Á®¿À±â [Á¾·á]
+	 * ê¸€ì“°ê¸° ì£¼ì†Œ ê°€ì ¸ì˜¤ê¸° [ì¢…ë£Œ]
 	 * 
 	 ****************************************************** */
 	
