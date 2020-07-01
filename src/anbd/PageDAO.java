@@ -156,6 +156,8 @@ public class PageDAO extends DbInfo{
 				vo.setPhoto(rs.getString("photo")); 
 				vo.setWdate(rs.getString("wdate"));
 				mainList.add(vo);
+				
+				
 			}
 		}catch (Exception e) {
 			System.out.println("selMainList 에러: "+e.getMessage()); 
