@@ -2,7 +2,7 @@
 <%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
 
-<jsp:useBean id="bofore" class="anbd.NextDAO" scope="page" />
+<jsp:useBean id="before" class="anbd.NextDAO" scope="page" />
 
 
 <% /*
@@ -16,10 +16,21 @@
 	
 	int no = Integer.parseInt(request.getParameter("no"));
 	
-	int beforeNo = bofore.boforeNo(no);
+	int beforeNo = before.beforeNo(no);
 	
-	out.println(beforeNo);
 	
-	response.sendRedirect("view.jsp?no="+beforeNo);
+	if(beforeNo==0){
+	%>
+	<script>
+		alert("이전 글이 존재하지 않습니다.");
+		location.href="view.jsp?no=<%= no %>"
+	</script>
+	<%
+	}else{
+		response.sendRedirect("view.jsp?no="+beforeNo);
+	}
+	
+	
+
 %>
 		

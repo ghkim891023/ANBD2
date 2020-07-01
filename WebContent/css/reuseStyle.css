@@ -1,0 +1,54 @@
+.site-btn, input[type=reset]{
+	background: #1B4B9D;
+}
+.main-menu li a:hover,
+.main-menu li a.active {
+	border-bottom: 2px solid #1B4B9D;
+}
+.main-menu .sub-menu li a:hover {
+	color: #1B4B9D;
+}
+
+.search-type .st-item input:checked+label {
+	background: #1B4B9D;
+}
+.readmore-btn {
+	color: #1B4B9D;
+}
+.readmore-btn:hover {
+	color: #1B4B9D;
+}
+.property-item .pi-badge.new {
+	background: #1B4B9D;
+}
+.sell-item .si-icon {
+	background: #1B4B9D;
+}
+.site-pagination a.active {
+	background: #1B4B9D;
+}
+
+.search-results .filter-btn li.active {
+	color: #1B4B9D;
+}
+.single-property .sp-badge.new {
+	background: #1B4B9D;
+}
+.video-item .video-play {
+	color: #1B4B9D;
+}
+#add, form#write #remove, form#modify #remove
+ {
+	background-color: #1B4B9D; 
+ }
+@media only screen and (max-width: 767px) {
+.slicknav_nav a:hover {
+		color: #1B4B9D;
+	}
+.slicknav_parent.slicknav_open {
+		color: #1B4B9D;
+	}
+}
+div#view button.cModOk{
+	background-color: #1B4B9D !important;
+}

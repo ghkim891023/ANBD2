@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class NextDAO extends DbInfo{
 	
 	//이전글 
-	public int boforeNo (int no) {
+	public int beforeNo (int no) {
 		int preNo=0;
 		getConnection();
 		String SQL= "select max(no) as no from board where no<"+no;
