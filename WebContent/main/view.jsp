@@ -193,11 +193,11 @@ $(document).ready(function()
 		$("#viewEmail").click(function()
 			{
 				alert("viewEmail pressed");
-				/* var url = "emailView.jsp";
+				var url = "emailView.jsp";
 				var x = (window.outerWidth/2)-200; 	  //outerWidth-요소의 border포함 크기
 				var y = (window.screen.height/2)-150; //화면의 세로 크기
 				window.open(url, name, 'height=300, width=400, left='+ x + ', top='+ y);
-				var data = 
+					/* 
 				$.ajax({
 					type: "GET",
 					url: "emailView.jsp",
