@@ -51,7 +51,8 @@
 	</h3>
 	<p>
 		<span>이메일 </span>
-		<span id="email"><%= vo.getEmail() %></span> 
+		<span id="email" style="display:none;">${vo.getEmail()}</span>
+		<span class="site-btn" id="viewEamil">이메일 보기</span>
 	</p>
 	<p>
 		<span>아이디 </span>
@@ -197,6 +198,38 @@
 	}//second if FLOW
 	
 };//pressEnter FUNCTION
+
+$(document).ready(function()
+	{
+		$("#viewEamil").click(function()
+			{
+				var url = "emailView.jsp";
+				var x = (window.outerWidth/2)-200; 	  //outerWidth-요소의 border포함 크기
+				var y = (window.screen.height/2)-150; //화면의 세로 크기
+				window.open(url, name, 'height=300, width=400, left='+ x + ', top='+ y);
+				var data = 
+				$.ajax({
+					type: "GET",
+					url: "emailView.jsp",
+					data: 
+					beforeSend: function(xhr)
+					{
+						xhr.setRequestHeader("X-NCP-APIGW-API-KEY-ID", "6KbjoJxPa561HYZogsm2");
+						xhr.setRequestHeader("X-NCP-APIGW-API-KEY", "uvFJyUo_VR");
+					},
+					success: function(data)
+					{
+						alert("통신 성공");
+						alert("data = " + data);
+					},
+					erro: function(error)
+					{
+						alert("통신 실패");
+					}
+				})//ajax FLOW
+			})
+	})//viewEmail 클릭, 팝업
+	
 $(document).ready(function()
 	{
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
