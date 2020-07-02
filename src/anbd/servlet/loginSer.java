@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class loginSer
  */
-@WebServlet("/loginSer_ok.do")
+@WebServlet("/loginBean_ok")
 public class loginSer extends HttpServlet {
 	private static final long serialVersionUID = 1L; //직렬화...
        
@@ -40,6 +40,7 @@ public class loginSer extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("doPost test");
 		
+		response.setContentType("text/html; charset=utf-8"); 
 		response.setCharacterEncoding("utf-8"); //한글깨짐현상 해결
 		
 		//jsp파일 호출 - 서블릿 디스패처

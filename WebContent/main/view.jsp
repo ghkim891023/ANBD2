@@ -19,9 +19,11 @@
 	
 	boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
 	int loginUserNo = vo.getLoginUserNo();
-	
 	int writerUserNo = vo.getUserNo();
+	//out.print("loginId은 "+loginId);
 	%>
+	<!-- 	세션 loginId = ${sessionScope.loginId}<br/> -->
+	
 	<h3>
 		<% String sta = vo.getStatus();
 			if(sta != null){
@@ -160,15 +162,17 @@
 	%>
 </div><!--container 클래스 마지막-->
 <div class="Lst">
+	<button class="site-btn" id="before" onclick="location.href='viewBefore.jsp?no=<%=hereNo%>'">이전글</button>
 	<button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button>
+	<button class="site-btn" id="after" onclick="location.href='viewAfter.jsp?no=<%=hereNo%>'">다음글</button>
 </div>
 <%@include file="../include/footer.jsp"%>
 <script type="text/javascript"> 
-document.title="ANBD | 아나바다-글보기";
-function pressEnter()
-{
-	var login= '<%=loginId%>';
-	if(window.event.keyCode == 13)
+	document.title="ANBD | 아나바다-글보기";
+	function pressEnter()
+	{
+		var login= '<%=loginId%>';
+		if(window.event.keyCode == 13)
 	{
 		if(login=='null' )
 		{

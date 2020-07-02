@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
@@ -6,10 +7,10 @@
 
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
 <script>
-	//document.title="ANBD | 아나바다-목록";
-	document.title="ANBD | in Master jdh commited?";
+	document.title="ANBD | 아나바다-목록";
 </script>
 <% 
+
 request.setCharacterEncoding("utf-8");
 
 int currentPage = 1;  //현재 페이지번호
@@ -18,11 +19,17 @@ int count       = 0;  //전체 게시물 갯수
 int startRow    = 0;  //페이지 시작행 번호
 int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
-	
+String preSeq   = "";
+String afterSeq ="";
+String sql ="";
+
+
+
 String mTemp = request.getParameter("page");
 if(mTemp != null){ //키워드 검색하면 무조건 1p
 	currentPage = Integer.parseInt(mTemp);
 }
+
 
 String mKey = request.getParameter("key"); 
 if(mKey==null){ //그냥 검색안하면 null
@@ -56,22 +63,43 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	
 	//서버에 attribute를 setting하겠다
 	pageContext.setAttribute("blist", blist);
+
+
+
+
+
+
+
+
 %>
+ 
+
 
 <div style="padding: 20px 40px 20px;">
 	<table id="board">
 		<tr>
 			<th width="160px">구분</th>
 			<th width="500px">제목</th>
-			<th width="200px">사진유무</th>
+			<th width="200px">시도</th>
+			<th width="200px">시군구</th>
 			<th width="200px">작성일자</th>
 		<tr>
 		<!-- 공지 상단 고정 시작============================ -->
 		<c:forEach items="${blist}" var="blist">
 			<c:if test="${blist.menu eq  '공지'}">
 				<td>[공지]</td>
-				<td><a href="view.jsp?no=${blist.no}">${blist.title}</a></td>
-				<td>없음</td>
+				<td>
+					<a href="view.jsp?no=${blist.no}">${blist.title}
+						<c:choose>
+							<c:when test="${pageList.photo eq 'Y'}">
+								<img src="../img/이미지.png" style="width:20px;">
+							</c:when>
+							<c:otherwise></c:otherwise>
+						</c:choose>
+					</a>
+				</td>
+				<td>시도 표시</td>
+				<td>시군구 표시</td>
 				<td>${blist.wdate}</td>
 			</c:if>
 		</c:forEach>
@@ -96,13 +124,20 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 									<span id="status"></span>
 								</c:otherwise>
 							</c:choose>
-						${pageList.title}</a>
+						${pageList.title}
+							<c:choose>
+								<c:when test="${pageList.photo eq 'Y'}">
+									<img src="../img/이미지.png" style="width:20px;">
+								</c:when>
+								<c:otherwise></c:otherwise>
+							</c:choose>
+							</a>
 						</td>
 						<td>
-							<c:choose>
-								<c:when test="${pageList.photo eq 'Y'}">있음</c:when>
-								<c:otherwise>없음</c:otherwise>
-							</c:choose>
+							시도 표시
+						</td>
+						<td>
+							시군구 표시
 						</td>
 						<td>${pageList.wdate}</td>
 					</c:when>

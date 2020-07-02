@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@include file="../include/headerKgh.jsp"%>
+<%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
 <%@include file="../include/search.jsp"%>
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
-<jsp:useBean id="me" class="anbd.MenuDAO" scope="page"/>
-
 <script>
-	//document.title="ANBD | 아나바다-목록";
-	document.title="ANBD | in Master jdh commited?";
+	document.title="ANBD | 아나바다-목록";
 </script>
 <% 
 request.setCharacterEncoding("utf-8");
@@ -20,7 +17,7 @@ int count       = 0;  //전체 게시물 갯수
 int startRow    = 0;  //페이지 시작행 번호
 int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
-	
+String menu = request.getParameter("menu");	
 String mTemp = request.getParameter("page");
 if(mTemp != null){ //키워드 검색하면 무조건 1p
 	currentPage = Integer.parseInt(mTemp);
@@ -32,32 +29,12 @@ if(mKey==null){ //그냥 검색안하면 null
 }else{
 }
 
-String menu = request.getParameter("menu");
-String pMenu ="";
-if(menu==null){ //메인은 menu가 null
-	menu="";
-}else if(menu.equals("share")){
-	pMenu="아나";
-}else if(menu.equals("reuse")){
-	pMenu="바다";
-}else{
-	pMenu="";
-}
-out.println("메뉴: "+pMenu);
-
 //시작행 번호 = (현재 페이지번호 - 1) * 페이지당 출력 할 갯수
 startRow    = (currentPage - 1) * pageSize; //페이지 시작행 번호
 seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
-	//pg.selMainList(mainList, startRow, pageSize, mKey);
-	
-	if(menu==null){
-		pg.selMainList(mainList, startRow, pageSize, mKey);
-	}else{
-		//out.println("메뉴: "+menu);
-		me.selMainList(mainList, startRow, pageSize, mKey, pMenu);
-	}
+	pg.selMainList(mainList, startRow, pageSize, mKey);
 	
 	count 	  = pg.count;
 	
@@ -70,63 +47,84 @@ seqNo       = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	//pageContext.setAttribute("pgList", mainList);
 	session.setAttribute("pgList", mainList);
 	
-	//String option = request.getParameter("option");
-	//String key = request.getParameter("key");
-	
 	ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
 	dao.selBoardList(blist);
-		
-	//서버에 attribute를 setting하겠다
 	pageContext.setAttribute("blist", blist);
+	
+	//서버에 attribute를 setting하겠다
+	dao.selMenu(menu, request, startRow, pageSize);
+	dao.getBoardList();
+	pageContext.setAttribute("boardList", dao.getBoardList());
 %>
+<c:if test="${param.menu eq 'reuse'}">
+	<link rel="stylesheet" type="text/css" href="../css/reuseStyle.css">
+</c:if>
+
 
 <div style="padding: 20px 40px 20px;">
 	<table id="board">
 		<tr>
 			<th width="160px">구분</th>
 			<th width="500px">제목</th>
-			<th width="200px">사진유무</th>
+			<th width="200px">시도</th>
+			<th width="200px">시군구</th>
 			<th width="200px">작성일자</th>
 		<tr>
 		<!-- 공지 상단 고정 시작============================ -->
-		<c:forEach items="${blist}" var="blist">
-			<c:if test="${blist.menu eq  '공지'}">
-				<td>[공지]</td>
-				<td><a href="view.jsp?no=${blist.no}">${blist.title}</a></td>
-				<td>없음</td>
-				<td>${blist.wdate}</td>
-			</c:if>
-		</c:forEach>
+	<c:forEach items="${blist}" var="blist">
+		<c:if test="${blist.menu eq  '공지'}">
+			<td>[공지]</td>
+			<td>
+				<a href="view.jsp?no=${blist.no}">${blist.title}
+					<c:choose>
+						<c:when test="${pageList.photo eq 'Y'}">
+							<img src="../img/이미지.png" style="width:20px;">
+						</c:when>
+						<c:otherwise></c:otherwise>
+					</c:choose>
+				</a>
+			</td>
+			<td>시도 표시</td>
+			<td>시군구 표시</td>
+			<td>${blist.wdate}</td>
+		</c:if>
+	</c:forEach>
 		<!--============================ 공지 상단 고정 끝 -->
-		
 		<!-- 목록 불러오기 시작=========================== -->
-		<c:forEach items="${pgList}" var="pageList">
+		<c:forEach items="${boardList}" var="boardList">
 			<tr>
 				<c:choose>
-					<c:when test="${pageList.menu ne '공지'}">
-						<td>[${pageList.menu}]</td>
+					<c:when test="${boardList.menu ne '공지'}">
+						<td>[${boardList.menu}]</td>
 						<td>
-						<a href="view.jsp?no=${pageList.no}">
+						<a href="view.jsp?no=${boardList.no}">
 							<c:choose>
-								<c:when test="${pageList.status eq 'done'}">
+								<c:when test="${boardList.status eq 'done'}">
 									<span id="status">[거래완료]</span>
 								</c:when>
-								<c:when test="${pageList.status eq 'cancel'}">
+								<c:when test="${boardList.status eq 'cancel'}">
 									<span id="status">[거래완료취소]</span>
 								</c:when>
 								<c:otherwise>
 									<span id="status"></span>
 								</c:otherwise>
 							</c:choose>
-						${pageList.title}</a>
+						${boardList.title}
+							<c:choose>
+								<c:when test="${boardList.photo eq 'Y'}">
+									<img src="../img/이미지.png" style="width:20px;">
+								</c:when>
+								<c:otherwise></c:otherwise>
+							</c:choose>
+							</a>
 						</td>
 						<td>
-							<c:choose>
-								<c:when test="${pageList.photo eq 'Y'}">있음</c:when>
-								<c:otherwise>없음</c:otherwise>
-							</c:choose>
+							시도 표시
 						</td>
-						<td>${pageList.wdate}</td>
+						<td>
+							시군구 표시
+						</td>
+						<td>${boardList.wdate}</td>
 					</c:when>
 				</c:choose>
 			</tr>

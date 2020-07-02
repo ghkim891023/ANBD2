@@ -1,7 +1,4 @@
 package anbd;
-import java.sql.Connection;    
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.*;
 
 public class DbInfo {
@@ -16,6 +13,7 @@ public class DbInfo {
 	ResultSet 		  rs	 = null; 
 	Connection 		  con 	 = null; 
 	PreparedStatement pstate = null;
+
 
 	public Connection getConnection()
 	{
@@ -125,6 +123,7 @@ public class DbInfo {
 		{
 			System.out.println("rsClose() 에러: "+e.getMessage() );
 		}
+		
 	}//rsClose METHOD
 	
 }//DbInfo CLASS
