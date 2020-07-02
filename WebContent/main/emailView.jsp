@@ -10,5 +10,6 @@
 </head>
 <body>
 	<h1>이메일을 보려면 인증합시다!!!!</h1>
+	<script type="text"></script>
 </body>
 </html>

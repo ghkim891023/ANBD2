@@ -22,8 +22,10 @@
 	int writerUserNo = vo.getUserNo();
 	//out.print("loginId은 "+loginId);
 	%>
+	<c:if test="${vo.getMenu() eq '바다'}">
+		<link rel="stylesheet" type="text/css" href="../css/reuseStyle.css">
+	</c:if>
 	<!-- 	세션 loginId = ${sessionScope.loginId}<br/> -->
-	
 	<h3>
 		<% String sta = vo.getStatus();
 			if(sta != null){
@@ -36,23 +38,14 @@
 					break;
 				}
 			}else{ }
-			
-			String menu = vo.getMenu();
-			switch(menu) {
-				case "share":
-					%><b id="menu">[아나]</b><%
-					break;
-				case "reuse":
-					%><b id="menu">[바다]</b><%
-					break;
-			}
 		%>
+		[${vo.getMenu()}]
 		<b id="title"><%= vo.getTitle() %></b> 
 	</h3>
 	<p>
 		<span>이메일 </span>
-		<span id="email" style="display:none;">${vo.getEmail()}</span>
-		<span class="site-btn" id="viewEamil">이메일 보기</span>
+		<span id="email">${vo.getEmail()}</span>
+		<span class="site-btn" id="viewEmail">이메일 보기</span>
 	</p>
 	<p>
 		<span>아이디 </span>
@@ -71,27 +64,23 @@
 		</p>
 	</div>
 	<div class="contentBtn" style="margin-bottom: 10px;">
-		<%
-		String st = vo.getStatus();
-		if(loginUserNo == writerUserNo){
-			%>
+		<c:if test="${vo.getLoginUserNo() eq vo.getUserNo()}">
 			<button class="site-btn" id="modify">수정</button>
 			<button class="site-btn" id="remove">삭제</button>
-				<%
-				switch(st){
-				case "nostatus":
-					%><button class="site-btn" id="done">거래완료</button><%
-					break;	
-				case "done" :
-					%><button class="site-btn" id="cancel">거래완료취소</button><%
-					break;
-				case "cancel": //거래완료취소 -거래완료취소는 제목에 안보여줘도 되긴하는데..
-					%><button class="site-btn" id="done">거래완료</button><%
-					break;
-				//default:
-				}
-		}
-		%>
+			<c:if test="${vo.getMenu() eq '아나'}">
+				<c:choose>
+					<c:when test="${vo.status eq 'nostatus'}">
+						<button class="site-btn" id="done">거래완료</button>
+					</c:when>
+					<c:when test="${vo.status eq 'done'}">
+						<button class="site-btn" id="cancel">거래완료취소</button>
+					</c:when>
+					<c:when test="${vo.status eq 'cancel'}">
+						<button class="site-btn" id="done">거래완료</button>
+					</c:when>
+				</c:choose>
+			</c:if>
+		</c:if>
 	</div>
 	<form method="post" id="coForm" name="coForm" action="view.jsp" onsubmit="return false;">
 		<input type="text" placeholder="로그인 후 댓글 입력" id="comment" name="comment" style="width:85%" onkeyup="pressEnter();">
@@ -201,9 +190,10 @@
 
 $(document).ready(function()
 	{
-		$("#viewEamil").click(function()
+		$("#viewEmail").click(function()
 			{
-				var url = "emailView.jsp";
+				alert("viewEmail pressed");
+				/* var url = "emailView.jsp";
 				var x = (window.outerWidth/2)-200; 	  //outerWidth-요소의 border포함 크기
 				var y = (window.screen.height/2)-150; //화면의 세로 크기
 				window.open(url, name, 'height=300, width=400, left='+ x + ', top='+ y);
@@ -226,7 +216,7 @@ $(document).ready(function()
 					{
 						alert("통신 실패");
 					}
-				})//ajax FLOW
+				})//ajax FLOW */
 			})
 	})//viewEmail 클릭, 팝업
 	
