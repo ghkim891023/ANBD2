@@ -2,6 +2,7 @@
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/fix.jsp"%>
 
+<jsp:setProperty name="vo" property="*"/>
 <%	
 request.setCharacterEncoding("utf-8"); 
 boolean result1 = dao.selLogin(vo.getId(), vo.getPw());
@@ -12,6 +13,13 @@ pageContext.setAttribute("result", result1);
 
 //<jsp:setProperty name="joinBean" property="*"/>
 
+%>
+<!-- <html>
+<p> 아이디	 : <%--=joinBean.getId() --%>    </p>
+<p> 비번 		 : <%--=joinBean.getPw() --%> 	 </p> -->
+
+<!--  <% %> 열고 닫는 표시는 자바 언어만 쓸 수 있음. html쓰려면 닫고 다시 열기 -->
+<% //기존 방법
   /*
 	boolean result = joinBean2.selLogin(joinBean.getId(), joinBean.getPw()); 
 	if(result==true){
@@ -75,6 +83,11 @@ pageContext.setAttribute("result", result1);
 
 %>
 <html>
+<h1>This format is jstl</h1>
+<h4>Use pageContext object</h4>
+	결과 = [${result}]<br/>
+	아이디 = ${vo.getId()}<br/>
+	비밀번호 = ${vo.getPw()}<br/>
 	<c:choose>
 		<c:when test="${result eq true}">
 			This id & password is true!<br/>

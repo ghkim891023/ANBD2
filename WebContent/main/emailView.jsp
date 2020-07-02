@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true"%>
-<%@ page import="captcha.ImageCaptcha" %>
-<%@ page import = "java.util.Enumeration" %>
-<jsp:useBean id="image" class="captcha.ImageCaptcha" scope="page"/>
 <!DOCTYPE html>
 <html>
 <head>
