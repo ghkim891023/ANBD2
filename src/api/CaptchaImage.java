@@ -12,12 +12,31 @@ import java.util.Map;
 public class CaptchaImage {
 	
 	//kgh 추가 [시작]
-	//String dirPath = request.getServletContext().getRealPath("captchaImage") + "\\";
-	//protected static String myPath = "D:\\WorkSpace\\anbd2\\WebContent\\img\\captchar";
-	protected static String rootPath = System.getProperty("user.dir"); //현재 프로젝트 경로
-	protected static String myPath = rootPath + "\\WebContent\\img\\captchar";
+	protected static String myPath = "D:\\WorkSpace\\anbd2\\WebContent\\img\\captchar"; //집에서는 이거만 됨
+	//protected static String rootPath = System.getProperty("user.dir"); //현재 프로젝트 경로 - 집에서는 경로가 D:eclipse로 뜸..
+	//protected static String myPath = rootPath + "\\WebContent\\img\\captchar";
 	public static String imgFileName = "";
 	//kgh 추가 [종료]
+	
+	//kgh 추가 [시작]
+	public static void imageMain(String path) { //v2 for ajax - getCaptchar.jsp beans용
+		String clientId = "zpOWGZC9IrUNCe67BAgt"; //애플리케이션 클라이언트 아이디값";
+		String clientSecret = "Zt7IWpw7Gd"; //애플리케이션 클라이언트 시크릿값";
+		//String key = "CAPTCHA_KEY"; 	    // https://openapi.naver.com/v1/captcha/nkey 호출로 받은 키값
+		
+		CaptchaKey getKey = new CaptchaKey();
+		getKey.main();
+		String key = getKey.key;
+		System.out.println("CaptchaKey클래스에서 넘어온 key: "+key);
+		
+		String apiURL = "https://openapi.naver.com/v1/captcha/ncaptcha.bin?key=" + key;
+		
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("X-Naver-Client-Id", clientId);
+		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+		String responseBody = get(path, apiURL,requestHeaders);
+		System.out.println(responseBody);
+	}//kgh 추가 [종료]
 	
     public static void main(String[] args) {
         String clientId = "zpOWGZC9IrUNCe67BAgt"; //애플리케이션 클라이언트 아이디값";
@@ -37,13 +56,12 @@ public class CaptchaImage {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        String responseBody = get(apiURL,requestHeaders);
-
-        System.out.println(responseBody);
-        System.out.println(myPath);
+        //String responseBody = get(myPath, apiURL,requestHeaders);
+        //System.out.println(responseBody);
     }
 
-    private static String get(String apiUrl, Map<String, String> requestHeaders){
+    private static String get(String path, String apiUrl, Map<String, String> requestHeaders){ //v2 ajax
+    //private static String get(String apiUrl, Map<String, String> requestHeaders){
         HttpURLConnection con = connect(apiUrl);
         try {
             con.setRequestMethod("GET");
@@ -53,7 +71,7 @@ public class CaptchaImage {
 
             int responseCode = con.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
-                return getImage(con.getInputStream());
+                return getImage(path, con.getInputStream());
             } else { // 에러 발생
                 return error(con.getErrorStream());
             }
@@ -75,7 +93,8 @@ public class CaptchaImage {
         }
     }
 
-    private static String getImage(InputStream is){
+    private static String getImage(String myPath, InputStream is){ //v2 for ajax
+    //private static String getImage(InputStream is){
         int read;
         byte[] bytes = new byte[1024];
         // 랜덤한 이름으로  파일 생성

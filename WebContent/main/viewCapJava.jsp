@@ -72,7 +72,6 @@
 			}
 			%>
 			<%= vo.getContent().replace("\n","<br>") %><br>
-			
 		</p>
 	</div>
 	<div class="contentBtn" style="margin-bottom: 10px;">
@@ -127,6 +126,7 @@
 					<%
 				}
 			}%>
+			<div id="div"></div>
 </div><!--container 클래스 마지막-->
 <div class="Lst">
 	<button class="site-btn" id="before" onclick="location.href='viewBefore.jsp?no=<%=hereNo%>'">이전글</button>
@@ -167,7 +167,8 @@ $(document).ready(function(){
 	//캡차 시작
 	var key = ''; //캡차 생성시 발급되는 키
 	$("#email, #userInput, #confirm").hide();
-	//이메일보기 클릭시 v1 (글보기/새로고침 때마다 캡차이미지 생성됨..)
+	
+	//이메일보기 클릭시 v2 Ajax로 이미지 생성
 	$("#showEmail").click(function(){ 
 		//로그인 안한 경우 alert
 		var login = '<%=loginId%>';
@@ -175,36 +176,59 @@ $(document).ready(function(){
 			alert("로그인 후 이메일 보기가 가능합니다.");
 			return false;
 		}
-		<% //이메일보기 클릭시 생성되는게 아니고, 페이지 새로고침하면 캡차이미지가 생성됨..
-		CaptchaImage getImage = new CaptchaImage();
-		getImage.main(new String[] {""}); //메인함수 실행하기
-		
-		String imgFileName = getImage.imgFileName;
-		//out.println("img\\captchar\\" + imgFileName);
-		String key = CaptchaKey.key;
-		%>
-		key = '<%=key%>';
-		var imgFileName= '<%=imgFileName%>';
-		var pathFileName = "${pageContext.request.contextPath}/img/captchar/" +imgFileName;
-
-		$("#captchar").attr("src", pathFileName);
+		$.ajax({ 
+			//type: "get",
+			url: "getCaptchar.jsp",
+			//dataType: "text",
+			success: function(result){
+				alert(result);
+				var re = result;
+				var keyy = JSON.stringify(re);
+				alert(keyy);
+			},error: function(xhr, stat, err){
+				alert("오류: "+err);
+			}
+	   });
+/*		$("#captchar").attr("src", pathFileName);
 		$("#showEmail").hide();
 		$("#userInput, #confirm").show();
-		$("#key").val(key); //hidden에 key값 넣기
-		console.log(key);
+		$("#key").val(key); //hidden에 key값 넣기*/
 	});
+	//이메일보기 클릭시 v1 글보기/새로고침 때마다 캡차이미지 생성
+	//$("#showEmail").click(function(){ 
+		//로그인 안한 경우 alert
+		//var login = '<%--=loginId%-->';
+		//if(login == 'null' ){ 
+			//alert("로그인 후 이메일 보기가 가능합니다.");
+			//return false;
+		//}
+		<%/*
+		CaptchaImage getImage = new CaptchaImage();
+		getImage.main(new String[] {""}); 		   //메인함수 실행하기
+		String imgFileName = getImage.imgFileName; //파일명 얻기
+		//out.println("img\\captchar\\" + imgFileName);
+		String key = CaptchaKey.key;*/
+		%>
+		//key = '<%--=key--%>';
+		//var imgFileName= '<%--=imgFileName--%>';
+		//var pathFileName = "${pageContext.request.contextPath}/img/captchar/" +imgFileName;
+		//$("#captchar").attr("src", pathFileName); //이미지 넣어주기
+		//$("#showEmail").hide();
+		//$("#userInput, #confirm").show();
+		//$("#key").val(key); //hidden에 key값 넣기
+		//console.log(key);
+	//});
 	//캡차 입력한 값 확인
 	$("#confirm").click(function(){
 		var capFormData = $("#capForm").serialize(); //form의 모든 값 받기
 		$.ajax({ 
 			type: "post",
-			url: "cap_ok.jsp",
+			url: "capOk.jsp",
 			data: capFormData,
 			dataType: "json",//html
 			success: function(data){
 			   //alert(data);
 			   //alert(JSON.stringify(data));
-			   
 			   var sResult = JSON.stringify(data.result);//object to string
 			   if(sResult=='true'){
 				   $("#userInput, #confirm, #captchar").hide();
@@ -218,6 +242,7 @@ $(document).ready(function(){
 			}
 	   })
 	});//캡차 끝
+	
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
 		location.href="viewDone.jsp?no=<%=vo.getNo() %>"; 
 	});

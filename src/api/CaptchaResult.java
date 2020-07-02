@@ -41,15 +41,13 @@ public class CaptchaResult {
         
         //kgh 추가 [시작]
         JSONParser p = new JSONParser();
-//        try {
+//      try {
 //			JSONObject obj = (JSONObject)p.parse(responseBody);
 //			key = obj.get("key").toString();
 //			System.out.println("key값: "+key);
 //		} catch (ParseException e) {
 //			System.out.println(e.getMessage());
 //		}//kgh 추가 [종료]
-        
-        System.out.println(responseBody);
 		return responseBody;
 		
     }
