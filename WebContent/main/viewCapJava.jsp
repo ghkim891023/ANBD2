@@ -202,7 +202,9 @@ $(document).ready(function(){
 			data: capFormData,
 			dataType: "json",//html
 			success: function(data){
-			   alert(data);
+			   //alert(data);
+			   //alert(JSON.stringify(data));
+			   
 			   var sResult = JSON.stringify(data.result);//object to string
 			   if(sResult=='true'){
 				   $("#userInput, #confirm, #captchar").hide();

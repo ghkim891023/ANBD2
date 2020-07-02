@@ -5,7 +5,9 @@
 	String userInput = request.getParameter("userInput");
 	//out.println("key: "+key);
 	//out.println("userInput: "+userInput);
+	
 	String result = getResult.main(key, userInput);
+	
 	out.println(result);
 %>
  	
