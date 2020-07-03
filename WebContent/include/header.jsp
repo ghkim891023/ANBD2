@@ -69,7 +69,6 @@
 				<c:when test="${sessionScope.loginId eq null}">
 					<a href="../common/join.jsp" class="login">회원가입</a>
 					<a href="../common/login.jsp" class="register">로그인</a>
-
 				</c:when>
 			</c:choose>
 
