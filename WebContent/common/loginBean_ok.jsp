@@ -94,7 +94,9 @@ pageContext.setAttribute("result", result1);
 			<% session.setAttribute("loginId", vo.getId()); %>
 			${sessionScope.loginId }님이 로그인했음
 			<script language="javascript">
-				location.href="../main/main.jsp";
+			//서블릿 일때   ./main/main.jsp 현재폴더 기준
+			//서블릿 아닐때 ../main/main.jsp
+			location.href="../main/main.jsp";
 			</script>
 		</c:when>
 		<c:when test="${result eq false}">
