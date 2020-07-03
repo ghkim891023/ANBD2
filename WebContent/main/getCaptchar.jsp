@@ -5,18 +5,22 @@ trimDirectiveWhitespaces="true" %>
 <jsp:useBean id="re" class="api.CaptchaResult" scope="page"/>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
-<%@ page import="net.sf.json.*" %>
+<%@ page import="org.json.simple.*" %>
 <% 
 String imagePath = request.getServletContext().getRealPath("img\\captchar") + "\\";
 //out.print(imagePath);
 im.imageMain(imagePath); //캡차 이미지 생성
 String key = ke.key;
 String imgFileName = im.imgFileName;
-String pathFileName = imagePath+imgFileName;
-//out.print(imgFileName);
-//out.print("<br>");
+String pathFileName = imagePath + imgFileName;
+//out.print(imgFileName+"<br>");
 //out.print(key);
-//String strJson="{\"pathFileName\":\""+pathFileName+"\", \"key\":\""+key+"\"}";
-String strJson="{pathFileName :\""+pathFileName+"\", key :\""+key+"\"}";
-//strJson=strJson.substring(0,strJson.length()-1);
-out.println(strJson);%>
+System.out.println(imgFileName); //console에 출력됨
+
+//jsp에서 json형태로 출력
+response.setContentType("application/json");
+	JSONObject obj = new JSONObject();
+	obj.put("imgFileName", imgFileName);
+	obj.put("key", key);
+response.getWriter().write(obj.toString());
+%>

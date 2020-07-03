@@ -5,24 +5,21 @@
 <style>
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
+	#refresh{ font-size: 10pt; color: #565855; }
+	#showEmail, #confirm{ border:0; background-color: #D3D3D3; }
 </style>
 <div class="container" id="view">
 	<% 
 	int hereNo = Integer.parseInt(request.getParameter("no"));
-	
 	dao.selViewBoard(vo, hereNo);
 	//dao.selViewComment(vo, hereNo);
-	
 	int pNo = vo.getNo();
-	
 	String loginId = (String)session.getAttribute("loginId");
-	
 	boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
 	int loginUserNo = vo.getLoginUserNo();
 	int writerUserNo = vo.getUserNo();
 	%>
 	<!-- 	세션 loginId = ${sessionScope.loginId}<br/> -->
-	
 	<h3>
 		<% String sta = vo.getStatus();
 			if(sta != null){
@@ -35,7 +32,6 @@
 					break;
 				}
 			}else{ }
-			
 			String menu = vo.getMenu();
 			switch(menu) {
 				case "share":
@@ -56,6 +52,7 @@
 			<input type="hidden" id="key" name="key">
 			<span><img id="captchar" src=""></span>
 		   <input type="text" size="15" id="userInput" name="userInput"/>
+		   <span id="refresh" style="cursor:pointer"><img src="..\img\Refresh19px.png">새로고침</span>
 		   <input type="button" id="confirm" value="확인"/>
 	   </form>
 	</p>
@@ -92,7 +89,6 @@
 				case "cancel": //거래완료취소 -거래완료취소는 제목에 안보여줘도 되긴하는데..
 					%><button class="site-btn" id="done">거래완료</button><%
 					break;
-				//default:
 				}
 		}
 		%>
@@ -110,13 +106,10 @@
 				AnbdVO covo = (AnbdVO)coList.get(i);	
 				out.print("<p class='coRow'>");
 				out.print("<input type='hidden' id='coNo' value='"+covo.getCoNo()+"'/>");
-				
 				out.print("<span id='cWriter'>"+covo.getId()+"</span>");
 				out.print("<span id='cContent'>"+covo.getcContent()+"</span>");
 				out.print("<span id='cWdate'>"+covo.getcWdate()+"</span>");
-				
 				int coWriter = covo.getCWriterNo();
-				
 				if (loginUserNo ==coWriter){
 					%>
 					<span class="coEdit">
@@ -166,49 +159,50 @@
 $(document).ready(function(){
 	//캡차 시작
 	var key = ''; //캡차 생성시 발급되는 키
-	$("#email, #userInput, #confirm").hide();
-	
-	//이메일보기 클릭시 v2 Ajax로 이미지 생성
+	$("#email, #userInput, #confirm, #refresh").hide();
+	//이메일보기 클릭시 v2 [시작] Ajax로 이미지 생성
 	$("#showEmail").click(function(){ 
 		//로그인 안한 경우 alert
 		var login = '<%=loginId%>';
 		if(login == 'null' ){ 
 			alert("로그인 후 이메일 보기가 가능합니다.");
-			return false;
-		}
+			return false;}
 		$.ajax({ 
-			//type: "get",
 			url: "getCaptchar.jsp",
-			//dataType: "text",
+			dataType: "json",
 			success: function(result){
-				alert(result);
-				var re = result;
-				var keyy = JSON.stringify(re);
-				alert(keyy);
+				//alert(result);													  //object 형태
+				//alert(JSON.stringify(result.imgFileName));				  //"" 들어감
+				//console.log(result.imgFileName);						     //"" 안들어감
+				//var imgFileName = JSON.stringify(result.imgFileName); //"" 들어감
+				var imgFileName = result.imgFileName + ""; 				  //string으로 변환 -"" 안들어감
+				console.log(imgFileName);
+				<% String imagePath = request.getServletContext().getRealPath("img\\captchar")+ "\\" ; 
+					//imagePath = imagePath.replace("\\", "\\\\" ); 
+					imagePath = "/anbd2/img/captchar/"; //시스템 경로   %>
+				//var path = "<%--=imagePath--%>";
+				var pathFileName = "<%=imagePath%>" + imgFileName;
+				key = result.key+"";
+				$("#captchar").attr("src", pathFileName); //이미지에 넣기
+				$("#showEmail").hide();
+				$("#userInput, #confirm, #refresh").show();
+				$("#key").val(key); 
 			},error: function(xhr, stat, err){
 				alert("오류: "+err);
 			}
 	   });
-/*		$("#captchar").attr("src", pathFileName);
-		$("#showEmail").hide();
-		$("#userInput, #confirm").show();
-		$("#key").val(key); //hidden에 key값 넣기*/
+	});//이메일보기 클릭시 v2 [종료]
+	$("#refresh").click(function(){ //새로고침 클릭시
+		$("#showEmail").click();
 	});
-	//이메일보기 클릭시 v1 글보기/새로고침 때마다 캡차이미지 생성
+	//이메일보기 클릭시 v1 - 글보기/새로고침 때마다 캡차이미지 생성
 	//$("#showEmail").click(function(){ 
-		//로그인 안한 경우 alert
-		//var login = '<%--=loginId%-->';
-		//if(login == 'null' ){ 
-			//alert("로그인 후 이메일 보기가 가능합니다.");
-			//return false;
-		//}
-		<%/*
+		<% /*
 		CaptchaImage getImage = new CaptchaImage();
 		getImage.main(new String[] {""}); 		   //메인함수 실행하기
 		String imgFileName = getImage.imgFileName; //파일명 얻기
 		//out.println("img\\captchar\\" + imgFileName);
-		String key = CaptchaKey.key;*/
-		%>
+		String key = CaptchaKey.key; */ %>
 		//key = '<%--=key--%>';
 		//var imgFileName= '<%--=imgFileName--%>';
 		//var pathFileName = "${pageContext.request.contextPath}/img/captchar/" +imgFileName;
@@ -218,7 +212,7 @@ $(document).ready(function(){
 		//$("#key").val(key); //hidden에 key값 넣기
 		//console.log(key);
 	//});
-	//캡차 입력한 값 확인
+	// 입력값 확인 [시작]
 	$("#confirm").click(function(){
 		var capFormData = $("#capForm").serialize(); //form의 모든 값 받기
 		$.ajax({ 
@@ -235,14 +229,14 @@ $(document).ready(function(){
 				   $("#email").show();
 			   }else if(sResult=='false'){
 				   alert("입력값이 일치하지 않습니다.\n이메일 보기를 클릭하여 다시 입력해주세요");
-				   location.reload(); //페이지 새로고침-이때 이메일 살짝 보였다 사라짐
+				   //location.reload(); //페이지 새로고침-이때 이메일 살짝 보였다 사라짐
+				   $("#showEmail").click();
 			   }
 			},error: function(xhr, stat, err){
 				alert("오류: "+err);
 			}
 	   })
-	});//캡차 끝
-	
+	});//입력값 확인 [종료]
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
 		location.href="viewDone.jsp?no=<%=vo.getNo() %>"; 
 	});
