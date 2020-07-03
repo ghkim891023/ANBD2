@@ -19,6 +19,9 @@
 	int loginUserNo = vo.getLoginUserNo();
 	int writerUserNo = vo.getUserNo();
 	%>
+	<c:if test="${vo.getMenu() eq '바다'}">
+		<link rel="stylesheet" type="text/css" href="../css/reuseStyle.css">
+	</c:if>
 	<!-- 	세션 loginId = ${sessionScope.loginId}<br/> -->
 	<h3>
 		<% String sta = vo.getStatus();
@@ -32,6 +35,7 @@
 					break;
 				}
 			}else{ }
+      /*
 			String menu = vo.getMenu();
 			switch(menu) {
 				case "share":
@@ -40,8 +44,9 @@
 				case "reuse":
 					%><b id="menu">[바다]</b><%
 					break;
-			}
+			}*/
 		%>
+		[${vo.getMenu()}]
 		<b id="title"><%= vo.getTitle() %></b> 
 	</h3>
 	<p>
@@ -72,13 +77,25 @@
 		</p>
 	</div>
 	<div class="contentBtn" style="margin-bottom: 10px;">
-		<%
-		String st = vo.getStatus();
-		if(loginUserNo == writerUserNo){
-			%>
+		<c:if test="${vo.getLoginUserNo() eq vo.getUserNo()}">
 			<button class="site-btn" id="modify">수정</button>
 			<button class="site-btn" id="remove">삭제</button>
+			<c:if test="${vo.getMenu() eq '아나'}">
+				<c:choose>
+					<c:when test="${vo.status eq 'nostatus'}">
+						<button class="site-btn" id="done">거래완료</button>
+					</c:when>
+					<c:when test="${vo.status eq 'done'}">
+						<button class="site-btn" id="cancel">거래완료취소</button>
+					</c:when>
+					<c:when test="${vo.status eq 'cancel'}">
+						<button class="site-btn" id="done">거래완료</button>
+					</c:when>
+				</c:choose>
+			</c:if>
+		</c:if>
 				<%
+        /*
 				switch(st){
 				case "nostatus":
 					%><button class="site-btn" id="done">거래완료</button><%
@@ -90,7 +107,7 @@
 					%><button class="site-btn" id="done">거래완료</button><%
 					break;
 				}
-		}
+		}*/
 		%>
 	</div>
 	<form method="post" id="coForm" name="coForm" action="view.jsp" onsubmit="return false;">

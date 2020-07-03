@@ -83,7 +83,11 @@
           */
 					%>
           <!--
+<<<<<<< HEAD
+					<span><loginId>님 반갑습니다.</span>&nbsp;&nbsp;
+=======
 					<span><%--=loginId --%>님 반갑습니다.</span>&nbsp;&nbsp;
+>>>>>>> branch 'master' of https://github.com/ghkim891023/ANBD2
 					<a href="../common/logout.jsp" class="login">로그아웃</a> -->
 					<%
 				//}

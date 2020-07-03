@@ -83,11 +83,6 @@ pageContext.setAttribute("result", result1);
 
 %>
 <html>
-<h1>This format is jstl</h1>
-<h4>Use pageContext object</h4>
-	결과 = [${result}]<br/>
-	아이디 = ${vo.getId()}<br/>
-	비밀번호 = ${vo.getPw()}<br/>
 	<c:choose>
 		<c:when test="${result eq true}">
 			This id & password is true!<br/>
@@ -102,7 +97,7 @@ pageContext.setAttribute("result", result1);
 		<c:when test="${result eq false}">
 			This id & password is NOT true!<br/>
 			PLEASE TRY AGIN<br/>
-			<script language="javascript">
+			<script type="text/javascript">
 				alert("승인할 수 없는 아이디/비밀번호입니다");
 				location.href="login.jsp";
 			</script>
