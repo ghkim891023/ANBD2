@@ -1,29 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
-
+<%@ page import="api.*"%> 
 <style>
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
+	#refresh{ font-size: 10pt; color: #565855; }
+	#showEmail, #confirm{ border:0; background-color: #D3D3D3; }
 </style>
 <div class="container" id="view">
 	<% 
 	int hereNo = Integer.parseInt(request.getParameter("no"));
-	
 	dao.selViewBoard(vo, hereNo);
 	//dao.selViewComment(vo, hereNo);
-	
 	int pNo = vo.getNo();
-	
 	String loginId = (String)session.getAttribute("loginId");
-	
 	boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
 	int loginUserNo = vo.getLoginUserNo();
 	int writerUserNo = vo.getUserNo();
-	//out.print("loginId은 "+loginId);
 	%>
 	<!-- 	세션 loginId = ${sessionScope.loginId}<br/> -->
-	
 	<h3>
 		<% String sta = vo.getStatus();
 			if(sta != null){
@@ -36,7 +32,6 @@
 					break;
 				}
 			}else{ }
-			
 			String menu = vo.getMenu();
 			switch(menu) {
 				case "share":
@@ -50,8 +45,16 @@
 		<b id="title"><%= vo.getTitle() %></b> 
 	</h3>
 	<p>
-		<span>이메일 </span>
-		<span id="email"><%= vo.getEmail() %></span> 
+		<form id="capForm" onsubmit="return false"><!-- 엔터치면 오류나므로 막음 -->
+			<span>이메일 </span>
+			<span id="email"><%= vo.getEmail() %></span>
+			<input type="button" id="showEmail" value="이메일 보기"/>
+			<input type="hidden" id="key" name="key">
+			<span><img id="captchar" src=""></span>
+		   <input type="text" size="15" id="userInput" name="userInput"/>
+		   <span id="refresh" style="cursor:pointer"><img src="..\img\Refresh19px.png">새로고침</span>
+		   <input type="button" id="confirm" value="확인"/>
+	   </form>
 	</p>
 	<p>
 		<span>아이디 </span>
@@ -66,7 +69,6 @@
 			}
 			%>
 			<%= vo.getContent().replace("\n","<br>") %><br>
-			
 		</p>
 	</div>
 	<div class="contentBtn" style="margin-bottom: 10px;">
@@ -87,7 +89,6 @@
 				case "cancel": //거래완료취소 -거래완료취소는 제목에 안보여줘도 되긴하는데..
 					%><button class="site-btn" id="done">거래완료</button><%
 					break;
-				//default:
 				}
 		}
 		%>
@@ -100,28 +101,15 @@
 		//댓글 영역_v2 - jstl 잘 안됨..if문에서 jsp의 loginUserNo 번호를 못읽어...
 		ArrayList<AnbdVO> coList = dao.selViewComment(pNo);
 		//session.setAttribute("cc", coList);
-		%>
-		<!-- 
-		<c:forEach var="co" items="${cc}">
-			<p class='coRow'>
-			<input type='hidden' id='coNo' value='${co.coNo}'/>
-			<span id='cWriter'>${co.id}</span>
-			<span id='cContent'>${co.cContent}</span>
-			<span id='cWdate'>${co.wdate}</span>
-			</p>
-		</c:forEach> -->
-		<% //댓글 영역_v3
+		//댓글 영역_v3
 			for(int i=0; i<coList.size(); i++){ 
 				AnbdVO covo = (AnbdVO)coList.get(i);	
 				out.print("<p class='coRow'>");
 				out.print("<input type='hidden' id='coNo' value='"+covo.getCoNo()+"'/>");
-				
 				out.print("<span id='cWriter'>"+covo.getId()+"</span>");
 				out.print("<span id='cContent'>"+covo.getcContent()+"</span>");
 				out.print("<span id='cWdate'>"+covo.getcWdate()+"</span>");
-				
 				int coWriter = covo.getCWriterNo();
-				
 				if (loginUserNo ==coWriter){
 					%>
 					<span class="coEdit">
@@ -130,36 +118,8 @@
 					</span>
 					<%
 				}
-			}
-		//댓글 영역_v1  에러나는 게시글이 있어서 수정..
-		/*
-		String thisCo = "";
-		for(int i=0;i<vo.GetCoCount();)//
-		{
-			out.print("<p class='coRow'>");
-			out.print("<input type='hidden' id='coNo' value='"+vo.GetCo(i)+"'/>");
-			i++;
-			out.print("<span id='cWriter'>"+vo.GetCo(i)+"</span>");
-			i++;
-			out.print("<span id='cContent'>"+vo.GetCo(i)+"</span>");
-			i++;
-			out.print("<span id='cWdate'>"+vo.GetCo(i)+"</span>");
-			i++;
-			int coWriter = Integer.parseInt(vo.GetCo(i));
-			
-			if(loginId!=null && loginUserNo == coWriter){ */
-				%> <!-- <span class="coEdit">
-						<button type="button" class="site-btn cRemove" id="cRemove">삭제</button>
-						<button type="button" class="site-btn cModify" id="cModify" >수정</button>				
-					</span> -->
-				<%
-			/*}else {
-				out.print(" ");
-			}
-			i++;
-			out.print("</p>");
-		}		*/
-	%>
+			}%>
+			<div id="div"></div>
 </div><!--container 클래스 마지막-->
 <div class="Lst">
 	<button class="site-btn" id="before" onclick="location.href='viewBefore.jsp?no=<%=hereNo%>'">이전글</button>
@@ -195,10 +155,88 @@
 			}//else FLOW
 		}//first else FLOW
 	}//second if FLOW
-	
 };//pressEnter FUNCTION
-$(document).ready(function()
-	{
+$(document).ready(function(){
+	//캡차 시작
+	var key = ''; //캡차 생성시 발급되는 키
+	$("#email, #userInput, #confirm, #refresh").hide();
+	//이메일보기 클릭시 v2 [시작] Ajax로 이미지 생성
+	$("#showEmail").click(function(){ 
+		//로그인 안한 경우 alert
+		var login = '<%=loginId%>';
+		if(login == 'null' ){ 
+			alert("로그인 후 이메일 보기가 가능합니다.");
+			return false;}
+		$.ajax({ 
+			url: "getCaptchar.jsp",
+			dataType: "json",
+			success: function(result){
+				//alert(result);													  //object 형태
+				//alert(JSON.stringify(result.imgFileName));				  //"" 들어감
+				//console.log(result.imgFileName);						     //"" 안들어감
+				//var imgFileName = JSON.stringify(result.imgFileName); //"" 들어감
+				var imgFileName = result.imgFileName + ""; 				  //string으로 변환 -"" 안들어감
+				console.log(imgFileName);
+				<% String imagePath = request.getServletContext().getRealPath("img\\captchar")+ "\\" ; 
+					//imagePath = imagePath.replace("\\", "\\\\" ); 
+					imagePath = "/anbd2/img/captchar/"; //시스템 경로   %>
+				//var path = "<%--=imagePath--%>";
+				var pathFileName = "<%=imagePath%>" + imgFileName;
+				key = result.key+"";
+				$("#captchar").attr("src", pathFileName); //이미지에 넣기
+				$("#showEmail").hide();
+				$("#userInput, #confirm, #refresh").show();
+				$("#key").val(key); 
+			},error: function(xhr, stat, err){
+				alert("오류: "+err);
+			}
+	   });
+	});//이메일보기 클릭시 v2 [종료]
+	$("#refresh").click(function(){ //새로고침 클릭시
+		$("#showEmail").click();
+	});
+	//이메일보기 클릭시 v1 - 글보기/새로고침 때마다 캡차이미지 생성
+	//$("#showEmail").click(function(){ 
+		<% /*
+		CaptchaImage getImage = new CaptchaImage();
+		getImage.main(new String[] {""}); 		   //메인함수 실행하기
+		String imgFileName = getImage.imgFileName; //파일명 얻기
+		//out.println("img\\captchar\\" + imgFileName);
+		String key = CaptchaKey.key; */ %>
+		//key = '<%--=key--%>';
+		//var imgFileName= '<%--=imgFileName--%>';
+		//var pathFileName = "${pageContext.request.contextPath}/img/captchar/" +imgFileName;
+		//$("#captchar").attr("src", pathFileName); //이미지 넣어주기
+		//$("#showEmail").hide();
+		//$("#userInput, #confirm").show();
+		//$("#key").val(key); //hidden에 key값 넣기
+		//console.log(key);
+	//});
+	// 입력값 확인 [시작]
+	$("#confirm").click(function(){
+		var capFormData = $("#capForm").serialize(); //form의 모든 값 받기
+		$.ajax({ 
+			type: "post",
+			url: "capOk.jsp",
+			data: capFormData,
+			dataType: "json",//html
+			success: function(data){
+			   //alert(data);
+			   //alert(JSON.stringify(data));
+			   var sResult = JSON.stringify(data.result);//object to string
+			   if(sResult=='true'){
+				   $("#userInput, #confirm, #captchar, #refresh").hide();
+				   $("#email").show();
+			   }else if(sResult=='false'){
+				   alert("입력값이 일치하지 않습니다.\n 다시 입력해주세요");
+				   //location.reload(); //페이지 새로고침-이때 이메일 살짝 보였다 사라짐
+				   //$("#showEmail").click();
+			   }
+			},error: function(xhr, stat, err){
+				alert("오류: "+err);
+			}
+	   })
+	});//입력값 확인 [종료]
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
 		location.href="viewDone.jsp?no=<%=vo.getNo() %>"; 
 	});
