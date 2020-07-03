@@ -225,12 +225,12 @@ $(document).ready(function(){
 			   //alert(JSON.stringify(data));
 			   var sResult = JSON.stringify(data.result);//object to string
 			   if(sResult=='true'){
-				   $("#userInput, #confirm, #captchar").hide();
+				   $("#userInput, #confirm, #captchar, #refresh").hide();
 				   $("#email").show();
 			   }else if(sResult=='false'){
-				   alert("입력값이 일치하지 않습니다.\n이메일 보기를 클릭하여 다시 입력해주세요");
+				   alert("입력값이 일치하지 않습니다.\n 다시 입력해주세요");
 				   //location.reload(); //페이지 새로고침-이때 이메일 살짝 보였다 사라짐
-				   $("#showEmail").click();
+				   //$("#showEmail").click();
 			   }
 			},error: function(xhr, stat, err){
 				alert("오류: "+err);
