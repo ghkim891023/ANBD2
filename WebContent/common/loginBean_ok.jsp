@@ -88,8 +88,10 @@ pageContext.setAttribute("result", result1);
 			This id & password is true!<br/>
 			<% session.setAttribute("loginId", vo.getId()); %>
 			${sessionScope.loginId }님이 로그인했음
-			<script type="text/javascript">
-				location.href="../main/main.jsp";
+			<script language="javascript">
+			//서블릿 일때   ./main/main.jsp 현재폴더 기준
+			//서블릿 아닐때 ../main/main.jsp
+			location.href="../main/main.jsp";
 			</script>
 		</c:when>
 		<c:when test="${result eq false}">
