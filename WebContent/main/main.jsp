@@ -77,7 +77,7 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 						<a href="view.jsp?no=${blist.no}&menu=notice">${blist.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="../img/이미지.png" style="width:20px;">
+									<img src="../img/green.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -99,8 +99,14 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 					<c:when test="${pageList.menu ne '공지'}">
 						<td>[${pageList.menu}]</td>
 						<td>
-						<c:if test="${pageList.menu eq '아나'}">
-							<a href="view.jsp?menu=share&no=${pageList.no}">
+						<c:choose>
+							<c:when test="${pageList.menu eq '아나'}">
+								<a href="view.jsp?menu=share&no=${pageList.no}">
+							</c:when>
+							<c:when test="${pageList.menu eq '바다'}">
+								<a href="view.jsp?menu=reuse&no=${pageList.no}">
+							</c:when>
+						</c:choose>
 							<c:choose>
 								<c:when test="${pageList.status eq 'done'}">
 									<span id="status">[거래완료]</span>
@@ -115,34 +121,19 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 							${pageList.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="../img/이미지.png" style="width:20px;">
+									<c:choose>
+										<c:when test="${param.menu eq 'reuse'}">
+											<img src="../img/skyblue.png" style="width:20px;">
+										</c:when>
+										<c:otherwise>
+											<img src="../img/green.png" style="width:20px;">
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
 							</a>
-						</c:if>
-						<c:if test="${pageList.menu eq '바다'}">
-							<a href="view.jsp?menu=reuse&no=${pageList.no}">
-							<c:choose>
-								<c:when test="${pageList.status eq 'done'}">
-									<span id="status">[거래완료]</span>
-								</c:when>
-								<c:when test="${pageList.status eq 'cancel'}">
-									<span id="status">[거래완료취소]</span>
-								</c:when>
-								<c:otherwise>
-									<span id="status"></span>
-								</c:otherwise>
-							</c:choose>
-							${pageList.title}
-							<c:choose>
-								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="../img/이미지.png" style="width:20px;">
-								</c:when>
-								<c:otherwise></c:otherwise>
-							</c:choose>
-							</a>
-						</c:if>
+						
 						</td>
 						<td>
 						시도

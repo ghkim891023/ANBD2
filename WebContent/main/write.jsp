@@ -56,7 +56,7 @@
 				<td>제목</td>
 				<td>
 					<input type="text" placeholder="제목을 입력하세요" id="title" name="title" maxlength="30" 
-						    autofocus style="width:580px; ime-mode:active;" value="제목입니다">
+						    autofocus style="width:580px; ime-mode:active;" value="주소 TEST">
 				</td>
 			</tr>
 			
