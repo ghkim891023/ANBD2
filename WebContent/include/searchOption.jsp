@@ -4,7 +4,7 @@
 <%
 	webutil2.Init(request);
 	
-	String menu   = webutil2._S("menu","title");
+	String menu   = webutil2._S("menu","");
 	String option = webutil2._S("option","title");
 	String mKey2  = webutil2._S("key","");
 	

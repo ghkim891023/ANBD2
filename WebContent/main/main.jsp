@@ -23,13 +23,13 @@ currentPage = webutil._I("page","1");
 String mKey = webutil._S("key","");
 String mEncodeKey = webutil._E("key","");
 
-/*선생님께서 알려주시기 전 코드
+/*선생님께서 알려주시기 전 코드 - 아래 5줄을 위 2줄로 단축!
 String mKey = request.getParameter("key"); 
 if(mKey==null){ //그냥 검색안하면 null
 	mKey="";
 }
-String mEncodeKey = URLEncoder.encode(mKey, "UTF-8"); //url에 검색어 한글을 %로 바꿔줌(인코딩)
-request.setAttribute("key", mEncodeKey);*/
+String mEncodeKey = URLEncoder.encode(mKey, "UTF-8"); //url에 검색어 한글을 %로 바꿔줌(인코딩)*/
+request.setAttribute("key", mEncodeKey);
 %>
 <script language="javascript">
 	var key = '<%=mKey%>';
