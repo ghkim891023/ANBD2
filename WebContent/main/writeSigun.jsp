@@ -19,7 +19,7 @@
  	pageContext.setAttribute("selSigun", dao.getBoardList());
  %>
  
-	<select name="sigun" id="sigun">
+	<select name="sigun[]" id="sigun" multiple>
 		<c:forEach items="${selSigun}" var="selSigun">
 			<option value="${selSigun.sigun}">${selSigun.sigun}</option>
 		</c:forEach>

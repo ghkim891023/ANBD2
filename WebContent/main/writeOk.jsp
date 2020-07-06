@@ -20,15 +20,5 @@ String uploadPath = request.getRealPath("/upload");
 vo.setUploadPath(uploadPath);
 dao.inWrite(vo, request, vo.getLoginUserNo());
 
-dao.selJusoNo(request);
 
-MultipartRequest multi = new MultipartRequest(request,vo.getUploadPath(),vo.getSize(),"UTF-8",new DefaultFileRenamePolicy());
-String sidoOrigin = multi.getParameter("sido");
-sidoOrigin = multi.getParameter("sido");
-Enumeration sido = multi.getParameterNames();
-
-while(sido.hasMoreElements())
-{
-	sido = multi.getParameterValues(sido);
-}
 %>${vo.getNo()}<br/>

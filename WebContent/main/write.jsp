@@ -42,7 +42,7 @@
 			<tr>
 				<td>지역</td>
 				<td>
-					<select name="sido" id="sido">
+					<select name="sido[]" id="sido" multiple>
 					<option value="">기타</option>
 						<c:forEach items="${boardList}" var="boardList">
 							<option value=${boardList.sido}>${boardList.sido}</option>
