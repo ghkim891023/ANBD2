@@ -20,5 +20,9 @@ String uploadPath = request.getRealPath("/upload");
 vo.setUploadPath(uploadPath);
 dao.inWrite(vo, request, vo.getLoginUserNo());
 
-
+String[] sido = request.getParameterValues("sido");
+for(int i=0; i<sido.length; i++)
+{
+	out.print("시도 = "+sido[i]);
+}
 %>${vo.getNo()}<br/>
