@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="../include/header.jsp"%>
 <%@include file="../include/fix.jsp"%>
+<%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 <%@ page import="api.*"%> 
 <style>
 	h3{ margin-bottom: 10px;}
@@ -115,6 +116,39 @@
 		<input type="text" placeholder="로그인 후 댓글 입력" id="comment" name="comment" style="width:85%" onkeyup="pressEnter();">
 		<button type="button" class="readmore-btn" id="cWrite" style="float:none;">댓글쓰기</button>
 	</form>
+	<%
+	String pageno = request.getParameter("page");
+	String menu = request.getParameter("menu"); 
+	String option = request.getParameter("option"); 
+	String key = request.getParameter("key"); 
+	key = URLEncoder.encode(key, "UTF-8");
+	%>
+	<script type="text/javascript">
+	function doGoPage(url)
+	{
+		var f = document.pageForm;
+		var mParam = "";
+		
+		mParam += "page=" + f.spage.value;
+		mParam += "&";
+		mParam += "menu=" + f.smenu.value;
+		mParam += "&";
+		mParam += "option=" + f.soption.value;
+		mParam += "&";
+		mParam += "key=" + f.skey.value;	
+		mParam += "&";
+		mParam += "no=" + f.sno.value;
+		page = url + "?" + mParam;
+		document.location = page;
+	}	
+	</script>
+	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
+		<input type="hidden" id="sno" name="sno" value="<%= hereNo %>">
+		<input type="hidden" id="spage" name="spage" value="<%= pageno %>">
+		<input type="hidden" id="smenu" name="smenu" value="<%=menu%>">
+		<input type="hidden" id="soption" name="soption" value="<%=option%>">
+		<input type="hidden" id="skey" name="skey" value="<%=key%>">
+	</form>	
 	<% 
 		//댓글 영역_v2 - jstl 잘 안됨..if문에서 jsp의 loginUserNo 번호를 못읽어...
 		ArrayList<AnbdVO> coList = dao.selViewComment(pNo);
@@ -140,9 +174,9 @@
 			<div id="div"></div>
 </div><!--container 클래스 마지막-->
 <div class="Lst">
-	<button class="site-btn" id="before" onclick="location.href='viewBefore.jsp?no=<%=hereNo%>'">이전글</button>
-	<button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button>
-	<button class="site-btn" id="after" onclick="location.href='viewAfter.jsp?no=<%=hereNo%>'">다음글</button>
+	<button class="site-btn" id="before" onclick="javascript:doGoPage('viewBefore.jsp');">이전글</button>
+	<button class="site-btn" id="list" onclick="javascript:doGoPage('main.jsp');">목록</button>
+	<button class="site-btn" id="after" onclick="javascript:doGoPage('viewAfter.jsp');">다음글</button>
 </div>
 <%@include file="../include/footer.jsp"%>
 <script type="text/javascript"> 
