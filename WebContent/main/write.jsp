@@ -21,7 +21,7 @@
 	pageContext.setAttribute("boardList", dao.getBoardList());
 %>
 
-<form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false">
+<form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return sfalse">
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -80,6 +80,7 @@
 			<tr>
 				<td colspan="2" style="padding-top:30px;">					 
 					<button class="site-btn" id="save">등록</button>
+					<input type="submit" value="등록">
 					<input type="reset" class="site-btn" id="cancel" value="초기화"/>
 				</td>
 			</tr>
@@ -113,7 +114,7 @@
 
 			//전송할  Form의 데이터를 얻을 준비를 한다.
 			var mPostData = new FormData(mForm);
-
+<%-- 
 			$.ajax
 			({
 				type:"POST",
@@ -130,7 +131,7 @@
 					location.href = "view.jsp?no=" + data;
 	            },
 				
-			});//ajax FLOW
+			});//ajax FLOW --%>
 		});//save 클릭 이벤트
 		
 		$("input[name='menu']").change(function()

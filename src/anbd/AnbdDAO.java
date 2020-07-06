@@ -637,7 +637,7 @@ public class AnbdDAO extends DbInfo{
 				   insertBoardSql += "(menu, title, content, userNo, wdate, photo) ";
 				   insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?)";
 			
-			pstate = db.con.prepareStatement(insertBoardSql);
+			db.pstate = db.con.prepareStatement(insertBoardSql);
 			
 			db.pstate.setString(1, menu);
 			db.pstate.setString(2, title);
@@ -662,7 +662,7 @@ public class AnbdDAO extends DbInfo{
 			db.rs = db.state.executeQuery(selectBoardNoSql);
 			while(db.rs.next()) 
 			{
-				a = rs.getInt("insertNo");
+				a = db.rs.getInt("insertNo");
 				vo.setNo(a);
 			}//====while FLOW
 			db.rsClose();
@@ -1020,7 +1020,7 @@ public class AnbdDAO extends DbInfo{
 	 * jusoNo 구하기 [시작]
 	 * 
 	 ****************************************************** */
-	public int selJusoNo(HttpServletRequest request, String sido, String sigun) 
+	public int selJusoNo(HttpServletRequest request) 
 	{
 		int jusoNo = 0;
 		MultipartRequest multi;
@@ -1032,8 +1032,8 @@ public class AnbdDAO extends DbInfo{
 				   selSQL += "SELECT jusoNo ";
 				   selSQL += "WHERE sido = ? AND sigun = ? ";
 			
-			pstate.setString(1, sido);
-			pstate.setString(2, sigun);
+			pstate.setString(1, vo.getSido());
+			pstate.setString(2, vo.getSigun());
 			getConnection();
 			prepareStatement(selSQL);
 			System.out.println("selSQL = "+selSQL);
@@ -1048,10 +1048,11 @@ public class AnbdDAO extends DbInfo{
 				boardList.add(vo);
 			}
 			rsClose();
+			System.out.println("selJusoNo 실행 완료");
 		}
 		catch(Exception e)
 		{
-			System.out.println("마지막으로 인서트한 번호를 찾을 수 없음");
+			System.out.println("주소 번호를 가져올 수 없음");
 			e.printStackTrace();
 		}
 		return jusoNo;
