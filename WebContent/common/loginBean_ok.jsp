@@ -2,6 +2,7 @@
 <%@ include file="../include/header.jsp"%>
 <%@ include file="../include/fix.jsp"%>
 
+<jsp:setProperty name="vo" property="*"/>
 <%	
 request.setCharacterEncoding("utf-8"); 
 boolean result1 = dao.selLogin(vo.getId(), vo.getPw());
@@ -12,6 +13,13 @@ pageContext.setAttribute("result", result1);
 
 //<jsp:setProperty name="joinBean" property="*"/>
 
+%>
+<!-- <html>
+<p> 아이디	 : <%--=joinBean.getId() --%>    </p>
+<p> 비번 		 : <%--=joinBean.getPw() --%> 	 </p> -->
+
+<!--  <% %> 열고 닫는 표시는 자바 언어만 쓸 수 있음. html쓰려면 닫고 다시 열기 -->
+<% //기존 방법
   /*
 	boolean result = joinBean2.selLogin(joinBean.getId(), joinBean.getPw()); 
 	if(result==true){
@@ -81,13 +89,15 @@ pageContext.setAttribute("result", result1);
 			<% session.setAttribute("loginId", vo.getId()); %>
 			${sessionScope.loginId }님이 로그인했음
 			<script language="javascript">
-				location.href="../main/main.jsp";
+			//서블릿 일때   ./main/main.jsp 현재폴더 기준
+			//서블릿 아닐때 ../main/main.jsp
+			location.href="../main/main.jsp";
 			</script>
 		</c:when>
 		<c:when test="${result eq false}">
 			This id & password is NOT true!<br/>
 			PLEASE TRY AGIN<br/>
-			<script language="javascript">
+			<script type="text/javascript">
 				alert("승인할 수 없는 아이디/비밀번호입니다");
 				location.href="login.jsp";
 			</script>
