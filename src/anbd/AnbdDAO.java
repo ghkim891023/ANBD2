@@ -637,7 +637,7 @@ public class AnbdDAO extends DbInfo{
 				   insertBoardSql += "(menu, title, content, userNo, wdate, photo) ";
 				   insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?)";
 			
-			db.pstate = db.con.prepareStatement(insertBoardSql);
+			pstate = db.con.prepareStatement(insertBoardSql);
 			
 			db.pstate.setString(1, menu);
 			db.pstate.setString(2, title);
@@ -662,7 +662,7 @@ public class AnbdDAO extends DbInfo{
 			db.rs = db.state.executeQuery(selectBoardNoSql);
 			while(db.rs.next()) 
 			{
-				a = db.rs.getInt("insertNo");
+				a = rs.getInt("insertNo");
 				vo.setNo(a);
 			}//====while FLOW
 			db.rsClose();
@@ -884,7 +884,7 @@ public class AnbdDAO extends DbInfo{
 	 * @date   2020-06-29 작성
 	 * 글쓰기 주소 가져오기 [시작]
 	 * 
-s	 ****************************************************** */
+	 ****************************************************** */
 	public boolean selJuso() 
 	{
 		boardList = new ArrayList<AnbdVO>();
@@ -933,7 +933,7 @@ s	 ****************************************************** */
 	 * @date   2020-06-29 작성
 	 * 글쓰기 주소 > 시/군/구 가져오기 [시작]
 	 * 
-s	 ****************************************************** */
+	 ****************************************************** */
 	
 	public boolean selSigun(String sido) 
 	{
@@ -977,6 +977,39 @@ s	 ****************************************************** */
 			conClose();
 		}
 		return true;
+	}
+	
+	/* ******************************************************
+	 * 
+	 * @author 정도희
+	 * @brif   마지막으로 인서트한 no 구하기
+	 * @date   2020-07-06 작성
+	 * 마지막 인서트 [시작]
+	 * 
+	 ****************************************************** */
+	public int selLastInsert() 
+	{
+		int a=0;
+		try 
+		{
+			String selSQL = "SELECT LAST_INSERT_ID() as insertNo";
+			getConnection();
+			prepareStatement(selSQL);
+			System.out.println("selSQL = "+selSQL);
+			executeQuery();
+			while(rs.next()) 
+			{
+				a = rs.getInt("insertNo");
+				vo.setNo(a);
+			}
+			rsClose();
+		}
+		catch(Exception e)
+		{
+			System.out.println("마지막으로 인서트한 번호를 찾을 수 없음");
+			e.printStackTrace();
+		}
+		return a; 
 	}
 	
 	
