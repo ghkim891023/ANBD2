@@ -1012,5 +1012,50 @@ public class AnbdDAO extends DbInfo{
 		return a; 
 	}
 	
+	/* ******************************************************
+	 * 
+	 * @author 정도희
+	 * @brif   jusoNo 구하기
+	 * @date   2020-07-06 작성
+	 * jusoNo 구하기 [시작]
+	 * 
+	 ****************************************************** */
+	public int selJusoNo(HttpServletRequest request, String sido, String sigun) 
+	{
+		int jusoNo = 0;
+		MultipartRequest multi;
+		boardList  = new ArrayList<AnbdVO>();
+		try 
+		{
+			multi = new MultipartRequest(request,vo.uploadPath,vo.size,"UTF-8",new DefaultFileRenamePolicy());
+			String selSQL = "";
+				   selSQL += "SELECT jusoNo ";
+				   selSQL += "WHERE sido = ? AND sigun = ? ";
+			
+			pstate.setString(1, sido);
+			pstate.setString(2, sigun);
+			getConnection();
+			prepareStatement(selSQL);
+			System.out.println("selSQL = "+selSQL);
+			executeQuery();
+			while(rs.next()) 
+			{
+				AnbdVO vo = new AnbdVO();
+				jusoNo = rs.getInt("jusoNo");
+				vo.setJusoNo(jusoNo);
+				vo.setSido(rs.getString("sido"));
+				vo.setSigun(rs.getString("sigun"));
+				boardList.add(vo);
+			}
+			rsClose();
+		}
+		catch(Exception e)
+		{
+			System.out.println("마지막으로 인서트한 번호를 찾을 수 없음");
+			e.printStackTrace();
+		}
+		return jusoNo;
+		
+	}
 	
 }
