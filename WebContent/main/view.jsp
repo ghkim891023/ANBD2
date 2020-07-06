@@ -6,7 +6,7 @@
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
 	#refresh{ font-size: 10pt; color: #565855; }
-	#showEmail, #confirm{ border:0; background-color: #D3D3D3; }
+	#showEmail, #confirm, #cancel{ font-size: 11pt; border:0; background-color: #D3D3D3; }
 </style>
 <div class="container" id="view">
 	<% 
@@ -53,12 +53,13 @@
 		<form id="capForm" onsubmit="return false"><!-- 엔터치면 오류나므로 막음 -->
 			<span>이메일 </span>
 			<span id="email"><%= vo.getEmail() %></span>
-			<input type="button" id="showEmail" value="이메일 보기"/>
+			<input type="button" id="showEmail" value="이메일주소 보기"/>
 			<input type="hidden" id="key" name="key">
 			<span><img id="captchar" src=""></span>
 		   <input type="text" size="15" id="userInput" name="userInput"/>
 		   <span id="refresh" style="cursor:pointer"><img src="..\img\Refresh19px.png">새로고침</span>
 		   <input type="button" id="confirm" value="확인"/>
+		   <input type="button" id="cancel" value="취소"/>
 	   </form>
 	</p>
 	<p>
@@ -176,7 +177,7 @@
 $(document).ready(function(){
 	//캡차 시작
 	var key = ''; //캡차 생성시 발급되는 키
-	$("#email, #userInput, #confirm, #refresh").hide();
+	$("#email, #userInput, #confirm, #refresh, #cancel").hide();
 	//이메일보기 클릭시 v2 [시작] Ajax로 이미지 생성
 	$("#showEmail").click(function(){ 
 		//로그인 안한 경우 alert
@@ -202,7 +203,7 @@ $(document).ready(function(){
 				key = result.key+"";
 				$("#captchar").attr("src", pathFileName); //이미지에 넣기
 				$("#showEmail").hide();
-				$("#userInput, #confirm, #refresh").show();
+				$("#userInput, #confirm, #refresh, #cancel").show();
 				$("#key").val(key); 
 			},error: function(xhr, stat, err){
 				alert("오류: "+err);
@@ -242,7 +243,7 @@ $(document).ready(function(){
 			   //alert(JSON.stringify(data));
 			   var sResult = JSON.stringify(data.result);//object to string
 			   if(sResult=='true'){
-				   $("#userInput, #confirm, #captchar, #refresh").hide();
+				   $("#userInput, #confirm, #captchar, #refresh, #cancel").hide();
 				   $("#email").show();
 			   }else if(sResult=='false'){
 				   alert("입력값이 일치하지 않습니다.\n 다시 입력해주세요");
@@ -254,6 +255,11 @@ $(document).ready(function(){
 			}
 	   })
 	});//입력값 확인 [종료]
+	//캡차 취소 클릭 [시작]
+	$("#cancel").click(function(){
+		$("#captchar, #userInput, #confirm, #refresh, #cancel").hide();
+		$("#showEmail").show();
+	});//캡차 취소 클릭 [종료]
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
 		location.href="viewDone.jsp?no=<%=vo.getNo() %>"; 
 	});
