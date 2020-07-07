@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PageDAO extends DbInfo{
 	
-	public int count = 0;  //전체 게시물 갯수
+public int count = 0;  //전체 게시물 갯수
 	
 	public void selMainList2( ArrayList<AnbdVO> mainList, int startRow, int pageSize, HttpServletRequest request) {
 		String menu = request.getParameter("menu");

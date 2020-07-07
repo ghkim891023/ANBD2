@@ -18,11 +18,10 @@ String id = (String)session.getAttribute("loginId");
 dao.selLoginUserNo(vo, id);
 String uploadPath = request.getRealPath("/upload");
 vo.setUploadPath(uploadPath);
-dao.inWrite(vo, request, vo.getLoginUserNo());
 
-String[] sido = request.getParameterValues("sido");
-for(int i=0; i<sido.length; i++)
-{
-	out.print("시도 = "+sido[i]);
-}
-%>${vo.getNo()}<br/>
+String msigun = "171:울주군";
+String[] array = msigun.split(":");
+String a = array[0];
+dao.inWrite(vo, request, vo.getLoginUserNo(), a);
+
+%>${vo.getNo()}

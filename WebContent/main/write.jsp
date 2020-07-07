@@ -3,7 +3,7 @@
 <%@include file="../include/fix.jsp"%>
 
 <script>
-	document.title="ANBD | 아나바다-글쓰기 git test..";
+	document.title="ANBD | 아나바다-글쓰기";
 </script>
 <style>
 	#share, #reuse
@@ -21,7 +21,7 @@
 	pageContext.setAttribute("boardList", dao.getBoardList());
 %>
 
-<form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return sfalse">
+<form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false;">
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -42,13 +42,17 @@
 			<tr>
 				<td>지역</td>
 				<td>
-					<select name="sido[]" id="sido" multiple>
-					<option value="">기타</option>
+					<select name="sido" id="sido">
 						<c:forEach items="${boardList}" var="boardList">
-							<option value=${boardList.sido}>${boardList.sido}</option>
+							<c:if test="${boardList.sido eq '기타'}">
+								<option value=${boardList.sido} selected>${boardList.sido}</option>
+							</c:if>
+							<c:if test="${boardList.sido ne '기타'}">
+								<option value=${boardList.sido}>${boardList.sido}</option>
+							</c:if>
 						</c:forEach>
 					</select>
-					<span id=sigun></span>
+					<span id="sigun"></span>
 				</td>
 			</tr>
 			
@@ -80,7 +84,6 @@
 			<tr>
 				<td colspan="2" style="padding-top:30px;">					 
 					<button class="site-btn" id="save">등록</button>
-					<input type="submit" value="등록">
 					<input type="reset" class="site-btn" id="cancel" value="초기화"/>
 				</td>
 			</tr>
@@ -114,7 +117,6 @@
 
 			//전송할  Form의 데이터를 얻을 준비를 한다.
 			var mPostData = new FormData(mForm);
-<%-- 
 			$.ajax
 			({
 				type:"POST",
@@ -126,12 +128,11 @@
 				dataType:"html",
 				success: function (data) 
 				{
-	            	//alert("writeOK.jsp에서 온 응답 [" + data + "]");
 	            	alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
 					location.href = "view.jsp?no=" + data;
 	            },
 				
-			});//ajax FLOW --%>
+			});//ajax FLOW
 		});//save 클릭 이벤트
 		
 		$("input[name='menu']").change(function()

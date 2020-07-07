@@ -10,29 +10,24 @@
 </script>
 <% 
 request.setCharacterEncoding("utf-8");
-
 int currentPage = 1;  //현재 페이지번호
 int pageSize    = 19; //페이지당 게시물 목록 갯수
 int count       = 0;  //전체 게시물 갯수
 int startRow    = 0;  //페이지 시작행 번호
 int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
-
 String mTemp = request.getParameter("page");
 if(mTemp != null){ //키워드 검색하면 무조건 1p
 	currentPage = Integer.parseInt(mTemp);
 }
-
 String mKey = request.getParameter("key"); //-> 메소드에서도 받기
 if(mKey==null){ //그냥 검색안하면 null
 	mKey="";
 }
 //String menu = request.getParameter("menu"); //searchOption.jsp에 있어 쓰면 중복
-
 //시작행 번호 = (현재 페이지번호 - 1) * 페이지당 출력 할 갯수
 startRow    = (currentPage - 1) * pageSize; //페이지 시작행 번호
 seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
-
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
 	//pg.selMainList(mainList, startRow, pageSize, mKey);
 	pg.selMainList2(mainList, startRow, pageSize, request);
@@ -180,14 +175,12 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 	}
 	
 	String mEncodeKey = URLEncoder.encode(mKey, "UTF-8"); //url에 검색어 한글을 %로 바꿔줌(인코딩)
-
 	//첫페이지는 이전블럭 없애기
 	if(currentPage >10) 
 	{ 
 		%><!--<a href="list.jsp?key=<%=mEncodeKey%>&page=<%= startBlock - 10 %>">[이전블럭]</a>--><% 
 		%><a href="javascript:doGoPage(<%= startBlock - 10 %>);"> &lt;이전 </a><% 
 	}
-
 	for(int i=startBlock; i<=endBlock; i++)
 	{
 		if(i==currentPage){
@@ -196,7 +189,6 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 			%><a href="main.jsp?key=<%=mEncodeKey%>&page=<%= i %>"> <%= i %>. </a> <%
 		}
 	}
-
 	//마지막블럭 다음은 안나오게
 	if ( endBlock < maxPageNo ) //currentPage < maxPageNo-10
 	{

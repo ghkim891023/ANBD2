@@ -4,16 +4,16 @@ import java.sql.*;
 public class DbInfo {
 
 //학원
-//	String 			  url 	 = "jdbc:mysql://192.168.0.77/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
-//	String 			  driver = "com.mysql.cj.jdbc.Driver";
-//	String 			  id  	 = "kanu";
-//	String 			  pw  	 = "1234";
+	String 			  url 	 = "jdbc:mysql://192.168.0.77/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+	String 			  driver = "com.mysql.cj.jdbc.Driver";
+	String 			  id  	 = "kanu";
+	String 			  pw  	 = "1234";
 
 	//집
-	String 			  url 	 = "jdbc:mysql://127.0.0.1:3307/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
-	String 			  driver = "com.mysql.cj.jdbc.Driver";
-	String 			  id  	 = "root";
-	String 			  pw  	 = "111111";
+//	String 			  url 	 = "jdbc:mysql://127.0.0.1:3307/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+//	String 			  driver = "com.mysql.cj.jdbc.Driver";
+//	String 			  id  	 = "root";
+//	String 			  pw  	 = "111111";
 	
 	Statement 		  state  = null; 
 	ResultSet 		  rs	 = null; 

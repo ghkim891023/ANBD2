@@ -573,7 +573,7 @@ public class AnbdDAO extends DbInfo{
 	 * [글쓰기] 파일 업로드, 글쓰기, 파일 저장
 	 * 
 	 ****************************************************** */
-	public boolean inWrite(AnbdVO vo, HttpServletRequest request, int userNo) 
+	public boolean inWrite(AnbdVO vo, HttpServletRequest request, int userNo, String jusoNo) 
 	{
 		MultipartRequest multi;
 		vo.SaveFileName = new ArrayList<>();
@@ -619,11 +619,13 @@ public class AnbdDAO extends DbInfo{
 			//==글 insert 시작
 			String menu   = multi.getParameter("menu");
 			String title  = multi.getParameter("title");
+			String sigun  = multi.getParameter("sigun");
 			String content= multi.getParameter("content");
 			
 			vo.setMenu(menu);
 			vo.setTitle(title);
 			vo.setContent(content);
+			vo.setSigun(sigun);
 			
 			if(vo.saveName == null)
 			{
@@ -634,8 +636,8 @@ public class AnbdDAO extends DbInfo{
 				vo.setPhoto("Y");
 			}
 			String insertBoardSql  = "INSERT INTO board ";
-				   insertBoardSql += "(menu, title, content, userNo, wdate, photo) ";
-				   insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?)";
+				   insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
+				   insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?, ?)";
 			
 			db.pstate = db.con.prepareStatement(insertBoardSql);
 			
@@ -644,6 +646,7 @@ public class AnbdDAO extends DbInfo{
 			db.pstate.setString(3, content);
 			db.pstate.setInt(4, userNo);
 			db.pstate.setString(5, vo.getPhoto());
+			db.pstate.setString(6, jusoNo);
 
 			System.out.println(insertBoardSql);
 			System.out.println("saveName = "+vo.saveName);
@@ -942,7 +945,7 @@ public class AnbdDAO extends DbInfo{
 		{
 			getConnection();
 			String selSigunSql =  "";
-				   selSigunSql += "SELECT sido, sigun \n";
+				   selSigunSql += "SELECT sido, sigun, jusoNo \n";
 				   selSigunSql += "FROM juso \n";
 				   selSigunSql += "WHERE sido = ? \n";
 				   selSigunSql += "ORDER BY jusoNo asc \n";
@@ -958,6 +961,7 @@ public class AnbdDAO extends DbInfo{
 					
 					vo.setSigun(rs.getString("sigun"));
 					vo.setSido(rs.getString("sido"));
+					vo.setJusoNo(rs.getInt("jusoNo"));
 					
 					boardList.add(vo);
 				}
@@ -1002,61 +1006,18 @@ public class AnbdDAO extends DbInfo{
 				a = rs.getInt("insertNo");
 				vo.setNo(a);
 			}
-			rsClose();
 		}
 		catch(Exception e)
 		{
 			System.out.println("마지막으로 인서트한 번호를 찾을 수 없음");
 			e.printStackTrace();
 		}
-		return a; 
-	}
-	
-	/* ******************************************************
-	 * 
-	 * @author 정도희
-	 * @brif   jusoNo 구하기
-	 * @date   2020-07-06 작성
-	 * jusoNo 구하기 [시작]
-	 * 
-	 ****************************************************** */
-	public int selJusoNo(HttpServletRequest request) 
-	{
-		int jusoNo = 0;
-		MultipartRequest multi;
-		boardList  = new ArrayList<AnbdVO>();
-		try 
+		finally 
 		{
-			multi = new MultipartRequest(request,vo.uploadPath,vo.size,"UTF-8",new DefaultFileRenamePolicy());
-			String selSQL = "";
-				   selSQL += "SELECT jusoNo ";
-				   selSQL += "WHERE sido = ? AND sigun = ? ";
-			
-			pstate.setString(1, vo.getSido());
-			pstate.setString(2, vo.getSigun());
-			getConnection();
-			prepareStatement(selSQL);
-			System.out.println("selSQL = "+selSQL);
-			executeQuery();
-			while(rs.next()) 
-			{
-				AnbdVO vo = new AnbdVO();
-				jusoNo = rs.getInt("jusoNo");
-				vo.setJusoNo(jusoNo);
-				vo.setSido(rs.getString("sido"));
-				vo.setSigun(rs.getString("sigun"));
-				boardList.add(vo);
-			}
 			rsClose();
-			System.out.println("selJusoNo 실행 완료");
+			pstateClose();
 		}
-		catch(Exception e)
-		{
-			System.out.println("주소 번호를 가져올 수 없음");
-			e.printStackTrace();
-		}
-		return jusoNo;
-		
+		return a; 
 	}
 	
 }
