@@ -45,13 +45,10 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 	//String option = request.getParameter("option");
 	//String key = request.getParameter("key");
 	
-	//=======공지용 [시작]
-	//ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
-	//dao.selBoardList(blist);
-	
-	//서버에 attribute를 setting하겠다
-	//pageContext.setAttribute("blist", blist);
-	//=======공지용 [종료]
+	//=======공지 [시작]
+	dao.selNotice();
+ 	pageContext.setAttribute("selNotice", dao.getBoardList());
+	//=======공지 [종료]
 %>
 <c:if test="${param.menu eq 'reuse'}">
 	<link rel="stylesheet" type="text/css" href="../css/reuseStyle.css">
@@ -66,28 +63,36 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 			<th width="200px">작성일자</th>
 		</tr>
 		<!-- 공지 상단 고정 시작============================ -->
-		
-		<%-- <c:forEach items="${pgList}" var="pgList">
-			<c:if test="${pgList.menu eq  '공지'}">
-				<tr>
-					<td>[공지]</td>
-					<td>
-						<a href="view.jsp?no=${pgList.no}&menu=notice">${pgList.title}
+			<c:forEach items="${selNotice}" var="selNotice">
+				<c:if test="${selNotice.menu eq '공지'}">
+					<tr>
+						<td>[${selNotice.menu}]</td>
+						<td>
+						<a href="view.jsp?no=${selNotice.no}&menu=notice">${selNotice.title}
 							<c:choose>
-								<c:when test="${pgList.photo eq 'Y'}">
+								<c:when test="${selNotice.photo eq 'Y'}">
 									<img src="../img/green.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
 						</a>
 					</td>
-					<td>시도 표시</td>
-					<td>시군구 표시</td>
-					<td>${blist.wdate}</td>
-				</tr>
-			</c:if>
-		</c:forEach> --%>
-		
+					<td>
+							<c:choose>
+								<c:when test="${pageList.sido ne null}">${pageList.sido}</c:when>
+								<c:when test="${pageList.sido eq null}">기타</c:when>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${pageList.sigun ne null}">${pageList.sigun}</c:when>
+								<c:when test="${pageList.sigun eq null}">기타</c:when>
+							</c:choose>
+						</td>
+					<td>${selNotice.wdate}</td>
+					</tr>
+				</c:if>
+			</c:forEach>
 		<!--============================ 공지 상단 고정 끝 -->
 		
 		<!-- 목록 불러오기 시작=========================== -->

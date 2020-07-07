@@ -432,74 +432,61 @@ public class AnbdDAO extends DbInfo{
 	
 	/* ******************************************************
 	 * 
-	 * [메인] 목록 불러오기
+	 * [메인] 공지 불러오기
 	 * 
 	 ****************************************************** */
-	public boolean selBoardList(ArrayList<AnbdVO> blist) 
-	//BoardParam의 정보를 ArrayList 형식으로 담겠다
-	//리스트는 어떤 타입이 올지 모른다 - int를 가져와도 좋고, String을 가져와도 좋다
-	//담고 싶은 내용을 <> 사이에 표현한다
-	//제네릭, 템플릿을 알아보자
-	//boolean으로 한 이유는 try한 결과가 true라면 값을 반환하는 의미
-	//= 검색한 결과를 모두 봐야 하고, 하나의 레코드만 있는 것이 아님 = 
-	//= 반복해야 함 = for 구문 사용하면 좋음 = list를 for 구문으로 받을 수 있음
-	
+	public boolean selNotice() 
 	{	
+		boardList = new ArrayList<AnbdVO>();
 		try 
 		{
-			db.getConnection();
-			db.createStatement();
-			//photo 아직 안 끝남, userNo는 왜 넣었더라...>06.10userNo 지웠음
+			getConnection();
 			
 			String selectSql = "";
-			selectSql += "SELECT no, menu, title, photo, wdate, status, content ";
-			selectSql += "FROM board ";
-			selectSql += "LEFT JOIN juso j ";
-			selectSql += "ON b.jusoNo = j.jusoNo ";
-					selectSql += "ORDER BY no desc ";
+				   selectSql += "SELECT b.no, b.menu, b.status, b.title, b.photo, b.wdate, j.sido, j.sigun \n";
+				   selectSql += "FROM board b \n";
+				   selectSql += "LEFT JOIN juso j \n";
+				   selectSql += "ON b.jusoNo = j.jusoNo \n";
+				   selectSql += "WHERE b.menu='공지' ";
 			System.out.println(selectSql);
-
-			db.rs = db.state.executeQuery(selectSql);
-			if(db.rs.next()) 
+			
+			prepareStatement(selectSql);
+			System.out.println("진입 1");
+			executeQuery();
+			System.out.println("진입 2");
+			if(rs.next()) 
 			{
-				do
-				{
-					//BoardParam를 새로 1개만 만들겠어
+				System.out.println("진입 3");
 					AnbdVO vo = new AnbdVO();
 					
-					//BoardParam boardList = blist.get(i);
-					vo.setNo(db.rs.getInt("no"));
-					vo.setMenu(db.rs.getString("menu"));
-					vo.setTitle(db.rs.getString("title"));
-					vo.setPhoto(db.rs.getString("photo"));
-					vo.setWdate(db.rs.getString("wdate"));
-					vo.setStatus(db.rs.getString("status"));
-					vo.setContent(db.rs.getString("content"));
+					vo.setNo(rs.getInt("no"));
+					vo.setMenu(rs.getString("menu"));
+					vo.setTitle(rs.getString("title"));
+					vo.setPhoto(rs.getString("photo"));
+					vo.setWdate(rs.getString("wdate"));
+					vo.setStatus(rs.getString("status"));
 					vo.setSido(rs.getString("sido"));
 					vo.setSigun(rs.getString("sigun"));
 					
-					//세팅한 no, menu 등의 정보를 blist에 담겠다
-					blist.add(vo);
-						
-				}//do FLOW
-				while(db.rs.next());
-				//do를 실행한 후 while에서 조건을 확인
-				//다음 결과가 있으면 true, do를 다시 실행
-				//다음 결과가 없으면 false, 멈춤
+					boardList.add(vo);
 			}//====if FLOW
-			db.rsClose();
-			db.stateClose();
-			db.conClose();
+			System.out.println("진입 4");
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
-			System.out.println("목록 select 쿼리 실행 불가");
+			System.out.println("공지 select 쿼리 실행 불가");
 			e.printStackTrace();
 			return false;
 		}
+		finally 
+		{
+			System.out.println("진입 5");
+			rsClose();
+			stateClose();
+			conClose();
+		}
 		return true;
-		//boolean형이니까 오류가 있으면 false를 반환
-	}//============selectBoard METHOD
+	}//============selNotice METHOD
 	
 	/* ******************************************************
 	 * 
