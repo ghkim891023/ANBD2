@@ -8,6 +8,25 @@
 <% 
 	int pNo = Integer.parseInt(request.getParameter("no"));
 	//vo.setNo(pNo);
+	
+	webutil.Init(request);
+	int pageno = webutil._I("page","1");
+	String menu   = webutil._S("menu","");
+	String option = webutil._S("option","title");
+	String Key = webutil._S("key","");
+	String mEncodeKey = webutil._E("key","");
+	
+	String mParam  = "";
+			 mParam += "page=" + pageno;
+			 mParam += "&";
+			 mParam += "no=" + pNo;
+			 mParam += "&";
+			 mParam += "menu=" + menu;
+			 mParam += "&";
+			 mParam += "option=" + option;
+			 mParam += "&";
+			 mParam += "key=" + mEncodeKey;
+	System.out.println("mEncodeKey: "+mEncodeKey);
 
 	//String savePath = application.getRealPath("/upload");
 	//out.print(savePath);
@@ -19,14 +38,10 @@
 	//upModifyBoard_v1
 	//String pMenu = multi.getParameter("menu");
 	//vo.setMenu(pMenu);
-	
 	//String pTitle = multi.getParameter("title");
 	//vo.setTitle(pTitle);
-	//out.print("<br/>"+pTitle);
-	
 	//String pContent = multi.getParameter("content");
 	//vo.setContent(pContent);
-	//out.print("<br/>"+pContent);
 	
 	boolean modifyResult = dao.upModifyBoard(vo, request);
 	if(modifyResult == true){
@@ -34,7 +49,8 @@
 	}else{
 		out.print("수정에 실패하였습니다.");
 	}
-	response.sendRedirect("view.jsp?no="+pNo);
+	//response.sendRedirect("view.jsp?no="+pNo);
+	//response.sendRedirect("view.jsp?"+mParam);
 	
 %>
 

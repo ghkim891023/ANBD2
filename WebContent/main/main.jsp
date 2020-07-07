@@ -14,18 +14,17 @@ int startRow    = 0;  //페이지 시작행 번호
 int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
 
-String mTemp = request.getParameter("page");
-if(mTemp != null){ //키워드 검색하면 무조건 1p
-	currentPage = Integer.parseInt(mTemp);
-}
-
 currentPage = webutil._I("page","1");
 String mKey = webutil._S("key","");
 String mEncodeKey = webutil._E("key","");
 
-/*선생님께서 알려주시기 전 코드 - 아래 5줄을 위 2줄로 단축!
+/*선생님께서 알려주시기 전 코드 - 아래 코드를 위 코드로 단축!
+String mTemp = request.getParameter("page");
+if(mTemp != null){  //키워드 검색하면 무조건 1p
+	currentPage = Integer.parseInt(mTemp);
+}
 String mKey = request.getParameter("key"); 
-if(mKey==null){ //그냥 검색안하면 null
+if(mKey==null){     //그냥 검색안하면 null
 	mKey="";
 }
 String mEncodeKey = URLEncoder.encode(mKey, "UTF-8"); //url에 검색어 한글을 %로 바꿔줌(인코딩)*/
@@ -40,28 +39,18 @@ request.setAttribute("key", mEncodeKey);
 	}
 </script>
 <%
-//String menu = request.getParameter("menu"); //searchOption.jsp에 있어 쓰면 중복
-
-//시작행 번호 = (현재 페이지번호 - 1) * 페이지당 출력 할 갯수
-startRow    = (currentPage - 1) * pageSize; //페이지 시작행 번호
-seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
-
+	startRow  = (currentPage - 1)*pageSize; //페이지 시작행 번호  = (현재 페이지번호 - 1) * 페이지당 출력 할 갯수
+	seqNo     = startRow + 1;				    //페이지 목록에 게시글 일련번호
+	
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
-	//pg.selMainList(mainList, startRow, pageSize, mKey);
-	pg.selMainList2(mainList, startRow, pageSize, request);
-	
-	count 	  = pg.count;
-	
-	//최대 페이지 번호 계산
-	maxPageNo = count/pageSize;   
-	if(  (count % pageSize) != 0){
-		maxPageNo = maxPageNo + 1;
-	}
-	//서버에 attribute를 setting하겠다
+	pg.selMainList2(mainList, startRow, pageSize, request); //pg.selMainList(mainList, startRow, pageSize, mKey);
 	session.setAttribute("pgList", mainList);
 	
-	//String option = request.getParameter("option");
-	//String key = request.getParameter("key");
+	count 	 = pg.count;						 //(selMainList2 메소드로부터 검색된)총 글 갯수
+	maxPageNo = count/pageSize;  				 //최대 페이지 번호 계산
+	if( (count % pageSize) != 0 ){			 //총 글 갯수를 목록표시갯수(20)로 나눠서 나머지가 남으면, 한 페이지 더 필요
+		maxPageNo = maxPageNo + 1;				 //최대 페이지번호에 +1
+	}
 	
 	ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
 	dao.selBoardList(blist);
@@ -102,7 +91,6 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 				</tr>
 			</c:if>
 		</c:forEach>
-		
 		<!--============================ 공지 상단 고정 끝 -->
 		
 		<!-- 목록 불러오기 시작=========================== -->
@@ -135,7 +123,8 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 							</a>
 						</c:if>
 						<c:if test="${pageList.menu eq '바다'}">
-							<a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}">
+							<!--기존: <a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}"> -->
+							<a href="javascript:doGoPage('view.jsp','<%= currentPage %>','${pageList.no}');">
 							<c:choose>
 								<c:when test="${pageList.status eq 'done'}">
 									<span id="status">[거래완료]</span>
@@ -157,19 +146,14 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 							</a>
 						</c:if>
 						</td>
-						<td>
-						시도
-						</td>
-						<td>
-						시군구
-						</td>
+						<td>시도</td>
+						<td>시군구</td>
 						<td>${pageList.wdate}</td>
 					</c:when>
 				</c:choose>
 			</tr>
 		</c:forEach>
 	</table>
-	<% db.conClose(); %>
 	<!--=========================== 목록 불러오기 끝 -->
 	<%
 	//세션 변수에 저장된 userId값이 비어있으면 로그인 안한것
@@ -193,74 +177,60 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 <div class="site-pagination" align="center">
 <%
 	//페이징 시작 블럭 계산
-	int startBlock = (((currentPage-1)/10)*10) +1; //((currentPage/10)*10) +1;
+	int startBlock = (((currentPage-1)/10)*10) +1;
 	//페이징 종료 블럭 계산
-	int endBlock  = startBlock + (10-1); 			  //startBlock + (10-1);
+	int endBlock  = startBlock + (10-1); 			  
 	//페이징 종료 블럭이 최대 페이지 번호보다 큰 경우 처리
 	if(endBlock >maxPageNo){
-		endBlock = maxPageNo; //maxPageNo+1
+		endBlock = maxPageNo;
 	}
-	
-
-
 	//첫페이지는 이전블럭 없애기
-	if(currentPage >10) 
-	{ 
-		%><!--<a href="list.jsp?key=<%=mEncodeKey%>&page=<%= startBlock - 10 %>">[이전블럭]</a>--><% 
+	if(currentPage >10){  
 		%><a href="javascript:doGoPage('main.jsp','<%= startBlock - 10 %>','');"> &lt;이전 </a><% 
 	}
-
 	for(int i=startBlock; i<=endBlock; i++)
 	{
-		if(i==currentPage)
-		{
-			%><a href="javascript:doGoPage('main.jsp','<%= i %>','');" class="active"> <%= i %>. </a> <%
+		if(i==currentPage){
+			%><a href="javascript:doGoPage('main.jsp','<%= i %>','');" class="active"> <%= i %>.</a><%
 		}else{
-			%><a href="javascript:doGoPage('main.jsp','<%= i %>','');"> <%= i %>. </a> <%
+			%><a href="javascript:doGoPage('main.jsp','<%= i %>','');"> <%= i %>.</a><%
 		}
 	}
-
 	//마지막블럭 다음은 안나오게
-	if ( endBlock < maxPageNo ) //currentPage < maxPageNo-10
-	{
+	if ( endBlock < maxPageNo ){
 		%><a href="javascript:doGoPage('main.jsp','<%= endBlock+1 %>','');"> 다음&gt; </a><%
 	}
 %>
 </div>
-
 <script language="javascript">
-	
-	function doGoPage(url,pageno,seqno)
+	function doGoPage(url,pageno,seqno) //seqno는 글번호
 	{
 		var f = document.pageForm;
 		var mParam = "";
 		
 		mParam += "page=" + pageno;
 		mParam += "&";
+		mParam += "no=" + seqno;		
+		mParam += "&";
 		mParam += "menu=" + f.smenu.value;
 		mParam += "&";
 		mParam += "option=" + f.soption.value;
 		mParam += "&";
 		mParam += "key=" + f.skey.value;	
-		mParam += "&";
-		mParam += "no=" + seqno;		
 		
 		page = url + "?" + mParam;
 		document.location = page;
 	}
-	
-	function doAlert()
-	{
+	function doAlert(){
 		alert("글쓰기는 로그인 후 가능합니다");
 		location.href="../common/login.jsp";
 	}
 </script>
-
+<!--  doGoPage()에 값을 보내기 위한 hidden 값  -->
 <form id="pageForm" name="pageForm" method="post" action="main.jsp">
 	<input type="hidden" id="spage" name="page" value="">
 	<input type="hidden" id="smenu" name="menu" value="<%=menu%>">
 	<input type="hidden" id="soption" name="soption" value="<%=option%>">
 	<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
 </form>
-
 <%@include file="../include/footer.jsp"%>

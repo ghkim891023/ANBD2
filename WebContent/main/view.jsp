@@ -7,7 +7,7 @@
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
 	#refresh{ font-size: 10pt; color: #565855; }
-	#showEmail, #confirm, #cancel{ font-size: 11pt; border:0; background-color: #D3D3D3; }
+	#showEmail, #confirm, #capCancel{ font-size: 11pt; border:0; background-color: #D3D3D3; }
 </style>
 <div class="container" id="view">
 	<% 
@@ -36,18 +36,17 @@
 					break;
 				}
 			}else{ }
-      /*
-			String menu = vo.getMenu();
+			%>
+		[${vo.getMenu()}]
+	 <%-- String menu = vo.getMenu();
 			switch(menu) {
 				case "share":
-					%><b id="menu">[아나]</b><%
+					--%><!-- b id="menu">[아나]</b><%--
 					break;
 				case "reuse":
-					%><b id="menu">[바다]</b><%
+					--%><b id="menu">[바다]</b> --><%--
 					break;
-			}*/
-		%>
-		[${vo.getMenu()}]
+			} --%>
 		<b id="title"><%= vo.getTitle() %></b> 
 	</h3>
 	<p>
@@ -60,7 +59,7 @@
 		   <input type="text" size="15" id="userInput" name="userInput"/>
 		   <span id="refresh" style="cursor:pointer"><img src="..\img\Refresh19px.png">새로고침</span>
 		   <input type="button" id="confirm" value="확인"/>
-		   <input type="button" id="cancel" value="취소"/>
+		   <input type="button" id="capCancel" value="취소"/>
 	   </form>
 	</p>
 	<p>
@@ -96,32 +95,37 @@
 				</c:choose>
 			</c:if>
 		</c:if>
-				<%
-        /*
-				switch(st){
+		<%--	switch(st){
 				case "nostatus":
-					%><button class="site-btn" id="done">거래완료</button><%
+					--%><!-- button class="site-btn" id="done">거래완료</button><%--
 					break;	
 				case "done" :
-					%><button class="site-btn" id="cancel">거래완료취소</button><%
+					--%><button class="site-btn" id="cancel">거래완료취소</button><%--
 					break;
-				case "cancel": //거래완료취소 -거래완료취소는 제목에 안보여줘도 되긴하는데..
-					%><button class="site-btn" id="done">거래완료</button><%
+				case "cancel":
+					--%><button class="site-btn" id="done">거래완료</button> --><%--
 					break;
-				}
-		}*/
-		%>
+				}}--%>
 	</div>
 	<form method="post" id="coForm" name="coForm" action="view.jsp" onsubmit="return false;">
 		<input type="text" placeholder="로그인 후 댓글 입력" id="comment" name="comment" style="width:85%" onkeyup="pressEnter();">
 		<button type="button" class="readmore-btn" id="cWrite" style="float:none;">댓글쓰기</button>
 	</form>
 	<%
+	webutil.Init(request);
+	int pageno = webutil._I("page","1");
+	String menu   = webutil._S("menu","");
+	String option = webutil._S("option","title");
+	String Key = webutil._S("key","");
+	String mEncodeKey = webutil._E("key","");
+	
+	/*선생님 메소드로 수정
 	String pageno = request.getParameter("page");
 	String menu = request.getParameter("menu"); 
 	String option = request.getParameter("option"); 
 	String key = request.getParameter("key"); 
-	key = URLEncoder.encode(key, "UTF-8");
+	if(key==null){	key=""; }
+	key = URLEncoder.encode(key, "UTF-8");*/
 	%>
 	<script type="text/javascript">
 	function doGoPage(url)
@@ -147,7 +151,7 @@
 		<input type="hidden" id="spage" name="spage" value="<%= pageno %>">
 		<input type="hidden" id="smenu" name="smenu" value="<%=menu%>">
 		<input type="hidden" id="soption" name="soption" value="<%=option%>">
-		<input type="hidden" id="skey" name="skey" value="<%=key%>">
+		<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
 	</form>	
 	<% 
 		//댓글 영역_v2 - jstl 잘 안됨..if문에서 jsp의 loginUserNo 번호를 못읽어...
@@ -211,7 +215,7 @@
 $(document).ready(function(){
 	//캡차 시작
 	var key = ''; //캡차 생성시 발급되는 키
-	$("#email, #userInput, #confirm, #refresh, #cancel").hide();
+	$("#email, #userInput, #confirm, #refresh, #capCancel").hide();
 	//이메일보기 클릭시 v2 [시작] Ajax로 이미지 생성
 	$("#showEmail").click(function(){ 
 		//로그인 안한 경우 alert
@@ -237,7 +241,7 @@ $(document).ready(function(){
 				key = result.key+"";
 				$("#captchar").attr("src", pathFileName); //이미지에 넣기
 				$("#showEmail").hide();
-				$("#userInput, #confirm, #refresh, #cancel").show();
+				$("#userInput, #confirm, #refresh, #capCancel").show();
 				$("#key").val(key); 
 			},error: function(xhr, stat, err){
 				alert("오류: "+err);
@@ -277,7 +281,7 @@ $(document).ready(function(){
 			   //alert(JSON.stringify(data));
 			   var sResult = JSON.stringify(data.result);//object to string
 			   if(sResult=='true'){
-				   $("#userInput, #confirm, #captchar, #refresh, #cancel").hide();
+				   $("#userInput, #confirm, #captchar, #refresh, #capCancel").hide();
 				   $("#email").show();
 			   }else if(sResult=='false'){
 				   alert("입력값이 일치하지 않습니다.\n 다시 입력해주세요");
@@ -290,15 +294,17 @@ $(document).ready(function(){
 	   })
 	});//입력값 확인 [종료]
 	//캡차 취소 클릭 [시작]
-	$("#cancel").click(function(){
-		$("#captchar, #userInput, #confirm, #refresh, #cancel").hide();
+	$("#capCancel").click(function(){
+		$("#captchar, #userInput, #confirm, #refresh, #capCancel").hide();
 		$("#showEmail").show();
 	});//캡차 취소 클릭 [종료]
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
-		location.href="viewDone.jsp?no=<%=vo.getNo() %>"; 
+		//location.href="viewDone.jsp?no= <%=vo.getNo() %>"; 
+		doGoPage('viewDone.jsp'); 
 	});
 	$("#cancel").click(function(){ //거래완료취소 클릭시
-		location.href="viewCancel.jsp?no=<%=vo.getNo() %>";
+		//location.href="viewCancel.jsp?no=<%=vo.getNo() %>";
+		doGoPage('viewCancel.jsp'); 
 	});
 	$("#cWrite").click(function(){ //댓글쓰기 클릭시, 내용이 없으면 alert + 로그인 안하고 클릭시 alert 및 이동
 		var login= '<%=loginId%>';
@@ -319,7 +325,8 @@ $(document).ready(function(){
 		}
 	});
 	$("#modify").click(function(){ //글 수정 버튼 클릭시 -onclick="location.href='modify.jsp'"
-		location.href="viewModify.jsp?no=<%=vo.getNo() %>";
+		//location.href="viewModify.jsp?no=<%=vo.getNo() %>";
+		doGoPage('viewModify.jsp');
 	});
 	$("#remove").click(function(){ //글 삭제 버튼  //jsp이동 안하고, 바로 메소드 가능? https://all-record.tistory.com/145
 		var msg = confirm("글을 정말 삭제하시겠습니까?");
