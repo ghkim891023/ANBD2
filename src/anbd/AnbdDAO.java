@@ -605,17 +605,17 @@ public class AnbdDAO extends DbInfo{
 				}//if FLOW
 			}//====while FLOW
 		} //=======try FLOW
-		catch (IOException e1) 
+		catch (IOException e) 
 		{
-			e1.printStackTrace();
-			System.out.println("첨부파일 에러" +e1.getMessage());
+			e.printStackTrace();
+			System.out.println("첨부파일 에러" +e.getMessage());
 			return false;
 		}//========catch FLOW
 		
 		//쿼리 구문
 		try 
 		{
-			db.getConnection();
+			getConnection();
 			//==글 insert 시작
 			String menu   = multi.getParameter("menu");
 			String title  = multi.getParameter("title");
@@ -638,37 +638,28 @@ public class AnbdDAO extends DbInfo{
 			String insertBoardSql  = "INSERT INTO board ";
 				   insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
 				   insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?, ?)";
+
+			prepareStatement(insertBoardSql);
 			
-			db.pstate = db.con.prepareStatement(insertBoardSql);
-			
-			db.pstate.setString(1, menu);
-			db.pstate.setString(2, title);
-			db.pstate.setString(3, content);
-			db.pstate.setInt(4, userNo);
-			db.pstate.setString(5, vo.getPhoto());
-			db.pstate.setString(6, jusoNo);
+			pstate.setString(1, menu);
+			pstate.setString(2, title);
+			pstate.setString(3, content);
+			pstate.setInt(4, userNo);
+			pstate.setString(5, vo.getPhoto());
+			pstate.setString(6, jusoNo);
 
 			System.out.println(insertBoardSql);
 			System.out.println("saveName = "+vo.saveName);
 			System.out.println("SaveFileName = "+vo.SaveFileName);
 			System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
 			
-			db.pstate.executeUpdate();
+			executeUpdate();
 			
 			//==글 insert 종료
 			
 			//==글 번호 구하기 시작
-			int a;
-			String selectBoardNoSql = "SELECT LAST_INSERT_ID() as insertNo ";
-			db.state = db.con.createStatement();
-			
-			db.rs = db.state.executeQuery(selectBoardNoSql);
-			while(db.rs.next()) 
-			{
-				a = db.rs.getInt("insertNo");
-				vo.setNo(a);
-			}//====while FLOW
-			db.rsClose();
+			int insertNo = selLastInsert();
+			vo.setNo(insertNo);
 			//==글 번호 구하기 종료
 			
 			//==파일 insert 시작
@@ -687,15 +678,13 @@ public class AnbdDAO extends DbInfo{
 					String insertFileSql  = "INSERT INTO file ";
 					insertFileSql += "(saveFileName, no) ";
 					insertFileSql += "VALUES (?, ?)"; 
-					db.pstate = db.con.prepareStatement(insertFileSql);
-					db.pstate.setString(1, vo.getSaveName(i));
-					db.pstate.setInt(2, vo.getNo());
-					db.pstate.executeUpdate();
+					prepareStatement(insertFileSql);
+					pstate.setString(1, vo.getSaveName(i));
+					pstate.setInt(2, vo.getNo());
+					executeUpdate();
 					System.out.println(insertFileSql);
 				}//for FLOW
 			}//====if FLOW == 파일 insert 종료
-			db.pstateClose();
-			db.conClose();
 		}//====try FLOW
 		catch (SQLException e) 
 		{
@@ -703,6 +692,11 @@ public class AnbdDAO extends DbInfo{
 			e.printStackTrace();
 			return false;
 		}//===catch FLOW
+		finally 
+		{
+			pstateClose();		
+			conClose();	
+		}
 		return true;
 	}//====insertWriteQuery METHOD
 	
@@ -993,13 +987,11 @@ public class AnbdDAO extends DbInfo{
 	 ****************************************************** */
 	public int selLastInsert() 
 	{
-		int a=0;
+		int a = 0;
 		try 
 		{
 			String selSQL = "SELECT LAST_INSERT_ID() as insertNo";
-			getConnection();
 			prepareStatement(selSQL);
-			System.out.println("selSQL = "+selSQL);
 			executeQuery();
 			while(rs.next()) 
 			{
@@ -1011,11 +1003,6 @@ public class AnbdDAO extends DbInfo{
 		{
 			System.out.println("마지막으로 인서트한 번호를 찾을 수 없음");
 			e.printStackTrace();
-		}
-		finally 
-		{
-			rsClose();
-			pstateClose();
 		}
 		return a; 
 	}

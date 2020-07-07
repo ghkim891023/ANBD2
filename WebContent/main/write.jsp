@@ -60,7 +60,7 @@
 				<td>제목</td>
 				<td>
 					<input type="text" placeholder="제목을 입력하세요" id="title" name="title" maxlength="30" 
-						    autofocus style="width:580px; ime-mode:active;" value="주소 TEST">
+						    autofocus style="width:580px; ime-mode:active;" value="올바른  url TEST">
 				</td>
 			</tr>
 			
@@ -82,8 +82,9 @@
 			</tr>
 			
 			<tr>
-				<td colspan="2" style="padding-top:30px;">					 
+				<td colspan="2" style="padding-top:30px;">		
 					<button class="site-btn" id="save">등록</button>
+					<input type="submit" value="TEST등록TEST">
 					<input type="reset" class="site-btn" id="cancel" value="초기화"/>
 				</td>
 			</tr>
@@ -128,10 +129,12 @@
 				dataType:"html",
 				success: function (data) 
 				{
+					var array = data.split(",");
+					var menu = array[1].toString();//메뉴
+					var no = array[0]*1;
 	            	alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
-					location.href = "view.jsp?no=" + data;
-	            },
-				
+					location.href = "view.jsp?menu="+menu+"&no=" +no;
+	            }
 			});//ajax FLOW
 		});//save 클릭 이벤트
 		
