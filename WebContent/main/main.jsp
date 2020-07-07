@@ -45,11 +45,13 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 	//String option = request.getParameter("option");
 	//String key = request.getParameter("key");
 	
-	ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
-	dao.selBoardList(blist);
+	//=======공지용 [시작]
+	//ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
+	//dao.selBoardList(blist);
 	
 	//서버에 attribute를 setting하겠다
-	pageContext.setAttribute("blist", blist);
+	//pageContext.setAttribute("blist", blist);
+	//=======공지용 [종료]
 %>
 <c:if test="${param.menu eq 'reuse'}">
 	<link rel="stylesheet" type="text/css" href="../css/reuseStyle.css">
@@ -64,14 +66,15 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 			<th width="200px">작성일자</th>
 		</tr>
 		<!-- 공지 상단 고정 시작============================ -->
-		<c:forEach items="${blist}" var="blist">
-			<c:if test="${blist.menu eq  '공지'}">
+		
+		<%-- <c:forEach items="${pgList}" var="pgList">
+			<c:if test="${pgList.menu eq  '공지'}">
 				<tr>
 					<td>[공지]</td>
 					<td>
-						<a href="view.jsp?no=${blist.no}&menu=notice">${blist.title}
+						<a href="view.jsp?no=${pgList.no}&menu=notice">${pgList.title}
 							<c:choose>
-								<c:when test="${pageList.photo eq 'Y'}">
+								<c:when test="${pgList.photo eq 'Y'}">
 									<img src="../img/green.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
@@ -83,7 +86,7 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 					<td>${blist.wdate}</td>
 				</tr>
 			</c:if>
-		</c:forEach>
+		</c:forEach> --%>
 		
 		<!--============================ 공지 상단 고정 끝 -->
 		
@@ -131,10 +134,16 @@ seqNo       = startRow + 1;				     //페이지 목록에 게시글 일련번호
 						
 						</td>
 						<td>
-						시도
+							<c:choose>
+								<c:when test="${pageList.sido ne null}">${pageList.sido}</c:when>
+								<c:when test="${pageList.sido eq null}">기타</c:when>
+							</c:choose>
 						</td>
 						<td>
-						시군구
+							<c:choose>
+								<c:when test="${pageList.sigun ne null}">${pageList.sigun}</c:when>
+								<c:when test="${pageList.sigun eq null}">기타</c:when>
+							</c:choose>
 						</td>
 						<td>${pageList.wdate}</td>
 					</c:when>

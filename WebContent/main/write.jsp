@@ -84,7 +84,6 @@
 			<tr>
 				<td colspan="2" style="padding-top:30px;">		
 					<button class="site-btn" id="save">등록</button>
-					<input type="submit" value="TEST등록TEST">
 					<input type="reset" class="site-btn" id="cancel" value="초기화"/>
 				</td>
 			</tr>
