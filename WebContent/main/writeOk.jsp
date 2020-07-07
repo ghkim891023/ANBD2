@@ -11,7 +11,7 @@ dao.selLoginUserNo(vo, id);
 String uploadPath = request.getRealPath("/upload");
 vo.setUploadPath(uploadPath);
 
-String msigun = "171:울주군";
+String msigun = "";
 String[] array = msigun.split(":");
 String a = array[0];
 dao.inWrite(vo, request, vo.getLoginUserNo(), a);
