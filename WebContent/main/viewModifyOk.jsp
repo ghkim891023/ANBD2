@@ -11,10 +11,13 @@
 	
 	webutil.Init(request);
 	int pageno = webutil._I("page","1");
-	String menu   = webutil._S("menu","");
+	String menu   = webutil._S("menu",""); //게시글의 카테고리(메뉴)와 충돌?
 	String option = webutil._S("option","title");
 	String Key = webutil._S("key","");
 	String mEncodeKey = webutil._E("key","");
+	
+	out.print("Key: "+Key+"<br>");
+	//out.print("pkey: "+pkey+"<br>");
 	
 	String mParam  = "";
 			 mParam += "page=" + pageno;
@@ -50,7 +53,7 @@
 		out.print("수정에 실패하였습니다.");
 	}
 	//response.sendRedirect("view.jsp?no="+pNo);
-	//response.sendRedirect("view.jsp?"+mParam);
+	response.sendRedirect("view.jsp?"+mParam);
 	
 %>
 

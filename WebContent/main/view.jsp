@@ -331,7 +331,8 @@ $(document).ready(function(){
 	$("#remove").click(function(){ //글 삭제 버튼  //jsp이동 안하고, 바로 메소드 가능? https://all-record.tistory.com/145
 		var msg = confirm("글을 정말 삭제하시겠습니까?");
 		if(msg==true){
-			location.href="viewRemove.jsp?no=<%=vo.getNo() %>";
+			//location.href="viewRemove.jsp?no=<%=vo.getNo() %>";
+			doGoPage('viewRemove.jsp');
 		}else{
 			return false;
 		}

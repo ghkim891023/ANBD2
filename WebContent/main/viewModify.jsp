@@ -51,7 +51,9 @@
 		mParam += "&";
 		mParam += "no=" + f.sno.value;
 		page = url + "?" + mParam;
-		document.location = page;
+		//document.location = page;
+		document.modify.action = page;
+		document.modify.submit();  
 	}	
 	</script>
 	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
@@ -65,7 +67,7 @@
 	  action="javascript:doGoPage('viewModifyOk.jsp');"
 -->
 <form class="contact-form" id="modify" name="modify" enctype="multipart/form-data" 
-		  method="post" action="viewModifyOk.jsp?no=<%=hereNo%>">
+		  method="post" action="javascript:doGoPage('viewModifyOk.jsp');">
 	<input type="hidden" id="sno" name="no" value="<%= hereNo %>">
 	<input type="hidden" id="spage" name="page" value="<%= pageno %>">
 	<input type="hidden" id="smenu" name="menu" value="<%=menu%>">
