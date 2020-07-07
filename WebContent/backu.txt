@@ -1,3 +1,9 @@
+복원
+mysql -uroot -p -h DB명<사용할 DB 파일명
+
+백업
+mysqldump -uroot -p -h DB명>저장할 이름
+
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: 192.168.0.77    Database: anbd
