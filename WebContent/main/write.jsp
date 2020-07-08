@@ -21,6 +21,10 @@
 	pageContext.setAttribute("boardList", dao.getBoardList());
 %>
 
+<%--
+서블릿 적용 전, 정상 작동 확인
+ <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false;"> 
+ --%>
 <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false;">
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
