@@ -25,7 +25,7 @@
 서블릿 적용 전, 정상 작동 확인
  <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false;"> 
  --%>
-<form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false;">
+<form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -64,14 +64,14 @@
 				<td>제목</td>
 				<td>
 					<input type="text" placeholder="제목을 입력하세요" id="title" name="title" maxlength="30" 
-						    autofocus style="width:580px; ime-mode:active;" value="올바른  url -주소 번호 구하기 TEST">
+						    autofocus style="width:580px; ime-mode:active;" value="TEST">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요">내용이에요!</textarea>
+					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요">TEST</textarea>
 				</td>
 			</tr>
 			
