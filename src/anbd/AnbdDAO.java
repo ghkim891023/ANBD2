@@ -451,12 +451,9 @@ public class AnbdDAO extends DbInfo{
 			System.out.println(selectSql);
 			
 			prepareStatement(selectSql);
-			System.out.println("진입 1");
 			executeQuery();
-			System.out.println("진입 2");
 			if(rs.next()) 
 			{
-				System.out.println("진입 3");
 					AnbdVO vo = new AnbdVO();
 					
 					vo.setNo(rs.getInt("no"));
@@ -470,7 +467,6 @@ public class AnbdDAO extends DbInfo{
 					
 					boardList.add(vo);
 			}//====if FLOW
-			System.out.println("진입 4");
 		} //=======try FLOW
 		catch (SQLException e) 
 		{
@@ -480,7 +476,6 @@ public class AnbdDAO extends DbInfo{
 		}
 		finally 
 		{
-			System.out.println("진입 5");
 			rsClose();
 			stateClose();
 			conClose();
@@ -560,7 +555,7 @@ public class AnbdDAO extends DbInfo{
 	 * [글쓰기] 파일 업로드, 글쓰기, 파일 저장
 	 * 
 	 ****************************************************** */
-	public boolean inWrite(AnbdVO vo, HttpServletRequest request, int userNo, String jusoNo) 
+	public boolean inWrite(AnbdVO vo, HttpServletRequest request, int userNo) 
 	{
 		MultipartRequest multi;
 		vo.SaveFileName = new ArrayList<>();
@@ -609,10 +604,14 @@ public class AnbdDAO extends DbInfo{
 			String sigun  = multi.getParameter("sigun");
 			String content= multi.getParameter("content");
 			
+			String[] jusoNoArray = sigun.split(":");
+			String jusoNo = jusoNoArray[0];
+			
 			vo.setMenu(menu);
 			vo.setTitle(title);
 			vo.setContent(content);
 			vo.setSigun(sigun);
+			
 			
 			if(vo.saveName == null)
 			{

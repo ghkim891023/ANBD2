@@ -11,9 +11,6 @@ dao.selLoginUserNo(vo, id);
 String uploadPath = request.getRealPath("/upload");
 vo.setUploadPath(uploadPath);
 
-String msigun = "";
-String[] array = msigun.split(":");
-String a = array[0];
-dao.inWrite(vo, request, vo.getLoginUserNo(), a);
-
-%>${vo.no},<c:if test="${vo.menu eq '아나'}">share</c:if><c:if test="${vo.menu ne '아나'}">reuse</c:if>
+dao.inWrite(vo, request, vo.getLoginUserNo());
+%>
+${vo.no},<c:if test="${vo.menu eq '아나'}">share</c:if><c:if test="${vo.menu ne '아나'}">reuse</c:if>

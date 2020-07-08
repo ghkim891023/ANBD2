@@ -60,7 +60,7 @@
 				<td>제목</td>
 				<td>
 					<input type="text" placeholder="제목을 입력하세요" id="title" name="title" maxlength="30" 
-						    autofocus style="width:580px; ime-mode:active;" value="올바른  url TEST">
+						    autofocus style="width:580px; ime-mode:active;" value="올바른  url -주소 번호 구하기 TEST">
 				</td>
 			</tr>
 			
@@ -130,7 +130,8 @@
 				{
 					var array = data.split(",");
 					var menu = array[1].toString();//메뉴
-					var no = array[0]*1;
+					var no = array[0]*1;//글번호
+					//alert(data);
 	            	alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
 					location.href = "view.jsp?menu="+menu+"&no=" +no;
 	            }
