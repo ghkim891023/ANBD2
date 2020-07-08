@@ -128,7 +128,7 @@
 	key = URLEncoder.encode(key, "UTF-8");*/
 	%>
 	<script type="text/javascript">
-	function doGoPage(url)
+	function doGoPage(url, coNo)
 	{
 		var f = document.pageForm;
 		var mParam = "";
@@ -142,6 +142,10 @@
 		mParam += "key=" + f.skey.value;	
 		mParam += "&";
 		mParam += "no=" + f.sno.value;
+		if(coNo!=null){
+			mParam += "&";
+			mParam += "coNo=" + coNo;
+		}
 		page = url + "?" + mParam;
 		document.location = page;
 	}	
@@ -185,37 +189,64 @@
 <%@include file="../include/footer.jsp"%>
 <script type="text/javascript"> 
 	document.title="ANBD | 아나바다-글보기";
+	//댓글쓰기 엔터
 	function pressEnter()
 	{
 		var login= '<%=loginId%>';
 		if(window.event.keyCode == 13)
-	{
-		if(login=='null' )
 		{
-			alert("로그인 후 댓글 작성이 가능합니다.");
-			location.href="../common/login.jsp";
-			return false;	
-		}//first if FLOW	
-		else
-		{
-			if( $("#comment").val().length==0 || $.trim($("#comment").val())=="")
+			if(login=='null' )
 			{
-				alert("댓글을 입력하세요.");
-				return false;
-			}//if FLOW
+				alert("로그인 후 댓글 작성이 가능합니다.");
+				location.href="../common/login.jsp";
+				return false;	
+			}//first if FLOW	
 			else
 			{
-				//return true;
-				document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
-				document.coForm.submit(); 
-			}//else FLOW
-		}//first else FLOW
-	}//second if FLOW
-};//pressEnter FUNCTION
+				if( $("#comment").val().length==0 || $.trim($("#comment").val())=="")
+				{
+					alert("댓글을 입력하세요.");
+					return false;
+				}//if FLOW
+				else
+				{
+					//return true;
+					//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
+					//document.coForm.submit(); 
+					doSubmitPage('viewCoWrite.jsp', document.coForm);
+				}//else FLOW
+			}//first else FLOW
+		}//second if FLOW
+	};//pressEnter FUNCTION	
+	//페이지 이동이 아니고 submit해야하는 경우(댓글쓰기, 댓글수정) 파라미터 넘기기
+	function doSubmitPage(url, formName, coNo)
+	{
+		var f = document.pageForm;
+		var mParam = "";
+		
+		mParam += "page=" + f.spage.value;
+		mParam += "&";
+		mParam += "menu=" + f.smenu.value;
+		mParam += "&";
+		mParam += "option=" + f.soption.value;
+		mParam += "&";
+		mParam += "key=" + f.skey.value;	
+		mParam += "&";
+		mParam += "no=" + f.sno.value;
+		mParam += "&";
+		mParam += "userNo=" + <%=loginUserNo%>;
+		if(coNo!=null){
+			mParam += "&";
+			mParam += "coNo=" + coNo;
+		}
+		page = url + "?" + mParam;
+		formName.action = page;
+		formName.submit();  
+	}	
 $(document).ready(function(){
 	//캡차 시작
 	var key = ''; //캡차 생성시 발급되는 키
-	$("#email, #userInput, #confirm, #refresh, #capCancel").hide();
+	$("#email, #userInput, #confirm, #refresh, #capCancel, #captchar").hide();
 	//이메일보기 클릭시 v2 [시작] Ajax로 이미지 생성
 	$("#showEmail").click(function(){ 
 		//로그인 안한 경우 alert
@@ -241,7 +272,7 @@ $(document).ready(function(){
 				key = result.key+"";
 				$("#captchar").attr("src", pathFileName); //이미지에 넣기
 				$("#showEmail").hide();
-				$("#userInput, #confirm, #refresh, #capCancel").show();
+				$("#captchar, #userInput, #confirm, #refresh, #capCancel").show();
 				$("#key").val(key); 
 			},error: function(xhr, stat, err){
 				alert("오류: "+err);
@@ -316,11 +347,11 @@ $(document).ready(function(){
 			if( $("#comment").val().length==0 || $.trim($("#comment").val())==""){
 				alert("댓글을 입력하세요.");
 				return false;
-			}else
-			{
+			}else{
 				//return true;
-				document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
-				document.coForm.submit(); 
+				//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
+				//document.coForm.submit();
+				doSubmitPage('viewCoWrite.jsp', document.coForm);
 			}
 		}
 	});
@@ -338,14 +369,15 @@ $(document).ready(function(){
 		}
 	});
 	//댓글 수정 클릭시
+	var coNo;
 	$(document).on('click','#cModify',function(event){
 		$(this).parent().prevAll("#cContent").hide();
 		$(this).parent().prevAll("#cWdate").hide();
 		$(this).parent().hide();
 		var cContent = $(this).parent().prevAll("#cContent").text();
-		var coNo  = $(this).parent().prevAll("#coNo").val();
+		coNo  = $(this).parent().prevAll("#coNo").val();
 		var html  = "<span id='cModDiv'>";
-			 html += "<form method='post' id='cModForm' action='viewCoModify.jsp?coNo="+coNo+"&no=<%=pNo%>'>";
+			 html += "<form method='post' id='cModForm' name='cModForm' action='viewCoModify.jsp?coNo="+coNo+"&no=<%=pNo%>'>";
 			 html += "<input type='text' id='cModContent' name='content'/>";
 			 html += "<button type='button' class='site-btn cModNo'>취소</button>";
 			 html += "<button class='site-btn cModOk'>수정 완료</button>";
@@ -359,7 +391,8 @@ $(document).ready(function(){
 			alert("댓글을 입력하세요.");
 			return false;
 		}else{
-			return true;
+			//return true;
+			doSubmitPage('viewCoModify.jsp', document.cModForm, coNo);
 		}
 	});
 	//댓글 수정 - 취소 클릭시
@@ -371,8 +404,9 @@ $(document).ready(function(){
 	});
 	//댓글 삭제 버튼 
 	$(".cRemove").click(function(){  //#cRemove로 선택하면 위에꺼 버튼에만 먹힘
-		var coNo  = $(this).parent().prevAll("#coNo").val();
-		location.href="viewCoRemove.jsp?coNo="+coNo+"&no=<%=pNo%>";
+		coNo  = $(this).parent().prevAll("#coNo").val();
+		//location.href="viewCoRemove.jsp?coNo="+coNo+"&no=<%=pNo%>";
+		doGoPage('viewCoRemove.jsp', coNo);
 	});
 });
 </script>
