@@ -19,13 +19,15 @@
 	int userNo = 2;
 	dao.selJuso();
 	pageContext.setAttribute("boardList", dao.getBoardList());
+	pageContext.setAttribute("userNo", userNo);
 %>
-
 <%--
 서블릿 적용 전, 정상 작동 확인
- <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=<%=userNo %>" enctype="multipart/form-data" onsubmit="return false;"> 
  --%>
+ <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
+<!-- 
 <form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
+ -->
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -49,14 +51,18 @@
 					<select name="sido" id="sido">
 						<c:forEach items="${boardList}" var="boardList">
 							<c:if test="${boardList.sido eq '기타'}">
-								<option value=${boardList.sido} selected>${boardList.sido}</option>
+								<option value=${boardList.sido} selected="selected">${boardList.sido}</option>
 							</c:if>
 							<c:if test="${boardList.sido ne '기타'}">
 								<option value=${boardList.sido}>${boardList.sido}</option>
 							</c:if>
 						</c:forEach>
 					</select>
-					<span id="sigun"></span>
+					<span id="sigun">
+						<c:if test="${boardList.sido eq '기타'}">
+							<option value="251:기타">기타</option>
+						</c:if>
+					</span>
 				</td>
 			</tr>
 			
@@ -121,11 +127,13 @@
 
 			//전송할  Form의 데이터를 얻을 준비를 한다.
 			var mPostData = new FormData(mForm);
+			var urlSer = "../writeSer?userNo=${pageScope.userNo}";
+			var urlJsp = "writeOk.jsp?userNo=<%=userNo %>";
 			$.ajax
 			({
 				type:"POST",
 				enctype: "multipart/form-data",
-				url:"writeOk.jsp?userNo=<%=userNo %>",
+				url:urlJsp,
 				data: mPostData,
 				processData: false,
 				contentType: false,				
@@ -135,9 +143,14 @@
 					var array = data.split(",");
 					var menu = array[1].toString();//메뉴
 					var no = array[0]*1;//글번호
-					//alert(data);
+					//$("#append").createTextNode(data);
 	            	alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
 					location.href = "view.jsp?menu="+menu+"&no=" +no;
+	            },
+	            error: function(request, status, error)
+	            {
+	            	alert("서블릿을 호출할 수 없음");
+	            	alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            }
 			});//ajax FLOW
 		});//save 클릭 이벤트

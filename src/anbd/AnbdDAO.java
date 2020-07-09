@@ -602,16 +602,23 @@ public class AnbdDAO extends DbInfo{
 			String menu   = multi.getParameter("menu");
 			String title  = multi.getParameter("title");
 			String sigun  = multi.getParameter("sigun");
+			String sido  = multi.getParameter("sido");
 			String content= multi.getParameter("content");
 			
 			String[] jusoNoArray = sigun.split(":");
 			String jusoNo = jusoNoArray[0];
-			
+			if(sido.equals("기타"))
+			{
+				jusoNo = "251";
+			}
 			vo.setMenu(menu);
 			vo.setTitle(title);
 			vo.setContent(content);
 			vo.setSigun(sigun);
-			
+			if(vo.getSigun().equals("")||vo.getSigun() == null)
+			{
+				vo.setSigun("251");
+			}
 			
 			if(vo.saveName == null)
 			{
@@ -620,6 +627,16 @@ public class AnbdDAO extends DbInfo{
 			else 
 			{
 				vo.setPhoto("Y");
+			}
+			
+			if(content != null || !content.equals(""))
+			{
+				content.replaceAll("<", "&lt;");
+				content.replaceAll(">", "&gt;");
+				content.replaceAll("&", "&amp;");
+				content.replaceAll("/", "&#x2F;");
+				content.replaceAll("\"","&quot;");
+				content.replaceAll("\'","&#x27;");
 			}
 			String insertBoardSql  = "INSERT INTO board ";
 				   insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
