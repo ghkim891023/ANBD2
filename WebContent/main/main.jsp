@@ -43,7 +43,11 @@ request.setAttribute("key", mEncodeKey);
 	seqNo     = startRow + 1;				    //페이지 목록에 게시글 일련번호
 	
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
-	pg.selMainList2(mainList, startRow, pageSize, request); //pg.selMainList(mainList, startRow, pageSize, mKey);
+	String uri = request.getRequestURI();
+	System.out.println("uri: "+uri);
+	if(uri.equals("/anbd2/main/main.jsp")){
+		//pg.selMainList2(mainList, startRow, pageSize, request); //pg.selMainList(mainList, startRow, pageSize, mKey);
+	}
 	session.setAttribute("pgList", mainList);
 	
 	count 	 = pg.count;						 //(selMainList2 메소드로부터 검색된)총 글 갯수
@@ -160,7 +164,7 @@ request.setAttribute("key", mEncodeKey);
 							${pageList.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="../img/이미지.png" style="width:20px;">
+									<img src="/anbd2/img/이미지.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -298,10 +302,14 @@ request.setAttribute("key", mEncodeKey);
 			//document.jusoForm.submit();
 			doSubmitPage(path+"/jusoSer", jusoForm)
 		});
+		$("#noDone").click(function(){
+			var path = '${pageContext.request.contextPath}';
+			doGoPage(path+"/noDoneSer")
+		});
 	})
 </script>
 <!--  doGoPage()에 값을 보내기 위한 hidden 값  -->
-<form id="pageForm" name="pageForm" method="post" action="main.jsp">
+<form id="pageForm" name="pageForm" method="post" action="/anbd2/main/main.jsp">
 	<input type="hidden" id="spage" name="page" value="">
 	<input type="hidden" id="smenu" name="menu" value="<%=menu%>">
 	<input type="hidden" id="soption" name="soption" value="<%=option%>">
