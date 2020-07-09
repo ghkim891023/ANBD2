@@ -942,7 +942,7 @@ s	 ****************************************************** */
 		{
 			getConnection();
 			String selSigunSql =  "";
-				   selSigunSql += "SELECT sido, sigun \n";
+				   selSigunSql += "SELECT sido, sigun, jusoNo \n";
 				   selSigunSql += "FROM juso \n";
 				   selSigunSql += "WHERE sido = ? \n";
 				   selSigunSql += "ORDER BY jusoNo asc \n";
@@ -958,6 +958,7 @@ s	 ****************************************************** */
 					
 					vo.setSigun(rs.getString("sigun"));
 					vo.setSido(rs.getString("sido"));
+					vo.setJusoNo(rs.getInt("jusoNo"));
 					
 					boardList.add(vo);
 				}

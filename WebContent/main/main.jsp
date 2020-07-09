@@ -57,11 +57,32 @@ request.setAttribute("key", mEncodeKey);
 	
 	//서버에 attribute를 setting하겠다
 	pageContext.setAttribute("blist", blist);
+	
+	dao.selJuso();
+	pageContext.setAttribute("selJuso", dao.getBoardList());
 %>
 <c:if test="${param.menu eq 'reuse'}">
-	<link rel="stylesheet" type="text/css" href="../css/reuseStyle.css">
+	<link rel="stylesheet" type="text/css" href="/anbd2/css/reuseStyle.css">
 </c:if>
 <div style="padding: 20px 40px 20px;">
+<div align="right">
+	<form id="jusoForm" name="jusoForm" method="post">
+		<select id="sido" name="sido">
+			<option value="시/도">시/도</option>
+			<c:forEach items="${selJuso}" var="selJuso">
+				<option value="${selJuso.sido}">${selJuso.sido}</option>
+			</c:forEach>	
+		</select>
+		<select id="sigun" name="sigun">
+			<option value="시/군/구">시/군/구</option>
+		</select>
+		<input type="hidden" id="jusoNo" name="jusoNo"/>
+		<input type="hidden" id="startRow" name="startRow" value="<%=startRow%>"/>
+		<input type="hidden" id="pageSize" name="pageSize" value="<%=pageSize%>"/>
+		<input type="button" id="jusoSort" value="확인"/>
+		<img id="noDone" style="width:22px;" src="/anbd2/img/checkGray.png"/> 거래완료 안보기</div>
+	</form>
+	
 	<table id="board">
 		<tr>
 			<th width="160px">구분</th>
@@ -79,7 +100,7 @@ request.setAttribute("key", mEncodeKey);
 						<a href="view.jsp?no=${blist.no}&menu=notice">${blist.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="../img/이미지.png" style="width:20px;">
+									<img src="/anbd2/img/이미지.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -116,7 +137,7 @@ request.setAttribute("key", mEncodeKey);
 							${pageList.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="../img/이미지.png" style="width:20px;">
+									<img src="/anbd2/img/이미지.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -225,6 +246,59 @@ request.setAttribute("key", mEncodeKey);
 		alert("글쓰기는 로그인 후 가능합니다");
 		location.href="../common/login.jsp";
 	}
+	function doSubmitPage(url, formName)
+	{
+		var f = document.pageForm;
+		var mParam = "";
+		
+		mParam += "page=" + f.spage.value;
+		mParam += "&";
+		mParam += "menu=" + f.smenu.value;
+		mParam += "&";
+		mParam += "option=" + f.soption.value;
+		mParam += "&";
+		mParam += "key=" + f.skey.value;	
+		page = url + "?" + mParam;
+		formName.action = page;
+		formName.submit();  
+	}
+	$(document).ready(function()
+		{
+		$("#sido").change(function()
+				{
+				//선택한 시도 값 구하기
+				var changeSigun = $("#sido").val();
+				$.ajax
+					({
+						type:"GET",
+						url:"/anbd2/main/selSigun.jsp",
+						data: "sido=" + encodeURIComponent(changeSigun),
+						dataType: "html",
+						success: function (data) 
+						{
+							//alert(data);
+							$("#sigun").html(data);
+			         },
+		            error: function(xhr, status, error)
+		            {
+		            	alert("지역 정보를 조회할 수 없습니다");
+		            }
+					});//ajax FLOW
+					
+				});//시/도 변화 시 시군구 변화
+		$("#jusoSort").click(function(){
+			var sido = $("#sido option:selected").val();
+			var sigun = $("#sigun option:selected").val();
+				 sigun = sigun.split(":");
+			var jusoNo = sigun[0];
+			$("#jusoNo").val(jusoNo);
+			//alert(jusoNo);
+			var path = '${pageContext.request.contextPath}';
+			//document.jusoForm.action = path+"/jusoSer"; 
+			//document.jusoForm.submit();
+			doSubmitPage(path+"/jusoSer", jusoForm)
+		});
+	})
 </script>
 <!--  doGoPage()에 값을 보내기 위한 hidden 값  -->
 <form id="pageForm" name="pageForm" method="post" action="main.jsp">
