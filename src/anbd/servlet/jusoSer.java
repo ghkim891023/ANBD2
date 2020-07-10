@@ -32,29 +32,35 @@ public class jusoSer extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		System.out.println("*****************jusoSer 시작, post*****************");
+		StringBuffer serPath = request.getRequestURL();
+		System.out.println("----------serPath: "+serPath);
 		
 		int jusoNo = Integer.parseInt(request.getParameter("jusoNo"));
 		int startRow = Integer.parseInt(request.getParameter("startRow"));
 		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 		System.out.println(jusoNo);
 		System.out.println("startRow: "+startRow);
+		boolean juso = true;
+		boolean noDone = false;
 		
 		PageDAO p = new PageDAO();
-		//selMainListJuso( ArrayList<AnbdVO> mainList, int startRow, int pageSize, HttpServletRequest request, int JusoNo)
 		ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
-		p.selMainListJuso(mainList, startRow, pageSize, request, jusoNo);
-		
+		p.selMainListJuDone(mainList, startRow, pageSize, request, juso, noDone);
 
-		String path = "/main/main.jsp"; //절대경로 '/'는 웹사이트의 루트 폴더
-		String path2 = "/anbd2/main/main.jsp"; //sendRedirect
-		RequestDispatcher dis = request.getRequestDispatcher(path); //클라이언트 요청을 
+		String path = "/main/main.jsp"; 		//절대경로 '/'는 웹사이트의 루트 폴더
+		String pathRe = "/anbd2/main/main.jsp"; //sendRedirect
+		RequestDispatcher dis = request.getRequestDispatcher(path); 
 		
 //		HttpSession session = request.getSession();
 //		session.setAttribute("pgList", mainList);
 		
 		request.setAttribute("pgList", mainList);
-
-		//response.sendRedirect(path2); 
+		request.setAttribute("yesServlet", "from servlet");
+		request.setAttribute("count", p.count);
+		request.removeAttribute("startRow");
+		System.out.println("*****************jusoSer 종료 직전*****************");
+		//response.sendRedirect(pathRe); 
 		dis.forward(request, response);
 		
 		

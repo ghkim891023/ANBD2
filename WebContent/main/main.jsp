@@ -15,6 +15,7 @@ int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
 
 currentPage = webutil._I("page","1");
+System.out.println("-----currentPage: "+currentPage);
 String mKey = webutil._S("key","");
 String mEncodeKey = webutil._E("key","");
 
@@ -44,13 +45,66 @@ request.setAttribute("key", mEncodeKey);
 	
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
 	String uri = request.getRequestURI();
-	System.out.println("uri: "+uri);
-	if(uri.equals("/anbd2/main/main.jsp")){
-		//pg.selMainList2(mainList, startRow, pageSize, request); //pg.selMainList(mainList, startRow, pageSize, mKey);
+	System.out.println("-----uri: "+uri);
+	
+	String MainPageJSP = "";
+	String FromServlet = (String)request.getAttribute("yesServlet");
+	
+	if(FromServlet != null)
+	{
+		MainPageJSP = "jusoSer";
+	}else
+	{
+		MainPageJSP = "main/main.jsp";
 	}
+	request.setAttribute("curpage_jsp",MainPageJSP);
+	
+	%>
+		<h4>서블릿에서 온 : ${yesServlet}</h4>
+		<c:choose>
+			<c:when test="${yesServlet eq null}">
+			<h4>서블릿을 거치지 않음</h4>
+				<% 
+					//pg.selMainListJuDone(mainList, startRow, pageSize, request, juso, noDone);
+					//count 	 = pg.count; //(selMainList2 메소드로부터 검색된)총 글 갯수
+				%>
+			</c:when>
+			<c:when test="${yesServlet ne null}">
+				<h3>서블릿에 다녀옴</h3>
+					<%
+					//count 	 = (Integer)request.getAttribute("count");
+					%>
+			</c:when>
+		</c:choose>
+	<%
+	//선생님 지도 후
+	Integer jusono = 0;
+	boolean juso = false;
+	boolean noDone = false;
+	jusono = webutil._I("jusono","0");	
+	if(jusono!=0){
+		juso = true;
+	}
+	
+	System.out.println("------------jusono: "+jusono);
+	System.out.println("------------juso: "+juso);
+	
+	String sNoDone = request.getParameter("sviewdone");
+	System.out.println("------------sNoDone: "+sNoDone);
+	
+	pg.selMainListJuDone(mainList, startRow, pageSize, request, juso, noDone);
+	count 	 = pg.count; //(selMainList2 메소드로부터 검색된)총 글 갯수
+	
+	/* //if(uri.contains("main.jsp")){
+	if(uri.contains("jusoSer")){
+		System.out.println("if문 안에");
+		//pg.selMainList2(mainList, startRow, pageSize, request);
+	}if(uri.contains("main.jsp")){
+		System.out.println("if문 밖에");	
+		pg.selMainListJuDone(mainList, startRow, pageSize, request, juso, noDone);
+	} */
 	session.setAttribute("pgList", mainList);
 	
-	count 	 = pg.count;						 //(selMainList2 메소드로부터 검색된)총 글 갯수
 	maxPageNo = count/pageSize;  				 //최대 페이지 번호 계산
 	if( (count % pageSize) != 0 ){			 //총 글 갯수를 목록표시갯수(20)로 나눠서 나머지가 남으면, 한 페이지 더 필요
 		maxPageNo = maxPageNo + 1;				 //최대 페이지번호에 +1
@@ -126,7 +180,7 @@ request.setAttribute("key", mEncodeKey);
 						<td>[${pageList.menu}]</td>
 						<td>
 						<c:if test="${pageList.menu eq '아나'}">
-							<a href="javascript:doGoPage('view.jsp','<%= currentPage %>','${pageList.no}');">
+							<a href="javascript:doGoPage('/anbd2/main/view.jsp','<%= currentPage %>','${pageList.no}');">
 							<c:choose>
 								<c:when test="${pageList.status eq 'done'}">
 									<span id="status">[거래완료]</span>
@@ -149,7 +203,7 @@ request.setAttribute("key", mEncodeKey);
 						</c:if>
 						<c:if test="${pageList.menu eq '바다'}">
 							<!--기존: <a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}"> -->
-							<a href="javascript:doGoPage('view.jsp','<%= currentPage %>','${pageList.no}');">
+							<a href="javascript:doGoPage('/anbd2/main/view.jsp','<%= currentPage %>','${pageList.no}');">
 							<c:choose>
 								<c:when test="${pageList.status eq 'done'}">
 									<span id="status">[거래완료]</span>
@@ -211,24 +265,24 @@ request.setAttribute("key", mEncodeKey);
 	}
 	//첫페이지는 이전블럭 없애기
 	if(currentPage >10){  
-		%><a href="javascript:doGoPage('main.jsp','<%= startBlock - 10 %>','');"> &lt;이전 </a><% 
+		%><a href="javascript:doGoPage('/anbd2/${ curpage_jsp }','<%= startBlock - 10 %>','');"> &lt;이전 </a><% 
 	}
 	for(int i=startBlock; i<=endBlock; i++)
 	{
 		if(i==currentPage){
-			%><a href="javascript:doGoPage('main.jsp','<%= i %>','');" class="active"> <%= i %>.</a><%
+			%><a href="javascript:doGoPage('/anbd2/${ curpage_jsp }','<%= i %>','');" class="active"> <%= i %>.</a><%
 		}else{
-			%><a href="javascript:doGoPage('main.jsp','<%= i %>','');"> <%= i %>.</a><%
+			%><a href="javascript:doGoPage('/anbd2/${ curpage_jsp }','<%= i %>','');"> <%= i %>.</a><%
 		}
 	}
 	//마지막블럭 다음은 안나오게
 	if ( endBlock < maxPageNo ){
-		%><a href="javascript:doGoPage('main.jsp','<%= endBlock+1 %>','');"> 다음&gt; </a><%
+		%><a href="javascript:doGoPage('/anbd2/${ curpage_jsp }','<%= endBlock+1 %>','');"> 다음&gt; </a><%
 	}
 %>
 </div>
 <script language="javascript">
-	function doGoPage(url,pageno,seqno) //seqno는 글번호
+	function doGoPage(url,pageno,seqno,noDone) //seqno는 글번호
 	{
 		var f = document.pageForm;
 		var mParam = "";
@@ -242,7 +296,20 @@ request.setAttribute("key", mEncodeKey);
 		mParam += "option=" + f.soption.value;
 		mParam += "&";
 		mParam += "key=" + f.skey.value;	
+		if(noDone!=null){
+			mParam += "&";
+			mParam += "startRow=" + <%=startRow%>;	
+			mParam += "&";
+			mParam += "pageSize=" + <%=pageSize%>;	
+		}
+		mParam += "&";
+		mParam += "jusono=" + f.sjusono.value;
+		mParam += "&";
+		mParam += "viewdone=" + f.sviewdone.value;
 		
+		//선생님 방법+
+		//mParam = Encrption(mParam);
+		alert("주소 번호 = "+f.sjusono.value);
 		page = url + "?" + mParam;
 		document.location = page;
 	}
@@ -300,19 +367,33 @@ request.setAttribute("key", mEncodeKey);
 			var path = '${pageContext.request.contextPath}';
 			//document.jusoForm.action = path+"/jusoSer"; 
 			//document.jusoForm.submit();
-			doSubmitPage(path+"/jusoSer", jusoForm)
+			//doSubmitPage(path+"/jusoSer", jusoForm)
+			
+			pageForm.sjusono.value = jusoNo;			
+			doGoPage("/anbd2/main/main.jsp","1","","");
+			
+			//선생님 방법1
+			//var param = "";
+			//param = "page=2&no=&menu=&option=title&key=&startRow=0&pageSize=19";
+			//param += "&jusoNo=" + jusoNo;
+			//param += "&viewdone=N";
+			//alert(param);
+			//document.location = "main.jsp?" + param;
 		});
 		$("#noDone").click(function(){
 			var path = '${pageContext.request.contextPath}';
-			doGoPage(path+"/noDoneSer")
+			doGoPage(path+"/noDoneSer",<%=currentPage%>,"","noDone");
+			//doSubmitPage(path+"/noDoneSer", jusoForm)
 		});
 	})
 </script>
 <!--  doGoPage()에 값을 보내기 위한 hidden 값  -->
-<form id="pageForm" name="pageForm" method="post" action="/anbd2/main/main.jsp">
-	<input type="hidden" id="spage" name="page" value="">
+<form id="pageForm" name="pageForm" method="post" action="/anbd2/${ curpage_jsp }">
+	<input type="hidden" id="spage" name="page" value="<%=currentPage%>">
 	<input type="hidden" id="smenu" name="menu" value="<%=menu%>">
 	<input type="hidden" id="soption" name="soption" value="<%=option%>">
 	<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
+	<input type="hidden" id="sjusono" name="sjusono" value="">
+	<input type="hidden" id="sviewdone" name="sviewdone" value="N">
 </form>
 <%@include file="../include/footer.jsp"%>
