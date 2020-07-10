@@ -39,46 +39,47 @@ public class writeSer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		System.out.println("This is doPost()...");
-		//doGet(request, response);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/x-json;charset=utf-8");
-		
-		AnbdVO vo = new AnbdVO();
-		AnbdDAO dao = new AnbdDAO();
 		HttpSession session = request.getSession();
-		PrintWriter out = response.getWriter();
+		PrintWriter out		= response.getWriter();
+		AnbdDAO 	dao 	= new AnbdDAO();
+		AnbdVO 		vo 		= new AnbdVO();
 		
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		vo.setUserNo(userNo);
-
-		String id = (String)session.getAttribute("loginId");
+		
+		//String id = (String)session.getAttribute("loginId");
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
 		vo.setUploadPath(uploadPath);
 		
-		String path = "/main/write.jsp";
-		RequestDispatcher dis = request.getRequestDispatcher(path); //클라이언트 요청을 
-		dis.forward(request, response);
 		
 		dao.inWrite(vo, request, vo.getLoginUserNo());
-		out.print("글 번호 = "+vo.getNo());
-		out.print("메뉴 = "+vo.getMenu());
-		out.print("유저 번호 = "+userNo);
-
-		if(vo.getMenu().equals("아나"))
-		{
-			out.print("메뉴 = share");
-		}
-		else if(!vo.getMenu().equals("아나")) 
-		{
-			out.print("메뉴 = reuse");
-		}
-		System.out.println("글 번호 = "+vo.getNo());
-		System.out.println("메뉴 = "+vo.getMenu());
+//		out.print("글 번호 = "+vo.getNo());
+//		out.print("메뉴 = "+vo.getMenu());
+//		out.print("유저 번호 = "+userNo);
+//		//vo.setUserNo(userNo);
+//		System.out.println("글 번호 = "+vo.getNo());
+//		//System.out.println("jsp 유저 번호 = "+userNo);
+//		System.out.println("vo 유저 번호 = "+vo.getUserNo());
+//
+//		if(vo.getMenu().equals("아나"))
+//		{
+//			out.print("메뉴 = share");
+//			System.out.println("메뉴 = share");
+//		}
+//		else if(!vo.getMenu().equals("아나")) 
+//		{
+//			out.print("메뉴 = reuse");
+//			System.out.println("메뉴 = reuse");
+//		}
+//		//String url = "/main/write.jsp?no="+userNo+"&menu=share";
+//		String url = "/main/write.jsp?menu=share";
+//		
+//		request.setAttribute((vo.getNo()+""), vo.getNo());
+//		request.setAttribute((vo.getMenu()), vo.getMenu());
+//		//response.sendRedirect(url);
 		
-		String url = "write.jsp";
-		request.setAttribute((vo.getNo()+""), vo.getNo());
-		request.setAttribute((vo.getMenu()), vo.getMenu());
-		response.sendRedirect(url);
+//		RequestDispatcher dis = request.getRequestDispatcher(url); //클라이언트 요청을 
+//		dis.forward(request, response);
 		
 	}//doPost METHOD
 

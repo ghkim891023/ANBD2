@@ -20,6 +20,7 @@
 	dao.selJuso();
 	pageContext.setAttribute("boardList", dao.getBoardList());
 	pageContext.setAttribute("userNo", userNo);
+	String loginId = (String)session.getAttribute("loginId");
 %>
 <%--
 서블릿 적용 전, 정상 작동 확인
@@ -59,10 +60,10 @@
 							</c:if>
 						</c:forEach>
 					</select>
-					<span id="sigun">
-						<c:if test="${boardList.sido eq '기타'}">
+					<span>
+					<select name="sigun" id="sigun">
 							<option value="251:기타">기타</option>
-						</c:if>
+					</select>
 					</span>
 				</td>
 			</tr>
@@ -99,6 +100,7 @@
 				</td>
 			</tr>
 		</table>
+		<input type="hidden" name="loginId" value="${sessionScope.loginId}"/>
 	</div>
 </form>
 <div class="Lst">
@@ -128,30 +130,34 @@
 
 			//전송할  Form의 데이터를 얻을 준비를 한다.
 			var mPostData = new FormData(mForm);
-			var urlSer = "../writeSer?userNo=${pageScope.userNo}";
-			var urlJsp = "writeOk.jsp?userNo=<%=userNo %>";
+			var path = "${pageContext.request.contextPath}";
+			var urlSer = path+"/writeSer?userNo=${pageScope.userNo}";
+			var urlJsp = "writeOk.jsp?userNo=${pageScope.userNo}";
 			$.ajax
 			({
 				type:"POST",
 				enctype: "multipart/form-data",
-				url:urlJsp,
+				url:urlSer,
 				data: mPostData,
 				processData: false,
 				contentType: false,				
-				dataType:"html",
+				dataType:"json",
 				success: function (data) 
 				{
-					var array = data.split(",");
-					var menu = array[1].toString();//메뉴
-					var no = array[0]*1;//글번호
+					//var array = data.split(",");
+					//var menu = array[1].toString();//메뉴
+					//var no = array[0]*1;//글번호
 	            	//alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
 	            	alert("정상적으로 서블릿 호출을 완료함");
-					location.href = "view.jsp?menu="+menu+"&no=" +no;
+	            	console.log(data);
+	            	//location.href="view.jsp?data="+encodeURIComponent(data);
+					//location.href = "view.jsp?menu="+menu+"&no=" +no;
 	            },
 	            error: function(request, status, error)
 	            {
 	            	alert("서블릿을 호출할 수 없음");
-	            	alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+	            	console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+	            	//alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            }
 			});//ajax FLOW
 		});//save 클릭 이벤트
