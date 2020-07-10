@@ -75,13 +75,6 @@ public class writeSer extends HttpServlet {
 		System.out.println("글 번호 = "+vo.getNo());
 		System.out.println("메뉴 = "+vo.getMenu());
 		
-		
-		/*
-		 * String url = "write.jsp";
-		 *  RequestDispatcher dispatcher =
-		 * request.getRequestDispatcher(url); dispatcher.forward(request, response);
-		 */
-		
 		String url = "write.jsp";
 		request.setAttribute((vo.getNo()+""), vo.getNo());
 		request.setAttribute((vo.getMenu()), vo.getMenu());

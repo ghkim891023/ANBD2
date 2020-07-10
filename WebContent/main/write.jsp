@@ -23,11 +23,12 @@
 %>
 <%--
 서블릿 적용 전, 정상 작동 확인
- --%>
  <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
+ --%>
 <!-- 
-<form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
+서블릿 적용 후
  -->
+<form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -143,8 +144,8 @@
 					var array = data.split(",");
 					var menu = array[1].toString();//메뉴
 					var no = array[0]*1;//글번호
-					//$("#append").createTextNode(data);
-	            	alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
+	            	//alert("글 쓰기를 완료하였습니다.\n글 보기 화면으로 이동합니다.");
+	            	alert("정상적으로 서블릿 호출을 완료함");
 					location.href = "view.jsp?menu="+menu+"&no=" +no;
 	            },
 	            error: function(request, status, error)
