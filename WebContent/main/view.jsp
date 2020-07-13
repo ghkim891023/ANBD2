@@ -123,9 +123,28 @@
 				AnbdVO covo = (AnbdVO)coList.get(i);	
 				out.print("<p class='coRow'>");
 				out.print("<input type='hidden' id='coNo' value='"+covo.getCoNo()+"'/>");
-				out.print("<span id='cWriter'>"+covo.getId()+"</span>");
+				if(vo.getId().equals(covo.getId()))
+				{
+						out.print("<span id='cWriter'>"+covo.getId()+"");
+						switch(vo.getMenu())
+						{
+						case "아나":
+							out.print("<img src='../img/writerGreen.png' width='45px'></span>");
+							break;
+						case "바다":
+							out.print("<img src='../img/writerBlue.png' width='45px'></span>");
+							break;
+						}
+				}
+				else
+				{
+					out.print("<span id='cWriter'>"+covo.getId()+"</span>");
+				}
 				out.print("<span id='cContent'>"+covo.getcContent()+"</span>");
 				out.print("<span id='cWdate'>"+covo.getcWdate()+"</span>");
+				/* out.print("글 작성자 = "+vo.getId());
+				out.print("댓글 작성자 = "+covo.getId()); */
+				
 				int coWriter = covo.getCWriterNo();
 				if (loginUserNo ==coWriter){
 					%>
