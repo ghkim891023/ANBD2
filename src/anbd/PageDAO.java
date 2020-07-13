@@ -18,7 +18,7 @@ public class PageDAO extends DbInfo{
 			executeQuery();
 			rs.next();
 			sido = rs.getString("sido");
-			System.out.println("지역번호로 조회한 도/시 : "+count);
+			System.out.println("지역번호로 조회한 도/시 : "+sido);
 		} catch (Exception e) {
 			System.out.println("selSidoByJusoNo() 에러: "+e.getMessage());
 			e.printStackTrace();
@@ -27,6 +27,26 @@ public class PageDAO extends DbInfo{
 		pstateClose();
 		conClose();
 		return sido;
+	}
+	
+	public String selSigunByJusoNo(int jusoNo) {
+		String sigun = "";
+		String SQL  = "select sigun from juso where jusoNo= "+jusoNo;
+		try {
+			getConnection();
+			prepareStatement(SQL);
+			executeQuery();
+			rs.next();
+			sigun = rs.getString("sigun");
+			System.out.println("지역번호로 조회한 시/군/구 : "+sigun);
+		} catch (Exception e) {
+			System.out.println("selSidoByJusoNo() 에러: "+e.getMessage());
+			e.printStackTrace();
+		}
+		rsClose();
+		pstateClose();
+		conClose();
+		return sigun;
 	}
 	
 	public void selMainListJuDone( ArrayList<AnbdVO> mainList, int startRow, int pageSize, HttpServletRequest request, 

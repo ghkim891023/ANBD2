@@ -54,14 +54,18 @@ request.setAttribute("key", mEncodeKey);
 	//선생님 지도 후
 	Integer jusoNo = 0;
 	String noDoneYN = "N";
+	String sido = "";
+	String sigun = "";
 	boolean juso = false;
 	boolean noDone = false;
 	jusoNo = webutil._I("jusoNo","0");	
 		if(jusoNo!=0){
 			juso = true;
-			//주소번호로 시/도, 시/군/구 값 가져오기
-			String sido = pg.selSidoByJusoNo(jusoNo);
+			//주소번호로 시/도, 시/군/구 값 가져오기 ------------------------------------
+			sido = pg.selSidoByJusoNo(jusoNo);
+			sigun = pg.selSigunByJusoNo(jusoNo);
 			System.out.println("===해당 시/도 : "+sido);
+			System.out.println("===해당 시/군/구 : "+sigun);
 		}
 	noDoneYN = webutil._S("noDone","N");	 //==request.getParameter("noDone");
 		if(noDoneYN.equals("Y")){
@@ -256,24 +260,26 @@ request.setAttribute("key", mEncodeKey);
 			$("#noDone").attr("src", "/anbd2/img/checkDarkgray.png");
 		}
 		var juso = <%=juso%>; 
-		if(juso==true){	   //지역선택 결과페이지이면
-			alert(<%=jusoNo%>);	   //선택한 시도, 시군구 보여주기........................
+		if(juso==true){	//지역선택 결과페이지이면, 선택한 시도, 시군구 보여주기..but 시/군/구 클릭시 검색한 시/군/구만 나옴
+			$("#sido").val("<%=sido%>").attr("selected", "selected");
+			$("#sigun").append("<option value='<%=sigun%>'><%=sigun%></option>");
+			$("#sigun").val("<%=sigun%>").attr("selected", "selected");
 		}
 		$("#sido").change(function(){ //선택한 시도의 시군구 구하기
 			var changeSigun = $("#sido").val();
 			$.ajax({
-					type:"GET",
-					url:"/anbd2/main/selSigun.jsp",
-					data: "sido=" + encodeURIComponent(changeSigun),
-					dataType: "html",
-					success: function (data){
-						$("#sigun").html(data);
-		         },
-	            error: function(xhr, status, error){
-	            	alert("지역 정보를 조회할 수 없습니다");
-	            }
-				});//ajax FLOW
-			});//sido
+				type:"GET",
+				url:"/anbd2/main/selSigun.jsp",
+				data: "sido=" + encodeURIComponent(changeSigun),
+				dataType: "html",
+				success: function (data){
+					$("#sigun").html(data);
+	         },
+            error: function(xhr, status, error){
+            	alert("지역 정보를 조회할 수 없습니다");
+            }
+			});//ajax FLOW
+		});//sido
 		$("#jusoSort").click(function(){
 			var sido = $("#sido option:selected").val();
 			var sigun = $("#sigun option:selected").val();
