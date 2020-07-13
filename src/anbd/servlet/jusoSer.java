@@ -48,8 +48,7 @@ public class jusoSer extends HttpServlet {
 		ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
 		p.selMainListJuDone(mainList, startRow, pageSize, request, juso, noDone);
 
-		String path = "/main/main.jsp"; 		//절대경로 '/'는 웹사이트의 루트 폴더
-		String pathRe = "/anbd2/main/main.jsp"; //sendRedirect
+		String path = "/anbd2/main/main.jsp"; 		//절대경로 '/'는 웹사이트의 루트 폴더
 		RequestDispatcher dis = request.getRequestDispatcher(path); 
 		
 //		HttpSession session = request.getSession();
@@ -60,7 +59,7 @@ public class jusoSer extends HttpServlet {
 		request.setAttribute("count", p.count);
 		request.removeAttribute("startRow");
 		System.out.println("*****************jusoSer 종료 직전*****************");
-		//response.sendRedirect(pathRe); 
+		//response.sendRedirect(path); 
 		dis.forward(request, response);
 		
 		

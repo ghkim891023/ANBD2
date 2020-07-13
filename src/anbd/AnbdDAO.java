@@ -452,8 +452,8 @@ public class AnbdDAO extends DbInfo{
 			//photo 아직 안 끝남, userNo는 왜 넣었더라...>06.10userNo 지웠음
 			
 			String selectSql = "";
-			selectSql += "SELECT no, menu, title, photo, wdate, status, content ";
-			selectSql += "FROM board ";
+			selectSql += "SELECT no, menu, title, photo, wdate, status, content, sido, sigun ";
+			selectSql += "FROM board b ";
 			selectSql += "LEFT JOIN juso j ";
 			selectSql += "ON b.jusoNo = j.jusoNo ";
 					selectSql += "ORDER BY no desc ";
@@ -475,8 +475,8 @@ public class AnbdDAO extends DbInfo{
 					vo.setWdate(db.rs.getString("wdate"));
 					vo.setStatus(db.rs.getString("status"));
 					vo.setContent(db.rs.getString("content"));
-					vo.setSido(rs.getString("sido"));
-					vo.setSigun(rs.getString("sigun"));
+					vo.setSido(db.rs.getString("sido"));
+					vo.setSigun(db.rs.getString("sigun"));
 					
 					//세팅한 no, menu 등의 정보를 blist에 담겠다
 					blist.add(vo);
@@ -894,7 +894,7 @@ s	 ****************************************************** */
 			String selSidoSql =  "";
 				   selSidoSql += "SELECT distinct sido \n";
 				   selSidoSql += "FROM juso \n";
-				   selSidoSql += "ORDER BY jusoNo asc \n";
+				   selSidoSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSidoSql);
 			System.out.println(selSidoSql);
 			executeQuery();
@@ -910,7 +910,6 @@ s	 ****************************************************** */
 				}
 				while(rs.next());
 			}//if FLOW
-			System.out.println("=============selJuso 실행 완료=============");
 		}//====try FLOW
 		catch(Exception e)
 		{
@@ -945,7 +944,7 @@ s	 ****************************************************** */
 				   selSigunSql += "SELECT sido, sigun, jusoNo \n";
 				   selSigunSql += "FROM juso \n";
 				   selSigunSql += "WHERE sido = ? \n";
-				   selSigunSql += "ORDER BY jusoNo asc \n";
+				   selSigunSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSigunSql);
 			pstate.setString(1, sido);
 			System.out.println(selSigunSql);
@@ -964,7 +963,6 @@ s	 ****************************************************** */
 				}
 				while(rs.next());
 			}//if FLOW
-			System.out.println("=============selSigun 실행 완료=============");
 		}//====try FLOW
 		catch(Exception e)
 		{

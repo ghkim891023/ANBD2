@@ -42,7 +42,7 @@ public class WebUtil
 		String mValue = mRequest.getParameter(pParam);
 		int    mInt = 0;
 		
-		if(mValue == null){
+		if(mValue == null || mValue.equals("")){
 			mValue = pDefault;
 		}
 		try{
