@@ -15,6 +15,8 @@
 	String option = webutil._S("option","title");
 	String Key = webutil._S("key","");
 	String mEncodeKey = webutil._E("key","");
+	Integer jusoNo = webutil._I("jusoNo","0");
+	String noDoneYN = webutil._S("noDone","N");
 	
 	String mParam  = "";
 			 mParam += "page=" + pageno;
@@ -26,7 +28,11 @@
 			 mParam += "option=" + option;
 			 mParam += "&";
 			 mParam += "key=" + mEncodeKey;
-	
+			 mParam += "&";
+			 mParam += "jusoNo=" + jusoNo;
+			 mParam += "&";
+			 mParam += "noDone=" + noDoneYN;
+			 
 	dao.upModifyComment(coNo, content);
 	//response.sendRedirect("view.jsp?no="+no); 
 	response.sendRedirect("view.jsp?"+mParam);

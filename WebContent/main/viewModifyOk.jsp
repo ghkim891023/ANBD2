@@ -15,9 +15,8 @@
 	String option = webutil._S("option","title");
 	String Key = webutil._S("key","");
 	String mEncodeKey = webutil._E("key","");
-	
-	out.print("Key: "+Key+"<br>");
-	//out.print("pkey: "+pkey+"<br>");
+	Integer jusoNo = webutil._I("jusoNo","0");
+	String noDoneYN = webutil._S("noDone","N");
 	
 	String mParam  = "";
 			 mParam += "page=" + pageno;
@@ -29,6 +28,10 @@
 			 mParam += "option=" + option;
 			 mParam += "&";
 			 mParam += "key=" + mEncodeKey;
+			 mParam += "&";
+			 mParam += "jusoNo=" + jusoNo;
+			 mParam += "&";
+			 mParam += "noDone=" + noDoneYN;
 	System.out.println("mEncodeKey: "+mEncodeKey);
 
 	//String savePath = application.getRealPath("/upload");

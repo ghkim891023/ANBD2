@@ -61,11 +61,8 @@ request.setAttribute("key", mEncodeKey);
 	jusoNo = webutil._I("jusoNo","0");	
 		if(jusoNo!=0){
 			juso = true;
-			//주소번호로 시/도, 시/군/구 값 가져오기 ------------------------------------
-			sido = pg.selSidoByJusoNo(jusoNo);
+			sido = pg.selSidoByJusoNo(jusoNo);  //주소번호로 시/도, 시/군/구 값 가져오기
 			sigun = pg.selSigunByJusoNo(jusoNo);
-			System.out.println("===해당 시/도 : "+sido);
-			System.out.println("===해당 시/군/구 : "+sigun);
 		}
 	noDoneYN = webutil._S("noDone","N");	 //==request.getParameter("noDone");
 		if(noDoneYN.equals("Y")){
@@ -274,10 +271,9 @@ request.setAttribute("key", mEncodeKey);
 				dataType: "html",
 				success: function (data){
 					$("#sigun").html(data);
-	         },
-            error: function(xhr, status, error){
-            	alert("지역 정보를 조회할 수 없습니다");
-            }
+	        	},error: function(xhr, status, error){
+            		alert("지역 정보를 조회할 수 없습니다");
+           		}
 			});//ajax FLOW
 		});//sido
 		$("#jusoSort").click(function(){

@@ -34,26 +34,30 @@
 	String option = webutil._S("option","title");
 	String Key = webutil._S("key","");
 	String mEncodeKey = webutil._E("key","");
+	Integer jusoNo = webutil._I("jusoNo","0");
+	String noDoneYN = webutil._S("noDone","N");
 	%>
 	<script type="text/javascript">
-	function doGoPage(url)
-	{
+	function doGoPage(url){
 		var f = document.pageForm;
-		var mParam = "";
-		
-		mParam += "page=" + f.spage.value;
-		mParam += "&";
-		mParam += "menu=" + f.smenu.value;
-		mParam += "&";
-		mParam += "option=" + f.soption.value;
-		mParam += "&";
-		mParam += "key=" + f.skey.value;	
-		mParam += "&";
-		mParam += "no=" + f.sno.value;
-		page = url + "?" + mParam;
-		//document.location = page;
-		document.modify.action = page;
-		document.modify.submit();  
+		var mParam  = "";
+			mParam += "page=" + f.spage.value;
+			mParam += "&";
+			mParam += "menu=" + f.smenu.value;
+			mParam += "&";
+			mParam += "option=" + f.soption.value;
+			mParam += "&";
+			mParam += "key=" + f.skey.value;	
+			mParam += "&";
+			mParam += "no=" + f.sno.value;
+			mParam += "&";
+			mParam += "jusoNo=" + f.sjusoNo.value;
+			mParam += "&";
+			mParam += "noDone=" + f.snoDone.value;
+			page = url + "?" + mParam;
+			//document.location = page;
+			document.modify.action = page;
+			document.modify.submit();  
 	}	
 	</script>
 	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
@@ -62,6 +66,8 @@
 		<input type="hidden" id="smenu" name="smenu" value="<%=menu%>">
 		<input type="hidden" id="soption" name="soption" value="<%=option%>">
 		<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
+		<input type="hidden" id="sjusoNo" name="sjusoNo" value="<%=jusoNo%>">
+		<input type="hidden" id="snoDone" name="snoDone" value="<%=noDoneYN%>">
 	</form>	
 <!-- action="viewModifyOk.jsp?no=<%--=hereNo--%>"  //mParam
 	  action="javascript:doGoPage('viewModifyOk.jsp');"

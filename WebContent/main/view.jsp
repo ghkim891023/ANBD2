@@ -11,6 +11,18 @@
 </style>
 <div class="container" id="view">
 	<% 
+	webutil.Init(request);
+	int pageno = webutil._I("page","1");
+	String menu   = webutil._S("menu","");
+	String option = webutil._S("option","title");
+	String Key = webutil._S("key","");
+	String mEncodeKey = webutil._E("key","");
+	Integer jusoNo = webutil._I("jusoNo","0");
+	String noDoneYN = webutil._S("noDone","N");
+	/*선생님 메소드로 수정
+	String key = request.getParameter("key"); 
+	if(key==null){ key=""; }
+	key = URLEncoder.encode(key, "UTF-8");*/
 	int hereNo = Integer.parseInt(request.getParameter("no"));
 	dao.selViewBoard(vo, hereNo);
 	//dao.selViewComment(vo, hereNo);
@@ -111,52 +123,6 @@
 		<input type="text" placeholder="로그인 후 댓글 입력" id="comment" name="comment" style="width:85%" onkeyup="pressEnter();">
 		<button type="button" class="readmore-btn" id="cWrite" style="float:none;">댓글쓰기</button>
 	</form>
-	<%
-	webutil.Init(request);
-	int pageno = webutil._I("page","1");
-	String menu   = webutil._S("menu","");
-	String option = webutil._S("option","title");
-	String Key = webutil._S("key","");
-	String mEncodeKey = webutil._E("key","");
-	
-	/*선생님 메소드로 수정
-	String pageno = request.getParameter("page");
-	String menu = request.getParameter("menu"); 
-	String option = request.getParameter("option"); 
-	String key = request.getParameter("key"); 
-	if(key==null){	key=""; }
-	key = URLEncoder.encode(key, "UTF-8");*/
-	%>
-	<script type="text/javascript">
-	function doGoPage(url, coNo)
-	{
-		var f = document.pageForm;
-		var mParam = "";
-		
-		mParam += "page=" + f.spage.value;
-		mParam += "&";
-		mParam += "menu=" + f.smenu.value;
-		mParam += "&";
-		mParam += "option=" + f.soption.value;
-		mParam += "&";
-		mParam += "key=" + f.skey.value;	
-		mParam += "&";
-		mParam += "no=" + f.sno.value;
-		if(coNo!=null){
-			mParam += "&";
-			mParam += "coNo=" + coNo;
-		}
-		page = url + "?" + mParam;
-		document.location = page;
-	}	
-	</script>
-	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
-		<input type="hidden" id="sno" name="sno" value="<%= hereNo %>">
-		<input type="hidden" id="spage" name="spage" value="<%= pageno %>">
-		<input type="hidden" id="smenu" name="smenu" value="<%=menu%>">
-		<input type="hidden" id="soption" name="soption" value="<%=option%>">
-		<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
-	</form>	
 	<% 
 		//댓글 영역_v2 - jstl 잘 안됨..if문에서 jsp의 loginUserNo 번호를 못읽어...
 		ArrayList<AnbdVO> coList = dao.selViewComment(pNo);
@@ -187,54 +153,59 @@
 	<button class="site-btn" id="after" onclick="javascript:doGoPage('viewAfter.jsp');">다음글</button>
 </div>
 <%@include file="../include/footer.jsp"%>
+	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
+		<input type="hidden" id="sno" name="sno" value="<%= hereNo %>">
+		<input type="hidden" id="spage" name="spage" value="<%= pageno %>">
+		<input type="hidden" id="smenu" name="smenu" value="<%=menu%>">
+		<input type="hidden" id="soption" name="soption" value="<%=option%>">
+		<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
+		<input type="hidden" id="sjusoNo" name="sjusoNo" value="<%=jusoNo%>">
+		<input type="hidden" id="snoDone" name="snoDone" value="<%=noDoneYN%>">
+	</form>	
 <script type="text/javascript"> 
 	document.title="ANBD | 아나바다-글보기";
-	//댓글쓰기 엔터
-	function pressEnter()
-	{
-		var login= '<%=loginId%>';
-		if(window.event.keyCode == 13)
-		{
-			if(login=='null' )
-			{
-				alert("로그인 후 댓글 작성이 가능합니다.");
-				location.href="../common/login.jsp";
-				return false;	
-			}//first if FLOW	
-			else
-			{
-				if( $("#comment").val().length==0 || $.trim($("#comment").val())=="")
-				{
-					alert("댓글을 입력하세요.");
-					return false;
-				}//if FLOW
-				else
-				{
-					//return true;
-					//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
-					//document.coForm.submit(); 
-					doSubmitPage('viewCoWrite.jsp', document.coForm);
-				}//else FLOW
-			}//first else FLOW
-		}//second if FLOW
-	};//pressEnter FUNCTION	
-	//페이지 이동이 아니고 submit해야하는 경우(댓글쓰기, 댓글수정) 파라미터 넘기기
-	function doSubmitPage(url, formName, coNo)
-	{
+	function doGoPage(url, coNo){
 		var f = document.pageForm;
-		var mParam = "";
-		
-		mParam += "page=" + f.spage.value;
-		mParam += "&";
-		mParam += "menu=" + f.smenu.value;
-		mParam += "&";
-		mParam += "option=" + f.soption.value;
-		mParam += "&";
-		mParam += "key=" + f.skey.value;	
-		mParam += "&";
-		mParam += "no=" + f.sno.value;
-		mParam += "&";
-		mParam += "userNo=" + <%=loginUserNo%>;
+		var mParam  = "";
+			mParam += "page=" + f.spage.value;
+			mParam += "&";
+			mParam += "menu=" + f.smenu.value;
+			mParam += "&";
+			mParam += "option=" + f.soption.value;
+			mParam += "&";
+			mParam += "key=" + f.skey.value;	
+			mParam += "&";
+			mParam += "no=" + f.sno.value;
+			mParam += "&";
+			mParam += "jusoNo=" + f.sjusoNo.value;
+			mParam += "&";
+			mParam += "noDone=" + f.snoDone.value;
+		if(coNo!=null){
+			mParam += "&";
+			mParam += "coNo=" + coNo;
+		}
+		page = url + "?" + mParam;
+		document.location = page;
+	}	
+	//페이지 이동이 아니고 submit해야하는 경우(댓글쓰기, 댓글수정) 파라미터 넘기기
+	function doSubmitPage(url, formName, coNo){
+		var f = document.pageForm;
+		var mParam  = "";
+			mParam += "page=" + f.spage.value;
+			mParam += "&";
+			mParam += "menu=" + f.smenu.value;
+			mParam += "&";
+			mParam += "option=" + f.soption.value;
+			mParam += "&";
+			mParam += "key=" + f.skey.value;	
+			mParam += "&";
+			mParam += "no=" + f.sno.value;
+			mParam += "&";
+			mParam += "userNo=" + <%=loginUserNo%>;
+			mParam += "&";
+			mParam += "jusoNo=" + f.sjusoNo.value;
+			mParam += "&";
+			mParam += "noDone=" + f.snoDone.value;
 		if(coNo!=null){
 			mParam += "&";
 			mParam += "coNo=" + coNo;
@@ -243,6 +214,28 @@
 		formName.action = page;
 		formName.submit();  
 	}	
+	//댓글쓰기 엔터
+	function pressEnter(){
+		var login= '<%=loginId%>';
+		if(window.event.keyCode == 13){
+			if(login=='null' ){
+				alert("로그인 후 댓글 작성이 가능합니다.");
+				location.href="../common/login.jsp";
+				return false;	
+			}//first if FLOW	
+			else{
+				if( $("#comment").val().length==0 || $.trim($("#comment").val())==""){
+					alert("댓글을 입력하세요.");
+					return false;
+				}else{
+					//return true;
+					//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
+					//document.coForm.submit(); 
+					doSubmitPage('viewCoWrite.jsp', document.coForm);
+				}//if, else
+			}//first else FLOW
+		}//second if FLOW
+	};//pressEnter FUNCTION	
 $(document).ready(function(){
 	//캡차 시작
 	var key = ''; //캡차 생성시 발급되는 키
@@ -288,7 +281,6 @@ $(document).ready(function(){
 		CaptchaImage getImage = new CaptchaImage();
 		getImage.main(new String[] {""}); 		   //메인함수 실행하기
 		String imgFileName = getImage.imgFileName; //파일명 얻기
-		//out.println("img\\captchar\\" + imgFileName);
 		String key = CaptchaKey.key; */ %>
 		//key = '<%--=key--%>';
 		//var imgFileName= '<%--=imgFileName--%>';
@@ -297,7 +289,6 @@ $(document).ready(function(){
 		//$("#showEmail").hide();
 		//$("#userInput, #confirm").show();
 		//$("#key").val(key); //hidden에 key값 넣기
-		//console.log(key);
 	//});
 	// 입력값 확인 [시작]
 	$("#confirm").click(function(){

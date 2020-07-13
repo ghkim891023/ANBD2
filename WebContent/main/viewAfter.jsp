@@ -14,7 +14,9 @@
 	String option = webutil._S("option","title");
 	String Key = webutil._S("key","");
 	String mEncodeKey = webutil._E("key","");
-
+	Integer jusoNo = webutil._I("jusoNo","0");
+	String noDoneYN = webutil._S("noDone","N");
+	
 	int afterNo = before.afterNo(no);
 	
 	String mParam  = "";
@@ -32,6 +34,10 @@
 			 mParam += "option=" + option;
 			 mParam += "&";
 			 mParam += "key=" + mEncodeKey;
+			 mParam += "&";
+			 mParam += "jusoNo=" + jusoNo;
+			 mParam += "&";
+			 mParam += "noDone=" + noDoneYN;
 			 
 	if(afterNo==0){
 			%>
