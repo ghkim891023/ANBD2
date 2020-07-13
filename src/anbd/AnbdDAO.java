@@ -629,14 +629,14 @@ public class AnbdDAO extends DbInfo{
 				vo.setPhoto("Y");
 			}
 			
-			if(content != null || !content.equals(""))
+			if(content != null)
 			{
-				content.replaceAll("<", "&lt;");
-				content.replaceAll(">", "&gt;");
-				content.replaceAll("&", "&amp;");
-				content.replaceAll("/", "&#x2F;");
-				content.replaceAll("\"","&quot;");
-				content.replaceAll("\'","&#x27;");
+				content = content.replaceAll("<", "&lt;");
+				content = content.replaceAll(">", "&gt;");
+				content = content.replaceAll("&", "&amp;");
+				content = content.replaceAll("/", "&#x2F;");
+				content = content.replaceAll("\"","&quot;");
+				content = content.replaceAll("\'","&#x27;");
 			}
 			String insertBoardSql  = "INSERT INTO board ";
 				   insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
