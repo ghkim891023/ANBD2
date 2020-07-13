@@ -59,6 +59,9 @@ request.setAttribute("key", mEncodeKey);
 	jusoNo = webutil._I("jusoNo","0");	
 		if(jusoNo!=0){
 			juso = true;
+			//주소번호로 시/도, 시/군/구 값 가져오기
+			String sido = pg.selSidoByJusoNo(jusoNo);
+			System.out.println("===해당 시/도 : "+sido);
 		}
 	noDoneYN = webutil._S("noDone","N");	 //==request.getParameter("noDone");
 		if(noDoneYN.equals("Y")){
@@ -121,8 +124,8 @@ request.setAttribute("key", mEncodeKey);
 							</c:choose>
 						</a>
 					</td>
-					<td>시도 표시</td>
-					<td>시군구 표시</td>
+					<td>${pageList.sido}  <c:if test="${pageList.sido  eq null}">기타</c:if> </td>
+					<td>${pageList.sigun} <c:if test="${pageList.sigun eq null}">기타</c:if> </td>
 					<td>${blist.wdate}</td>
 				</tr>
 			</c:if>
@@ -152,7 +155,7 @@ request.setAttribute("key", mEncodeKey);
 							${pageList.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<c:if test="${pageList.menu eq '아나'}">
+									<c:if test="${pageList.menu eq '아나'}"> <!-- 메뉴별 첨부파일(유) 아이콘 파일명 수정 -->
 										<img src="/anbd2/img/이미지.png" style="width:20px;"> 
 									</c:if>
 									<c:if test="${pageList.menu eq '바다'}">
@@ -251,6 +254,10 @@ request.setAttribute("key", mEncodeKey);
 		var noDone = '<%=noDoneYN%>';
 		if(noDone=='Y'){
 			$("#noDone").attr("src", "/anbd2/img/checkDarkgray.png");
+		}
+		var juso = <%=juso%>; 
+		if(juso==true){	   //지역선택 결과페이지이면
+			alert(<%=jusoNo%>);	   //선택한 시도, 시군구 보여주기........................
 		}
 		$("#sido").change(function(){ //선택한 시도의 시군구 구하기
 			var changeSigun = $("#sido").val();

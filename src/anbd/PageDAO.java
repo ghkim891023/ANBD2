@@ -7,6 +7,27 @@ import javax.servlet.http.HttpServletRequest;
 public class PageDAO extends DbInfo{
 	
 	public int count = 0;  //전체 게시물 갯수
+	//public String sido = "";
+	
+	public String selSidoByJusoNo(int jusoNo) {
+		String sido = "";
+		String SQL  = "select distinct sido from juso where jusoNo= "+jusoNo;
+		try {
+			getConnection();
+			prepareStatement(SQL);
+			executeQuery();
+			rs.next();
+			sido = rs.getString("sido");
+			System.out.println("지역번호로 조회한 도/시 : "+count);
+		} catch (Exception e) {
+			System.out.println("selSidoByJusoNo() 에러: "+e.getMessage());
+			e.printStackTrace();
+		}
+		rsClose();
+		pstateClose();
+		conClose();
+		return sido;
+	}
 	
 	public void selMainListJuDone( ArrayList<AnbdVO> mainList, int startRow, int pageSize, HttpServletRequest request, 
 			boolean juso, boolean noDone) {
