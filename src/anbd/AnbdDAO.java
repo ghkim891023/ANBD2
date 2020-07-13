@@ -162,7 +162,6 @@ public class AnbdDAO extends DbInfo{
 		       SQL += "	board AS b LEFT JOIN user AS u ON b.userNo=u.userNo ";
 		       SQL += "WHERE ";
 		       SQL += "	b.no=" + no;
-		
 		//======================== 게시물의 컨텐츠를 얻는 블럭
 		try {
 			getConnection();
@@ -170,6 +169,18 @@ public class AnbdDAO extends DbInfo{
 			executeQuery();
 			
 			if(rs.next()) { //next() 커서가 다음으로 옮기며 처리된다
+				vo.setContent(rs.getString("content"));
+				if(vo.getContent() != null)
+				{
+					String content = vo.getContent(); 
+					content = content.replaceAll("&lt;" , "<");
+					content = content.replaceAll("&gt;" , ">");
+					content = content.replaceAll("&amp;" , "&");
+					content = content.replaceAll("&#x2F;" , "/");
+					content = content.replaceAll("&quot;" , "\"");
+					content = content.replaceAll("&#x27;" , "\'");
+					vo.setContent(content);
+				}
 				vo.setNo(rs.getInt("no")); 
 				vo.setStatus(rs.getString("status")); 
 				vo.setMenu(rs.getString("menu")); 
@@ -178,7 +189,6 @@ public class AnbdDAO extends DbInfo{
 				vo.setUserNo(rs.getInt("userNo"));
 				vo.setEmail(rs.getString("email"));
 				vo.setTitle(rs.getString("title"));
-				vo.setContent(rs.getString("content"));
 			}
 		}catch (Exception e) {
 			System.out.println("viewBoard 게시물 rs.next() 에러: "+e.getMessage()); 
