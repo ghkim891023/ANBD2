@@ -25,6 +25,42 @@ public class AnbdDAO extends DbInfo{
 		return boardList;
 	}
 	
+	public String xssReplaceAll(String xss) 
+	{
+		if(xss != null)
+		{
+			xss = xss.replaceAll("<", "&lt;");
+			xss = xss.replaceAll(">", "&gt;");
+			xss = xss.replaceAll("&", "&amp;");
+			xss = xss.replaceAll("/", "&#x2F;");
+			xss = xss.replaceAll("\"","&quot;");
+			xss = xss.replaceAll("\'","&#x27;");
+			xss = xss.replaceAll("%","&#37;");
+			xss = xss.replaceAll("(","&#40;");
+			xss = xss.replaceAll(")","&#41;");
+			xss = xss.replaceAll("?","&#63;");
+		}
+		return xss;
+	}
+	
+	public String viewOnlyXss(String viewXss) 
+	{
+		if(viewXss != null)
+		{
+			viewXss = viewXss.replaceAll("&lt;" , "<");
+			viewXss = viewXss.replaceAll("&gt;" , ">");
+			viewXss = viewXss.replaceAll("&amp;" , "&");
+			viewXss = viewXss.replaceAll("&#x2F;" , "/");
+			viewXss = viewXss.replaceAll("&quot;" , "\"");
+			viewXss = viewXss.replaceAll("&#x27;" , "\'");
+			viewXss = viewXss.replaceAll("&#37;" , "%");
+			viewXss = viewXss.replaceAll("&#40;" , "(");
+			viewXss = viewXss.replaceAll("&#41;" , ")");
+			viewXss = viewXss.replaceAll("&#63;" , "?");
+		}
+		return viewXss;
+	}
+	
 	//========회원가입, 로그인 메소드========
 	//회원가입한 회원정보 저장 (insert)
     public int inJoin (AnbdVO db2) {    //가져올 get,set, db에 새로운 변수명
@@ -170,17 +206,11 @@ public class AnbdDAO extends DbInfo{
 			
 			if(rs.next()) { //next() 커서가 다음으로 옮기며 처리된다
 				vo.setContent(rs.getString("content"));
-				if(vo.getContent() != null)
-				{
+				//XSS 대책 [시작]
 					String content = vo.getContent(); 
-					content = content.replaceAll("&lt;" , "<");
-					content = content.replaceAll("&gt;" , ">");
-					content = content.replaceAll("&amp;" , "&");
-					content = content.replaceAll("&#x2F;" , "/");
-					content = content.replaceAll("&quot;" , "\"");
-					content = content.replaceAll("&#x27;" , "\'");
-					vo.setContent(content);
-				}
+					String viewXss = viewOnlyXss(content);
+					vo.setContent(viewXss);
+				//XSS 대책 [종료]
 				vo.setNo(rs.getInt("no")); 
 				vo.setStatus(rs.getString("status")); 
 				vo.setMenu(rs.getString("menu")); 
@@ -234,8 +264,13 @@ public class AnbdDAO extends DbInfo{
 				vo.setCoNo(rs.getInt("coNo"));
 				vo.setId(rs.getString("id"));
 					System.out.println("댓글 작성자: "+vo.getId());
-				vo.setcContent(rs.getString("content"));
-					System.out.println("댓글: "+vo.getcContent());
+				//XSS 대책 [시작]
+					vo.setcContent(rs.getString("content"));
+					String cContent = vo.getcContent(); 
+					String viewXss = viewOnlyXss(cContent);
+					vo.setcContent(viewXss);
+//					System.out.println("댓글: "+vo.getcContent());
+				//XSS 대책 [종료]
 				vo.setWdate(rs.getString("wdate"));
 				
 				vo.setCWriterNo(rs.getInt("userNo"));
@@ -345,6 +380,10 @@ public class AnbdDAO extends DbInfo{
 						photo = "N"; 
 					}
 			}
+			//XSS 대책 [시작]
+				String xssContent = xssReplaceAll(pContent);
+				pContent = xssContent;
+			//XSS 대책 [종료]
 			//글 수정
 			String SQL  = "UPDATE board SET title='"+pTitle+"', ";
 				   SQL += "content='"+pContent+"', ";
@@ -384,6 +423,12 @@ public class AnbdDAO extends DbInfo{
 	}
 
 	public void inSaveComment(AnbdVO vo, int no, int userNo, String content) { //댓글쓰기
+		
+		//XSS 대책 [시작]
+		String xssContent = xssReplaceAll(content);
+		vo.setcContent(xssContent);
+		//XSS 대책 [종료]
+		
 		String SQL  = "INSERT INTO comment (no, userNo, content, wdate) ";
 			   SQL += "values (?, ?, ?, ?);"; 
 		getConnection();
@@ -391,7 +436,7 @@ public class AnbdDAO extends DbInfo{
 		try {
 			pstate.setInt(1, no);  
 			pstate.setInt(2, userNo);
-			pstate.setString(3, content);
+			pstate.setString(3, vo.getcContent());
 			pstate.setString(4, vo.getcWdate()); 
 			System.out.println("댓글쓰기 SQL: "+SQL);
 		} catch (SQLException e) {
@@ -405,6 +450,11 @@ public class AnbdDAO extends DbInfo{
 
 	public void upModifyComment(int coNo, String content) { //댓글수정
 		getConnection();
+		//XSS 대책 [시작]
+			String xssContent = xssReplaceAll(content);
+			content = xssContent;
+		//XSS 대책 [종료]
+
 		String SQL  = "UPDATE comment SET content='"+content+"' where coNo="+coNo;
 		prepareStatement(SQL);
 		executeUpdate(); 
@@ -639,15 +689,11 @@ public class AnbdDAO extends DbInfo{
 				vo.setPhoto("Y");
 			}
 			
-			if(content != null)
-			{
-				content = content.replaceAll("<", "&lt;");
-				content = content.replaceAll(">", "&gt;");
-				content = content.replaceAll("&", "&amp;");
-				content = content.replaceAll("/", "&#x2F;");
-				content = content.replaceAll("\"","&quot;");
-				content = content.replaceAll("\'","&#x27;");
-			}
+			//XSS 대책 [시작]
+			String xssContent = xssReplaceAll(content);
+			vo.setContent(xssContent);
+			//XSS 대책 [종료]
+			
 			String insertBoardSql  = "INSERT INTO board ";
 				   insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
 				   insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?, ?)";
@@ -656,7 +702,7 @@ public class AnbdDAO extends DbInfo{
 			
 			pstate.setString(1, menu);
 			pstate.setString(2, title);
-			pstate.setString(3, content);
+			pstate.setString(3, vo.getContent());
 			pstate.setInt(4, userNo);
 			pstate.setString(5, vo.getPhoto());
 			pstate.setString(6, jusoNo);
