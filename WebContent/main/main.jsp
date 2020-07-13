@@ -163,8 +163,8 @@ request.setAttribute("key", mEncodeKey);
 							</c:choose>
 							</a>
 						</td>
-						<td>시도</td>
-						<td>시군구</td>
+						<td>${pageList.sido}  <c:if test="${pageList.sido  eq null}">기타</c:if> </td>
+						<td>${pageList.sigun} <c:if test="${pageList.sigun eq null}">기타</c:if> </td>
 						<td>${pageList.wdate}</td>
 					</c:when>
 				</c:choose>
@@ -292,7 +292,7 @@ request.setAttribute("key", mEncodeKey);
 	<input type="hidden" id="smenu" name="menu" value="<%=menu%>">
 	<input type="hidden" id="soption" name="soption" value="<%=option%>">
 	<input type="hidden" id="skey" name="skey" value="<%=mEncodeKey%>">
-	<input type="hidden" id="sjusoNo" name="sjusoNo" value="">
+	<input type="hidden" id="sjusoNo" name="sjusoNo" value="<%=jusoNo%>">
 	<input type="hidden" id="snoDone" name="snoDone" value="<%=noDoneYN%>">
 </form>
 <%@include file="../include/footer.jsp"%>

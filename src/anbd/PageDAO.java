@@ -104,7 +104,21 @@ public class PageDAO extends DbInfo{
 		SQL += "ON b.jusoNo = j.jusoNo \n";
 		
 		//검색 + 메뉴
-		if(juso==true) {
+		if(juso==true && noDone==true) {     //시도 및 시군구 선택후  확인 클릭하여 나온 '결과 페이지'에서, 거래완료 안보기 클릭시
+			if(mKey!=null && option!=null ){ //검색 o	 mKey!=null						
+				if(  pMenu.equals("아나") || pMenu.equals("바다") ){ //검색 o, 메뉴  o
+					SQL += "where "+ option +" like '%" + mKey +"%' and menu = '"+pMenu+"' and j.jusoNo ='"+jusoNo+"' and status not in('done')";
+				}else { 										  //검색 o, 메뉴  x
+					SQL += "where "+ option +" like '%" + mKey +"%' and j.jusoNo ='"+jusoNo+"' and status not in('done')";
+				}
+			}else { //검색x
+				if( pMenu.equals("아나") || pMenu.equals("바다") ){  //검색 x, 메뉴  o
+					SQL += "where menu= '"+pMenu+"' and j.jusoNo ='"+jusoNo+"' and status not in('done')";
+				}else {											  //검색 x, 메뉴  x
+					SQL += "where j.jusoNo ='"+jusoNo+"' and status not in('done')";
+				}
+			}
+		}else if(juso==true) {
 			if(mKey!=null && option!=null ){ //검색 o	 mKey!=null						
 				if(  pMenu.equals("아나") || pMenu.equals("바다") ){ //검색 o, 메뉴  o
 					SQL += "where "+ option +" like '%" + mKey +"%' and menu = '"+pMenu+"' and j.jusoNo ='"+jusoNo+"' ";
