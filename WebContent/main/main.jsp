@@ -248,6 +248,10 @@ request.setAttribute("key", mEncodeKey);
 		location.href="../common/login.jsp";
 	}
 	$(document).ready(function(){
+		var noDone = '<%=noDoneYN%>';
+		if(noDone=='Y'){
+			$("#noDone").attr("src", "/anbd2/img/checkDarkgray.png");
+		}
 		$("#sido").change(function(){ //선택한 시도의 시군구 구하기
 			var changeSigun = $("#sido").val();
 			$.ajax({
@@ -280,8 +284,14 @@ request.setAttribute("key", mEncodeKey);
 			//document.location = "main.jsp?" + param;
 		});
 		$("#noDone").click(function(){
-			var path = '${pageContext.request.contextPath}';
-			pageForm.snoDone.value = "Y";
+			//var path = '${pageContext.request.contextPath}';
+			if(noDone=='Y'){
+				$("#noDone").attr("src", "/anbd2/img/checkGray.png");
+				pageForm.snoDone.value = "N";
+			}else{
+				$("#noDone").attr("src", "/anbd2/img/checkDarkgray.png");
+				pageForm.snoDone.value = "Y";
+			}
 			doGoPage("/anbd2/main/main.jsp","1","");  //doGoPage(path+"/noDoneSer",<%--=currentPage--%>,"");
 		});
 	})
