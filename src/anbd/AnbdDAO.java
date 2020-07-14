@@ -35,10 +35,6 @@ public class AnbdDAO extends DbInfo{
 			xss = xss.replaceAll("/", "&#x2F;");
 			xss = xss.replaceAll("\"","&quot;");
 			xss = xss.replaceAll("\'","&#x27;");
-			xss = xss.replaceAll("%","&#37;");
-			xss = xss.replaceAll("(","&#40;");
-			xss = xss.replaceAll(")","&#41;");
-			xss = xss.replaceAll("?","&#63;");
 		}
 		return xss;
 	}
@@ -53,10 +49,6 @@ public class AnbdDAO extends DbInfo{
 			viewXss = viewXss.replaceAll("&#x2F;" , "/");
 			viewXss = viewXss.replaceAll("&quot;" , "\"");
 			viewXss = viewXss.replaceAll("&#x27;" , "\'");
-			viewXss = viewXss.replaceAll("&#37;" , "%");
-			viewXss = viewXss.replaceAll("&#40;" , "(");
-			viewXss = viewXss.replaceAll("&#41;" , ")");
-			viewXss = viewXss.replaceAll("&#63;" , "?");
 		}
 		return viewXss;
 	}
