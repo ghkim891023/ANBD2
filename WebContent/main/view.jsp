@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@include file="../include/header.jsp"%>
+<%@include file="../include/headerKgh.jsp"%>
 <%@include file="../include/fix.jsp"%>
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 <%@ page import="api.*"%> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
 <style>
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
@@ -69,12 +73,57 @@
 	</p>
 	<div id="content">
 		<p>
-			<% //file도 jstl쓰면 forEach로 가져올 수 있음 
-			for(int i=0;i<vo.GetFileCount();i++)
-			{
-				out.print("<img src='../upload/"+vo.GetFile(i)+"'><br>");
-			}
-			%>
+			<div id="slider">
+				<% //file도 jstl쓰면 forEach로 가져올 수 있음 
+					for(int i=0;i<vo.GetFileCount();i++)
+					{
+						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px'><br>");
+					}
+						%>
+							<script>								
+							$(document).ready(function()
+									{
+									/*****************
+									* 배열 위치 때문에 오류 발생하는 코드...
+									*****************/
+									//슬라이드 [시작]
+									var j = $.noConflict(true);
+									var i = 1;
+									var main = j('#slider').bxSlider({ 
+								    mode: 'horizontal', 
+								    auto: true,	//자동으로 슬라이드 
+								    controls : true,	//좌우 화살표	
+								    autoControls: true,	//stop,play 
+								    pager: true,	//페이징 
+								    pause: 2000, 
+								    autoDelay: 0,	
+								    slideWidth: 500, //이미지 박스 크기설정
+								    speed: 500,
+								    moveSlides: i++,
+									}); //main
+		
+									j(".bx-stop").click(function(){	// 중지버튼 눌렀을때 
+								    main.stopAuto(); 
+								    j(".bx-stop").hide(); 
+								    j(".bx-start").show(); 
+								    return false; 
+									}); //bx-stop 클릭
+		
+									j(".bx-start").click(function(){	//시작버튼 눌렀을때 
+								    main.startAuto(); 
+								    j(".bx-start").hide(); 
+								    j(".bx-stop").show(); 
+								    return false; 
+									}); //bx-start 클릭
+		
+								  	j(".bx-start").hide();	//onload시 시작버튼 숨김. 
+									
+									//슬라이드 [종료]
+									});
+							</script>
+						<%
+				%>
+			</div>
 			<%= vo.getContent().replace("\n","<br>") %><br>
 		</p>
 	</div>
@@ -158,9 +207,26 @@
 				AnbdVO covo = (AnbdVO)coList.get(i);	
 				out.print("<p class='coRow'>");
 				out.print("<input type='hidden' id='coNo' value='"+covo.getCoNo()+"'/>");
-				out.print("<span id='cWriter'>"+covo.getId()+"</span>");
+				if(vo.getId().equals(covo.getId()))
+				{
+						out.print("<span id='cWriter'>"+covo.getId()+"");
+						switch(vo.getMenu())
+						{
+						case "아나":
+							out.print("<img src='../img/writerGreen.png' width='45px'></span>");
+							break;
+						case "바다":
+							out.print("<img src='../img/writerBlue.png' width='45px'></span>");
+							break;
+						}
+				}
+				else
+				{
+					out.print("<span id='cWriter'>"+covo.getId()+"</span>");
+				}
 				out.print("<span id='cContent'>"+covo.getcContent()+"</span>");
 				out.print("<span id='cWdate'>"+covo.getcWdate()+"</span>");
+				
 				int coWriter = covo.getCWriterNo();
 				if (loginUserNo ==coWriter){
 					%>
@@ -181,6 +247,7 @@
 <%@include file="../include/footer.jsp"%>
 <script type="text/javascript"> 
 	document.title="ANBD | 아나바다-글보기";
+	
 	function pressEnter()
 	{
 		var login= '<%=loginId%>';
