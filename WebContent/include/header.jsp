@@ -7,6 +7,7 @@
 <jsp:useBean id="vo" class="anbd.AnbdVO" scope="page"/>
 <jsp:useBean id="db" class="anbd.DbInfo" scope="page"/>
 <jsp:useBean id="dao" class="anbd.AnbdDAO" scope="page"/>
+<jsp:useBean id="webutil" class="anbd.WebUtil" scope="page"/>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -53,8 +54,8 @@
 			<ul class="main-menu">
 				<!-- class="active" -->
 				<!-- DB 연결 후 파라미터 줘야함 ../main/main.jsp&menu=share -->
-				<li><a href="../main/main.jsp?menu=share">아껴쓰고 <b>나눠쓰기</b></a></li>
-				<li><a href="../main/main.jsp?menu=reuse">바꿔쓰고 <b>다시쓰기</b></a></li>
+				<li><a href="../main/mainSearchKgh.jsp?menu=share">아껴쓰고 <b>나눠쓰기</b></a></li>
+				<li><a href="../main/mainSearchKgh.jsp?menu=reuse">바꿔쓰고 <b>다시쓰기</b></a></li>
 			</ul>
 			<!-- 로그인, 회원가입 -->
 			<div class="header-right">
@@ -69,30 +70,22 @@
 				<c:when test="${sessionScope.loginId eq null}">
 					<a href="../common/join.jsp" class="login">회원가입</a>
 					<a href="../common/login.jsp" class="register">로그인</a>
-
 				</c:when>
 			</c:choose>
 
 					<%
-          /*
+          	/*
 				}else{
 					String loginId = (String)session.getAttribute("loginId");
-					
 					//세션 시간 설정 60초*60 = 1시간
 					session.setMaxInactiveInterval(60*60);
-          */
+          	*/
 					%>
-          <!--
-<<<<<<< HEAD
-					<span><loginId>님 반갑습니다.</span>&nbsp;&nbsp;
-=======
-					<span><%--=loginId --%>님 반갑습니다.</span>&nbsp;&nbsp;
->>>>>>> branch 'master' of https://github.com/ghkim891023/ANBD2
+          <!-- <span><%--=loginId --%>님 반갑습니다.</span>&nbsp;&nbsp;
 					<a href="../common/logout.jsp" class="login">로그아웃</a> -->
 					<%
 				//}
 			%>
-
 				</div>
 			</div>
 		</nav>
