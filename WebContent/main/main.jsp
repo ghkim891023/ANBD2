@@ -259,8 +259,8 @@ request.setAttribute("key", mEncodeKey);
 		var juso = <%=juso%>; 
 		if(juso==true){	//지역선택 결과페이지이면, 선택한 시도, 시군구 보여주기..but 시/군/구 클릭시 검색한 시/군/구만 나옴
 			$("#sido").val("<%=sido%>").attr("selected", "selected");
-			$("#sigun").append("<option value='<%=sigun%>'><%=sigun%></option>");
-			$("#sigun").val("<%=sigun%>").attr("selected", "selected");
+			$("#sigun").append("<option value='<%=jusoNo%>:<%=sigun%>'><%=sigun%></option>");
+			$("#sigun").val("<%=jusoNo%>:<%=sigun%>").attr("selected", "selected");
 		}
 		$("#sido").change(function(){ //선택한 시도의 시군구 구하기
 			var changeSigun = $("#sido").val();
@@ -281,7 +281,6 @@ request.setAttribute("key", mEncodeKey);
 			var sigun = $("#sigun option:selected").val();
 				 sigun = sigun.split(":");
 			var jusoNo = sigun[0];
-			$("#jusoNo").val(jusoNo);
 			pageForm.sjusoNo.value = jusoNo;			
 			doGoPage("/anbd2/main/main.jsp","1","");
 			//선생님 방법1
