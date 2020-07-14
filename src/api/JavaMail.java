@@ -25,9 +25,10 @@ public class JavaMail {
 		String fromName 	= "ghkim";
 		String fromEmail 	= "ghkim891023@gmail.com"; // 보내는사람 메일
 		String toName 		= "kgh";
-		String toEmail 		= "sesangmake@naver.com";  // 받는사람 메일
-		String mailTitle 	= "메일 테스트 제목";
-		String mailContents = "메일 테스트 내용";
+		String toEmail 		= "cromgh@naver.com";  // 받는사람 메일
+		String mailTitle 	= "메일 테스트 제목3";
+		String mailContents = "이메일 인증을 완료하려면, 다음 링크를 클릭하세요. <br>"
+						     +"<a href='http://192.168.0.68:8090/anbd2/main/main.jsp'>아나바다 인증하기</a>";
 		String debugMode	= "false";
 		String authMode		= "true";
 
@@ -36,7 +37,7 @@ public class JavaMail {
 			
 			//Property에 SMTP 서버 정보를 설정
 			Properties mailProps = new Properties();
-			mailProps.put("mail.smtp.starttls.enable", "true");
+			mailProps.put("mail.smtp.starttls.enable", "true"); //ssl
 			mailProps.setProperty("mail.transport.protocol", mailProtocol); 
 			mailProps.put("mail.debug", debugMode);
 			mailProps.put("mail.smtp.host", mailHost);
