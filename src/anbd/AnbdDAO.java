@@ -515,7 +515,6 @@ public class AnbdDAO extends DbInfo{
 			if(rs.next()) 
 			{
 					AnbdVO vo = new AnbdVO();
-					
 					vo.setNo(rs.getInt("no"));
 					vo.setMenu(rs.getString("menu"));
 					vo.setTitle(rs.getString("title"));
@@ -950,7 +949,7 @@ public class AnbdDAO extends DbInfo{
 			String selSidoSql =  "";
 				   selSidoSql += "SELECT distinct sido \n";
 				   selSidoSql += "FROM juso \n";
-				   selSidoSql += "ORDER BY jusoNo asc \n";
+				   selSidoSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSidoSql);
 			System.out.println(selSidoSql);
 			executeQuery();
@@ -966,7 +965,6 @@ public class AnbdDAO extends DbInfo{
 				}
 				while(rs.next());
 			}//if FLOW
-			System.out.println("=============selJuso 실행 완료=============");
 		}//====try FLOW
 		catch(Exception e)
 		{
@@ -1001,7 +999,7 @@ public class AnbdDAO extends DbInfo{
 				   selSigunSql += "SELECT sido, sigun, jusoNo \n";
 				   selSigunSql += "FROM juso \n";
 				   selSigunSql += "WHERE sido = ? \n";
-				   selSigunSql += "ORDER BY jusoNo asc \n";
+				   selSigunSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSigunSql);
 			pstate.setString(1, sido);
 			System.out.println(selSigunSql);
@@ -1020,7 +1018,6 @@ public class AnbdDAO extends DbInfo{
 				}
 				while(rs.next());
 			}//if FLOW
-			System.out.println("=============selSigun 실행 완료=============");
 		}//====try FLOW
 		catch(Exception e)
 		{
