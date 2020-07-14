@@ -658,7 +658,7 @@ public class AnbdDAO extends DbInfo{
 			
 			String[] jusoNoArray = sigun.split(":");
 			String jusoNo = jusoNoArray[0];
-			if(sido.equals("기타"))
+			if(sido.equals("기타") || sido.equals(""))
 			{
 				jusoNo = "251";
 			}
@@ -986,6 +986,10 @@ public class AnbdDAO extends DbInfo{
 		boardList = new ArrayList<AnbdVO>();
 		try 
 		{
+			if(sido == null || sido.equals(""))
+			{
+				vo.setSido("251:기타");
+			}
 			getConnection();
 			String selSigunSql =  "";
 				   selSigunSql += "SELECT sido, sigun, jusoNo \n";

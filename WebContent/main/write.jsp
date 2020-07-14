@@ -42,6 +42,7 @@
 							 	<label for="share">아/나</label>
 							<input type="radio"  name="menu" id="reuse" value="바다"  >
 								<label for="reuse">바/다</label>
+								<input type="hidden" id="chooseReuse" name="chooseReuse" value="">
 						</div><!-- st-item2  클래스 마지막 -->
 					</div><!--==== search-type2 클래스 마지막 -->
 				</td>
@@ -72,14 +73,14 @@
 				<td>제목</td>
 				<td>
 					<input type="text" placeholder="제목을 입력하세요" id="title" name="title" maxlength="30" 
-						    autofocus style="width:580px; ime-mode:active;">
+						    autofocus style="width:580px; ime-mode:active;" value="TEST">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
+					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요">TEST</textarea>
 				</td>
 			</tr>
 			
@@ -166,6 +167,7 @@
 				if(categoryName == "바다")
 				{
 					$("#sido, #sigun").attr('disabled', 'disabled');
+					$("#chooseReuse").attr('value', '251:기타');
 				}
 				if(categoryName == "아나")
 				{
