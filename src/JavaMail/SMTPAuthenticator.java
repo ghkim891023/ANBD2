@@ -9,7 +9,6 @@ public class SMTPAuthenticator extends Authenticator {
 	{
 	}//end of main method
 	
-	//구글은 본인인증함
 	protected PasswordAuthentication getPasswordAuthentication() 
 	{
 		String userName = "progJdoh302@gmail.com";

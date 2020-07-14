@@ -11,17 +11,17 @@ public class PostMan
 		String from = "progJdoh302@gmail.com";
 		String to = "jdoh302@naver.com";
 		String cc = to;
-		String subject = "html Çü½ÄÀ¸·Î ¹Ş¾ÒÀ½?";
-		String content = "¸µÅ©¸¦ ÁÙ Å×´Ï ¿©±â¸¦ Å¬¸¯ÇØ¼­ º»ÀÎÀÎÁõÀ» ¿Ï·áÇØº¸·Å";
-		content += "<a href=\"http://192.168.0.65:8090/anbd2/main/main.jsp\">º»ÀÎÀÎÁõ ¿Ï·áÇÏ±â</a>";
+		String subject = "html ë§í¬ ë³´ë‚´ê¸°";
+		String content = "ì•„ë˜ ë§í¬ë¥¼ í´ë¦­í•˜ë©´ ë³¸ì¸ì¸ì¦ì„ ë§ˆì¹©ë‹ˆë‹¤.\n";
+		content += "<a href=\"http://192.168.0.65:8090/anbd2/main/main.jsp\">ë³¸ì¸ì¸ì¦ ì™„ë£Œí•˜ê¸°</a>";
 		
 		if(from.trim().equals(""))
 		{
-			System.out.println("º¸³»´Â »ç¶÷À» ÀÔ·ÂÇÏÁö ¾Ê¾Ò½À´Ï´Ù.");
+			System.out.println("ë³´ë‚´ëŠ” ì‚¬ëŒì„ ì…ë ¥í•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 		}
 		else if(to.trim().equals(""))
 		{
-			System.out.println("¹Ş´Â »ç¶÷À» ÀÔ·ÂÇÏÁö ¾Ê¾Ò½À´Ï´Ù.");
+			System.out.println("ë°›ëŠ” ì‚¬ëŒì„ ì…ë ¥í•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 		}
 		else 
 		{
@@ -29,17 +29,17 @@ public class PostMan
 			try 
 			{
 				mt.sendEmail(from, to, cc, subject, content);
-				System.out.println("¸ŞÀÏ Àü¼Û ¼º°ø");
+				System.out.println("ë©”ì¼ ì „ì†¡ ì„±ê³µ");
 			}
 			catch (MessagingException e) 
 			{
-				System.out.println("¸ŞÀÏ Àü¼Û ½ÇÆĞ\n½ÇÆĞ¿øÀÎ : ");
+				System.out.print("ë©”ì¼ ì „ì†¡ ì‹¤íŒ¨\nì‹¤íŒ¨ì‚¬ìœ  : ");
 				System.out.println(e.getMessage());
 				
 			}
 			catch (Exception e) 
 			{
-				System.out.println("¸ŞÀÏ Àü¼Û ½ÇÆĞ");
+				System.out.println("ë©”ì¼ ì „ì†¡ ì‹¤íŒ¨");
 			}
 		}
 	}//end of main method

@@ -15,21 +15,21 @@ public class MailTest {
 	public void sendEmail(String from, String to, String cc, String subject, String content) throws Exception
 	{
 		Properties props = new Properties();
-		//GMAIL smtp »ç¿ë
-		//¸ŞÀÏ¿¡¼­ »ç¿ëÇÒ ÇÁ·ÎÅäÄİ ¼³Á¤ - SMTP
-		//SMTP(Simple Mail Transfer Protocol), mail.jar¿¡ ÀÖ´Ù
+		//GMAIL smtp ì‚¬ìš©
+		//ì´ë©”ì¼ í”„ë¡œí† ì½œ ì§€ì • - SMTP
+		//SMTP(Simple Mail Transfer Protocol), mail.jarì— ìˆë‹¤
 		props.put("mail.transport.protocol", "smtp");
 		
-		//GMAIL SMTP ¼­ºñ½º ÁÖ¼Ò, È£½ºÆ®
+		//GMAIL SMTP ì„œë¹„ìŠ¤ ì£¼ì†Œ, í˜¸ìŠ¤íŠ¸
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		
-		//GMAIL SMTP ¼­ºñ½º Æ÷Æ®, 465/587
+		//GMAIL SMTP ì„œë¹„ìŠ¤ í¬íŠ¸, 465/587
 		props.put("mail.smtp.port", "465");
 		
-		//GMAIL ÀÎÁõ¿ë SSL(Secure Socket Layer) ¼³Á¤
+		//GMAIL ì¸ì¦ SSL(Secure Socket Layer) ë³´ì•ˆ ì†Œì¼“, ì¸í„°ë„· ë³´ì•ˆ í”„ë¡œí† ì½œ
 		props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		
-		//SMTP ÀÎÁõ ¼³Á¤
+		//SMTP ì¸ì¦
 		props.put("mail.smtp.auth", "true");
 		
 		Authenticator auth = new SMTPAuthenticator();
