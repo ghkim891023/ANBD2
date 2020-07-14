@@ -9,8 +9,9 @@ public class DbInfo {
 	String 			  id  	 = "kanu";
 	String 			  pw  	 = "1234";
 
-	//집
+//집
 //	String 			  url 	 = "jdbc:mysql://127.0.0.1:3307/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+//	String 			  url 	 = "jdbc:mysql://127.0.0.1:3306/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
 //	String 			  driver = "com.mysql.cj.jdbc.Driver";
 //	String 			  id  	 = "root";
 //	String 			  pw  	 = "111111";

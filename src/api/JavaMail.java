@@ -19,16 +19,16 @@ public class JavaMail {
 		String mailProtocol = "smtp";
 		String mailHost 	= "smtp.gmail.com";
 		String mailPort	    = "587";
-		String mailId 		= "ghkim891023@gmail.com"; // 구글계정
-		String mailPassword = "qubikpy.,"; 			   // 구글계정 비밀번호 
+		String mailId 		= "anbdmaster@gmail.com"; // 구글계정
+		String mailPassword = "anbd1234"; 			   // 구글계정 비밀번호 
 
-		String fromName 	= "ghkim";
-		String fromEmail 	= "ghkim891023@gmail.com"; // 보내는사람 메일
+		String fromName 	= "ANBD";
+		String fromEmail 	= "anbdmaster@gmail.com"; // 보내는사람 메일
 		String toName 		= "kgh";
 		String toEmail 		= "cromgh@naver.com";  // 받는사람 메일
-		String mailTitle 	= "메일 테스트 제목3";
-		String mailContents = "이메일 인증을 완료하려면, 다음 링크를 클릭하세요. <br>"
-						     +"<a href='http://192.168.0.68:8090/anbd2/main/main.jsp'>아나바다 인증하기</a>";
+		String mailTitle 	= "ANBD 회원가입 인증 메일입니다.";
+		String mailContents = "ANBD에 오신걸 환영합니다.!<br>이메일 인증을 완료하려면, 다음 링크를 클릭하세요. <br>"
+						     +"<a href='http://192.168.0.68:8090/anbd2/main/main.jsp'>이메일 인증 완료하기</a>";
 		String debugMode	= "false";
 		String authMode		= "true";
 
