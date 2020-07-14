@@ -236,7 +236,6 @@ public class PageDAO extends DbInfo{
 		pstateClose();
 		conClose();
 	}
-	
 	public void selMainList2( ArrayList<AnbdVO> mainList, int startRow, int pageSize, HttpServletRequest request) {
 		String menu = request.getParameter("menu");
 		String pMenu =""; //검색용

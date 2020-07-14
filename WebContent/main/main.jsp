@@ -6,14 +6,12 @@
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
 <% 
 request.setCharacterEncoding("utf-8");
-
 int currentPage = 1;  //현재 페이지번호
 int pageSize    = 19; //페이지당 게시물 목록 갯수
 int count       = 0;  //전체 게시물 갯수
 int startRow    = 0;  //페이지 시작행 번호
 int seqNo       = 0;  //페이지 목록에 게시글 일련번호
 int maxPageNo   = 0;  //최대 페이지 번호
-
 currentPage = webutil._I("page","1");
 String mKey = webutil._S("key","");
 String mEncodeKey = webutil._E("key","");
@@ -36,7 +34,6 @@ request.setAttribute("key", mEncodeKey);
 </script>
 <%	startRow  = (currentPage - 1)*pageSize; //페이지 시작행 번호  = (현재 페이지번호 - 1) * 페이지당 출력 할 갯수
 	seqNo     = startRow + 1;				    //페이지 목록에 게시글 일련번호
-	
 	ArrayList<AnbdVO> mainList = new ArrayList<AnbdVO>();
 	String uri = request.getRequestURI();
 	//System.out.println("==uri: "+uri);
@@ -76,14 +73,12 @@ request.setAttribute("key", mEncodeKey);
 	if( (count % pageSize) != 0 ){			 //총 글 갯수를 목록표시갯수(20)로 나눠서 나머지가 남으면, 한 페이지 더 필요
 		maxPageNo = maxPageNo + 1;				 //최대 페이지번호에 +1
 	}
-	
-	ArrayList<AnbdVO> blist = new ArrayList<AnbdVO>();
-	dao.selBoardList(blist);
-	//서버에 attribute를 setting하겠다
-	pageContext.setAttribute("blist", blist);
-	
 	dao.selJuso();
 	pageContext.setAttribute("selJuso", dao.getBoardList());
+	//=======공지 [시작]
+	dao.selNotice();
+ 	pageContext.setAttribute("selNotice", dao.getBoardList());
+	//=======공지 [종료]
 %>
 <c:if test="${param.menu eq 'reuse'}">
 	<link rel="stylesheet" type="text/css" href="/anbd2/css/reuseStyle.css">
@@ -111,26 +106,36 @@ request.setAttribute("key", mEncodeKey);
 			<th width="200px">작성일자</th>
 		</tr>
 		<!-- 공지 상단 고정 시작============================ -->
-		<c:forEach items="${blist}" var="blist">
-			<c:if test="${blist.menu eq  '공지'}">
-				<tr>
-					<td>[공지]</td>
-					<td>
-						<a href="view.jsp?no=${blist.no}&menu=notice">${blist.title}
+			<c:forEach items="${selNotice}" var="selNotice">
+				<c:if test="${selNotice.menu eq '공지'}">
+					<tr>
+						<td>[${selNotice.menu}]</td>
+						<td>
+						<a href="view.jsp?no=${selNotice.no}&menu=notice">${selNotice.title}
 							<c:choose>
-								<c:when test="${pageList.photo eq 'Y'}">
-									<img src="/anbd2/img/이미지.png" style="width:20px;">
+								<c:when test="${selNotice.photo eq 'Y'}">
+									<img src="../img/green.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
 						</a>
 					</td>
-					<td>${pageList.sido}  <c:if test="${pageList.sido  eq null}">기타</c:if> </td>
-					<td>${pageList.sigun} <c:if test="${pageList.sigun eq null}">기타</c:if> </td>
-					<td>${blist.wdate}</td>
-				</tr>
-			</c:if>
-		</c:forEach>
+					<td>
+							<c:choose>
+								<c:when test="${pageList.sido ne null}">${pageList.sido}</c:when>
+								<c:when test="${pageList.sido eq null}">기타</c:when>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${pageList.sigun ne null}">${pageList.sigun}</c:when>
+								<c:when test="${pageList.sigun eq null}">기타</c:when>
+							</c:choose>
+						</td>
+					<td>${selNotice.wdate}</td>
+					</tr>
+				</c:if>
+			</c:forEach>
 		<!--============================ 공지 상단 고정 끝 -->
 		
 		<!-- 목록 불러오기 시작=========================== -->
@@ -156,12 +161,14 @@ request.setAttribute("key", mEncodeKey);
 							${pageList.title}
 							<c:choose>
 								<c:when test="${pageList.photo eq 'Y'}">
-									<c:if test="${pageList.menu eq '아나'}"> <!-- 메뉴별 첨부파일(유) 아이콘 파일명 수정 -->
-										<img src="/anbd2/img/이미지.png" style="width:20px;"> 
-									</c:if>
-									<c:if test="${pageList.menu eq '바다'}">
-										<img src="/anbd2/img/이미지.png" style="width:20px;">
-									</c:if>
+									<c:choose>
+										<c:when test="${param.menu eq 'reuse'}">
+											<img src="../img/skyblue.png" style="width:20px;">
+										</c:when>
+										<c:otherwise>
+											<img src="../img/green.png" style="width:20px;">
+										</c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>

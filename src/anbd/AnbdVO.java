@@ -401,7 +401,6 @@ public class AnbdVO {
 	public int getJusoNo() {
 		return jusoNo;
 	}
-
 	public void setJusoNo(int jusoNo) {
 		this.jusoNo = jusoNo;
 	}
