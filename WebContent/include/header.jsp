@@ -69,30 +69,22 @@
 				<c:when test="${sessionScope.loginId eq null}">
 					<a href="../common/join.jsp" class="login">회원가입</a>
 					<a href="../common/login.jsp" class="register">로그인</a>
-
 				</c:when>
 			</c:choose>
 
 					<%
-          /*
+          	/*
 				}else{
 					String loginId = (String)session.getAttribute("loginId");
-					
 					//세션 시간 설정 60초*60 = 1시간
 					session.setMaxInactiveInterval(60*60);
-          */
+          	*/
 					%>
-          <!--
-<<<<<<< HEAD
-					<span><loginId>님 반갑습니다.</span>&nbsp;&nbsp;
-=======
-					<span><%--=loginId --%>님 반갑습니다.</span>&nbsp;&nbsp;
->>>>>>> branch 'master' of https://github.com/ghkim891023/ANBD2
+          <!-- <span><%--=loginId --%>님 반갑습니다.</span>&nbsp;&nbsp;
 					<a href="../common/logout.jsp" class="login">로그아웃</a> -->
 					<%
 				//}
 			%>
-
 				</div>
 			</div>
 		</nav>
