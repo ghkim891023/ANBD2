@@ -175,31 +175,7 @@ public class AnbdDAO extends DbInfo{
 	    conClose();
 		return -2;	//DB 에러
 	}
-	
-	//데이터 베이스에 데이터를  insert 하는 method 
-	public void dbtest2insert (String id, String pw, String name, String email) {
-	   //dbtest2 db = new dbtest2( 1,  id, pw,  name,  email);	 
-//	   //데이터베이스 접속하기
-//	   try {
-//		    getConnection();
-//	 	    if (con != null) {System.out.println("성공");}   //접속 결과 출력
-//			else {System.out.println("실패");}
-//	   String sql = "insert into user "
-//	   		+ "(id, pw, name, email)"    //컬럼명
-//	   		+ " values (?, ?, ?, ?)";	 //값
-//	   pstate = con.prepareStatement(sql);
-//	   pstate.setString(1, id);
-//	   pstate.setString(2, pw);
-//	   pstate.setString(3, name);
-//	   pstate.setString(4, email);
-//	   pstate.executeUpdate();      //executeUpdatd는 insert, update, delete문에서 사용하는거
-//	   pstate.close();
-//	   con.close();
-//	   }catch (SQLException e) {
-//		   System.out.println("SQL Exception : " + e.getMessage());
-//	   }
-	 }
-	
+		
 	//========글보기/수정/삭제, 댓글 보기/쓰기/수정/삭제, 나눔완료/취소 메소드========
 	public boolean selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기
 		try {
