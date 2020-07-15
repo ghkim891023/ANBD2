@@ -3,15 +3,24 @@
 <%@include file="../include/fix.jsp"%>
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 <%@ page import="api.*"%> 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style>
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
 	#refresh{ font-size: 10pt; color: #565855; }
 	#showEmail, #confirm, #capCancel{ font-size: 11pt; border:0; background-color: #D3D3D3; }
+	.slide, .sl{ display:none; }
+	.left{
+		position: relative;
+		top: -200px;
+	}
+	.right{
+		position: relative;
+		top: -240px;
+		right: none;
+		left: 260px;
+	}
 </style>
 <div class="container" id="view">
 	<% 
@@ -23,11 +32,7 @@
 	String mEncodeKey = webutil._E("key","");
 	Integer jusoNo = webutil._I("jusoNo","0");
 	String noDoneYN = webutil._S("noDone","N");
-	/*선생님 메소드로 수정
-	String key = request.getParameter("key"); 
-	if(key==null){ key=""; }
-	key = URLEncoder.encode(key, "UTF-8");*/
-	int hereNo = Integer.parseInt(request.getParameter("no"));
+	int hereNo = webutil._I("no","1");
 	dao.selViewBoard(vo, hereNo);
 	//dao.selViewComment(vo, hereNo);
 	int pNo = vo.getNo();
@@ -54,15 +59,6 @@
 			}else{ }
 			%>
 		[${vo.getMenu()}]
-	 <%-- String menu = vo.getMenu();
-			switch(menu) {
-				case "share":
-					--%><!-- b id="menu">[아나]</b><%--
-					break;
-				case "reuse":
-					--%><b id="menu">[바다]</b> --><%--
-					break;
-			} --%>
 		<b id="title"><%= vo.getTitle() %></b> 
 	</h3>
 	<p>
@@ -85,12 +81,13 @@
 	<div id="content">
 		<p>
 			<div id="slider">
-				<% //file도 jstl쓰면 forEach로 가져올 수 있음 
-					for(int i=0;i<vo.GetFileCount();i++)
+				<% for(int i=0;i<vo.GetFileCount();i++) //jstl형식은 forEach
 					{
-						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px'><br>");
+						out.print("<img class='slide' src='../upload/"+vo.GetFile(i)+"' width='300px'><br>");
 					}
 				%>
+				<button class="w3-button w3-black w3-display-left sl left" onclick="plusDivs(-1)">&#10094;</button>
+				<button class="w3-button w3-black w3-display-right sl right" onclick="plusDivs(1)">&#10095;</button>
 			</div>
 			<%= vo.getContent().replace("\n","<br>") %><br>
 		</p>
@@ -113,24 +110,12 @@
 				</c:choose>
 			</c:if>
 		</c:if>
-		<%--	switch(st){
-				case "nostatus":
-					--%><!-- button class="site-btn" id="done">거래완료</button><%--
-					break;	
-				case "done" :
-					--%><button class="site-btn" id="cancel">거래완료취소</button><%--
-					break;
-				case "cancel":
-					--%><button class="site-btn" id="done">거래완료</button> --><%--
-					break;
-				}}--%>
 	</div>
 	<form method="post" id="coForm" name="coForm" action="view.jsp" onsubmit="return false;">
 		<input type="text" placeholder="로그인 후 댓글 입력" id="comment" name="comment" style="width:85%" onkeyup="pressEnter();">
 		<button type="button" class="readmore-btn" id="cWrite" style="float:none;">댓글쓰기</button>
 	</form>
 	<% 
-		//댓글 영역_v2 - jstl 잘 안됨..if문에서 jsp의 loginUserNo 번호를 못읽어...
 		ArrayList<AnbdVO> coList = dao.selViewComment(pNo);
 		//session.setAttribute("cc", coList);
 		//댓글 영역_v3
@@ -150,8 +135,7 @@
 							out.print("<img src='../img/writerBlue.png' width='45px'></span>");
 							break;
 						}
-				}
-				else
+				}else
 				{
 					out.print("<span id='cWriter'>"+covo.getId()+"</span>");
 				}
@@ -187,6 +171,31 @@
 	</form>	
 <script type="text/javascript"> 
 	document.title="ANBD | 아나바다-글보기";
+	var slideIndex = 1; //슬라이드 처음 값
+	var img	  = document.getElementsByClassName("slide"); //이미지 요소 목록
+	var imgCnt = img.length*1;										 //이미지 갯수
+	var btn 	  = document.getElementsByClassName("sl");    //좌우 버튼
+	if(imgCnt>0){  //이미지 갯수가 0이상이면
+		for (var j = 0; j < 2; j++) {		  //버튼 갯수, 2만큼 for 돌면서
+		   btn[j].style.display = "block"; //버튼 보이기
+		}
+		showDivs(slideIndex); //처음화면 이미지 보여주기
+		function plusDivs(n) {// > 클릭하면, < 클릭하면
+		  showDivs(slideIndex += n);
+		}
+	}
+	function showDivs(n) {
+	  var img	  = document.getElementsByClassName("slide");
+	  if(imgCnt>0){
+		  if (n > img.length) {slideIndex = 1}
+		  if (n < 1) {slideIndex = img.length}{
+			  for (var i = 0; i < img.length; i++) {
+				  img[i].style.display = "none";  
+			  }
+			  img[slideIndex-1].style.display = "block";  
+		  }
+	  }
+	}
 	function doGoPage(url, coNo){
 		var f = document.pageForm;
 		var mParam  = "";

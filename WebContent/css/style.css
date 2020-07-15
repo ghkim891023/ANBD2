@@ -1721,7 +1721,7 @@ span#cContent{
 	width: 500px;
 	margin-left: 5px;
 }
-div#view button{ /*view.jsp 버튼*/
+div#view button:not(.sl){ /*view.jsp 버튼*/
 	float:right;
 	margin-left: 5px;
 	padding: 10px 10px;
