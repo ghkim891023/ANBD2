@@ -26,7 +26,7 @@ public class loginSer extends HttpServlet {
 		out.println("doGet test");
 	}
 
-//  doPost v2 - 로그인 일치하면 세션 생성
+//  doPost v3 - 이메일 인증시에만 로그인되게
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8"); 
@@ -34,25 +34,56 @@ public class loginSer extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
-		//if(id.equals("dd") && pw.equals("ddd")) { //로그인 일치 임시용
 		AnbdDAO dao = new AnbdDAO();
-		boolean login = dao.selLogin(id, pw);
-		if(login) {
-			HttpSession session = request.getSession();
-			session.setAttribute("loginId", id);
-//			out.println("<script>");
-//			out.println("alert('로그인에 성공하였습니다.')");
-//			out.println("location.href='/anbd2/main/main.jsp';"); //메인이동 방법1
-//			out.println("</script>");
-			response.sendRedirect("/anbd2/main/main.jsp"); 		  //메인이동 방법2
-		}else {
+		int login = dao.selLoginEmail(id, pw);
+		if(login == -1){
 			out.println("<script>");
 			out.println("alert('id, 비밀번호를 확인해주세요.')");
 			out.println("history.back();");
 			out.println("</script>");
+		}else if(login == -2){
+			out.println("<script>");
+			out.println("alert('로그인 인증을 완료해주세요.')");
+			out.println("history.back();");
+			out.println("</script>");
+		}else if(login == 1){
+			HttpSession session = request.getSession();
+			session.setAttribute("loginId", id);
+			out.println("<script>");
+			out.println("alert('로그인에 성공하였습니다.')");
+			out.println("location.href='/anbd2/main/main.jsp';");
+			out.println("</script>");
+			//response.sendRedirect("/anbd2/main/main.jsp");
 		}
-		
 	}
+	
+//  doPost v2 - 로그인 일치하면 세션 생성 - 이메일 인증 전
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		request.setCharacterEncoding("UTF-8");
+//		response.setContentType("text/html; charset=UTF-8"); 
+//		PrintWriter out = response.getWriter();
+//		
+//		String id = request.getParameter("id");
+//		String pw = request.getParameter("pw");
+//		//if(id.equals("dd") && pw.equals("ddd")) { //로그인 일치 임시용
+//		AnbdDAO dao = new AnbdDAO();
+//		boolean login = dao.selLogin(id, pw);
+//		if(login) {
+//			HttpSession session = request.getSession();
+//			session.setAttribute("loginId", id);
+//			//out.println("<script>");
+//			//out.println("alert('로그인에 성공하였습니다.')");
+//			//out.println("location.href='/anbd2/main/main.jsp';"); //메인이동 방법1
+//			//out.println("</script>");
+//			response.sendRedirect("/anbd2/main/main.jsp"); 		  //메인이동 방법2
+//		}else {
+//			out.println("<script>");
+//			out.println("alert('id, 비밀번호를 확인해주세요.')");
+//			out.println("history.back();");
+//			out.println("</script>");
+//		}
+//		
+//	}
 	
 //	doPost v1 - loginBean_ok.jsp로 넘기기 (한글 깨짐 해결함)
 //	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

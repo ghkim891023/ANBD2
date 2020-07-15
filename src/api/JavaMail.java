@@ -20,8 +20,8 @@ public class JavaMail {
 		String toName 		= id;					   // 받는사람 이름
 		String toEmail 		= email; 			       // 받는사람 메일 "cromgh@naver.com";
 		String mailTitle 	= "ANBD 회원가입 인증 메일입니다.";
-		String mailContents = "ANBD에 오신걸 환영합니다.!<br>이메일 인증을 완료하려면, 다음 링크를 클릭하세요. <br>"
-						     +"<a href='http://192.168.0.68:8090/anbd2/main/main.jsp'>이메일 인증 완료하기</a>"; //집 127.0.0.1:8080
+		String mailContents = id+"님, ANBD에 오신걸 환영합니다.!<br>이메일 인증을 완료하려면, 다음 링크를 클릭하세요. <br>"
+						     +"<a href='http://192.168.0.68:8090/anbd2/common/emailOk.jsp?id="+id+"'>이메일 인증 완료하기</a>"; //집 127.0.0.1:8080
 		String debugMode	= "false";
 		String authMode		= "true";
 
@@ -63,10 +63,12 @@ public class JavaMail {
 			try {
 				trans.connect();
 				trans.sendMessage(msg, msg.getAllRecipients());
+				System.out.println("회원가입 이메일 전송 완료");
 			} finally {
 				trans.close();
 			}
 		} catch(Exception e) {
+			System.out.println("회원가입 이메일 전송 실패");
 			e.printStackTrace();
 		}
 	}

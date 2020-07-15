@@ -97,7 +97,7 @@ public class AnbdDAO extends DbInfo{
 	public boolean selLogin(String id , String pw) { //로그인 ID 검사, 비밀번호 검사
 		//boolean result = false;
 		getConnection();
-		String SQL= "select id from user where id = '"+id+"' and pw= '"+pw+"' ";
+		String SQL= "select id from user where id = '"+id+"' and pw= '"+pw+"'";
 			
 		prepareStatement(SQL);    //쿼리를 미리 준비해서 메모리에 저장시키는 거
 		executeQuery(); 		//쿼리 실행
@@ -112,6 +112,46 @@ public class AnbdDAO extends DbInfo{
 		pstateClose();
 	    conClose();
 		return false;
+	}
+	
+	public int selLoginEmail(String id , String pw) { //로그인 ID, 비밀번호, 로그인 인증여부 검사
+		int login = 0;
+		// id나 비밀번호 틀리면 -1, 로그인 인증안했으면 -2, 로그인 되면 1
+		getConnection();
+		//String SQL= "select id from user where id= ? and pw= ? and emailOk='Y'";
+		String SQL= "select emailOk from user where id= ? and pw= ?";
+			
+		try {
+			prepareStatement(SQL);  //쿼리를 미리 준비해서 메모리에 저장시키는 거
+			pstate.setString(1, id);
+			pstate.setString(2, pw);
+			executeQuery(); 		//쿼리 실행
+			if(rs.next()){
+				if( rs.getString("emailOk").equals("Y") ) { //이메일 인증 완료
+					return 1; 	 //로그인 성공
+				}else return -2; //이메일 인증 안함
+			}return -1;	 		 //id,pw 틀림, 가입안했거나
+		}catch (Exception e) {
+			System.out.println("selLoginEmail() 에러: "+e.getMessage());
+		}
+		rsClose();
+		pstateClose();
+	    conClose();
+		return login; //sql에러시
+	}
+	
+	public void upUserEmailOk(String id) { //이메일 인증 - 이메일에서 링크 클릭시
+		getConnection();
+		String SQL  = "UPDATE user SET emailOk='Y' where id=?";
+		prepareStatement(SQL);
+		try {
+			pstate.setString(1, id);
+			executeUpdate(); 
+		} catch (Exception e) {
+			System.out.println("upUserEmailOk() 에러: "+e.getMessage());
+		}
+		pstateClose(); 
+		conClose(); 
 	}
 	
 	public int selLogin2(String id , String pw) { //로그인 - id가 틀렸는지, pw가 틀렸는지
