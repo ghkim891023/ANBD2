@@ -8,6 +8,7 @@
 
 <jsp:useBean id="joinBean" class="anbd.AnbdVO" scope="page" /> 
 <jsp:useBean id="joinBean2" class="anbd.AnbdDAO" scope="page" /> <!-- 데이터베이스 mysql에서도 보이게 하는거. 값을 넘기고 받고 하는 거 -->
+<jsp:useBean id="mail" class="JavaMail.PostMan" scope="page" />
 
 <jsp:setProperty name="joinBean" property="*"/>
 <html>
@@ -18,7 +19,12 @@
 	<p> 이름 	 : <%=joinBean.getName() %>  </p>
 	<p> 이메일     : <%=joinBean.getEmail() %> </p>
 	
-	<% int i = joinBean2.inJoin(joinBean); 
+	<% 
+		int i = joinBean2.inJoin(joinBean);
+		
+		String email = joinBean.getEmail();
+		String id = joinBean.getId();
+		mail.postMain(email, id);
 		
 		if(i!=1){ //1은 회원가입 성공 리턴값
 			%>

@@ -655,21 +655,23 @@ public class AnbdDAO extends DbInfo{
 			String sigun  = multi.getParameter("sigun");
 			String sido  = multi.getParameter("sido");
 			String content= multi.getParameter("content");
-			
-			String[] jusoNoArray = sigun.split(":");
-			String jusoNo = jusoNoArray[0];
-			if(sido.equals("기타") || sido.equals(""))
-			{
-				jusoNo = "251";
-			}
+			/*
+			 * String[] jusoNoArray = sigun.split(":"); String jusoNo = jusoNoArray[0];
+			 * if(sido.equals("기타") || sido.equals("")) { jusoNo = "251"; }
+			 */
 			vo.setMenu(menu);
 			vo.setTitle(title);
 			vo.setContent(content);
 			vo.setSigun(sigun);
-			if(vo.getSigun().equals("")||vo.getSigun() == null)
+			if(menu.equals("바다"))
 			{
+				vo.setSido("기타");
 				vo.setSigun("251");
 			}
+//			if(vo.getSigun().equals("")||vo.getSigun() == null)
+//			{
+//				vo.setSigun("251");
+//			}
 			
 			if(vo.saveName == null)
 			{
@@ -680,6 +682,7 @@ public class AnbdDAO extends DbInfo{
 				vo.setPhoto("Y");
 			}
 			
+			System.out.println("시군 = "+vo.getSigun());
 			//XSS 대책 [시작]
 			String xssContent = xssReplaceAll(content);
 			vo.setContent(xssContent);
@@ -696,12 +699,14 @@ public class AnbdDAO extends DbInfo{
 			pstate.setString(3, vo.getContent());
 			pstate.setInt(4, userNo);
 			pstate.setString(5, vo.getPhoto());
-			pstate.setString(6, jusoNo);
+			pstate.setString(6, vo.getSigun());
 
-			System.out.println(insertBoardSql);
-			System.out.println("saveName = "+vo.saveName);
-			System.out.println("SaveFileName = "+vo.SaveFileName);
-			System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
+			/*
+			 * System.out.println(insertBoardSql);
+			 * System.out.println("saveName = "+vo.saveName);
+			 * System.out.println("SaveFileName = "+vo.SaveFileName);
+			 * System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
+			 */
 			
 			executeUpdate();
 			
@@ -732,9 +737,10 @@ public class AnbdDAO extends DbInfo{
 					pstate.setString(1, vo.getSaveName(i));
 					pstate.setInt(2, vo.getNo());
 					executeUpdate();
-					System.out.println(insertFileSql);
+//					System.out.println(insertFileSql);
 				}//for FLOW
 			}//====if FLOW == 파일 insert 종료
+			System.out.println("글 등록 OK");
 		}//====try FLOW
 		catch (SQLException e) 
 		{

@@ -10,5 +10,5 @@
  	pageContext.setAttribute("selSigun", dao.getBoardList());
  %>
 <c:forEach items="${selSigun}" var="selSigun">
-	<option value="${selSigun.jusoNo}:${selSigun.sigun}">${selSigun.sigun}</option>
+	<option value="${selSigun.jusoNo}">${selSigun.sigun}</option>
 </c:forEach>

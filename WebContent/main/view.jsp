@@ -88,7 +88,7 @@
 				<% //file도 jstl쓰면 forEach로 가져올 수 있음 
 					for(int i=0;i<vo.GetFileCount();i++)
 					{
-						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px'><br>");
+						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px' alt="+vo.GetFile(i)+"><br>");
 					}
 				%>
 			</div>

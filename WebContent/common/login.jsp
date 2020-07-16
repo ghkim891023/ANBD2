@@ -10,12 +10,12 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<p align="left">아이디</p>
-					<input type="text" placeholder="아이디를 입력하세요" id="id" name="id" autofocus maxlength="12"/>
+					<input type="text" value="usb" placeholder="아이디를 입력하세요" id="id" name="id" autofocus maxlength="12"/>
 				</div><!--col-lg-12 클래스 마지막-->
 				
 				<div class="col-lg-12">
 					<p align="left">비밀번호</p>
-					<input type="password" placeholder="비밀번호를 입력하세요" id="pw" name="pw" autocomplete="off" maxlength="20"/>
+					<input type="password" value="usb" placeholder="비밀번호를 입력하세요" id="pw" name="pw" autocomplete="off" maxlength="20"/>
 				</div><!--col-lg-12 클래스 마지막-->
 			</div><!--====row 클래스 마지막-->
 			
