@@ -26,3 +26,5 @@
 	<script src="../js/main.js"></script>
 	</body>
 </html>
+
+<%--= 1/0 --%>
