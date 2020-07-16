@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mvc2.action.Action;
+import mvc2.action.WriteOkAction;
 import mvc2.vo.ActionForward;
 
 @WebServlet("*.do")
@@ -31,9 +32,17 @@ public class FrontController extends HttpServlet {
 		ActionForward forward = null;
 		Action action 		= null;
 		
+		//매핑 주소 = 책에 있는거 + viewDone, viewAfter, viewCancel 등등.. 
 		if(command.equals("/write.do")) {
 			forward = new ActionForward();
 			forward.setPath("/main/write.jsp");
+		}else if(command.equals("/writeOk.do")) {
+			action = new WriteOkAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FrontController: writeOk.do 에러: "+e.getMessage());
+			}
 		}
 		
 		
