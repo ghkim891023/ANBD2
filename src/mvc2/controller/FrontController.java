@@ -15,46 +15,124 @@ import mvc2.vo.ActionForward;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
-//	  private static final long serialVersionUID = 1L;
-//    public FrontController() {
-//        super();
-//    }
 	
 	protected void doProcess (HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException{
 		
 		request.setCharacterEncoding("UTF-8");
-		String RequestURI   = request.getRequestURI();
-		String contextPath  = request.getContextPath();
-		System.out.println("contextPath: "+contextPath);
+		String RequestURI     = request.getRequestURI();
+		String contextPath    = request.getContextPath(); //출력: /anbd2
 		
-		String command	    = RequestURI.substring(contextPath.length());
+		String command	      = RequestURI.substring(contextPath.length());
 		ActionForward forward = null;
-		Action action 		= null;
+		Action action 		  = null;
 		
-		//매핑 주소 = 책에 있는거 + viewDone, viewAfter, viewCancel 등등.. 
-		if(command.equals("/write.do")) {
+		//매핑 주소별 -> Action 클래스, 메소드 실행
+		if(command.equals("/write.do")) { //http://localhost:8090/anbd2/write.do 중간에 /main/있으면 실행안됨
 			forward = new ActionForward();
 			forward.setPath("/main/write.jsp");
-		}else if(command.equals("/writeOk.do")) {
+		}
+		else if(command.equals("/writeOk.do")) {
 			action = new WriteOkAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
-				System.out.println("FrontController: writeOk.do 에러: "+e.getMessage());
+				System.out.println("FC:writeOk.do 에러: "+e.getMessage());
 			}
-		}
-		
+		}else if(command.equals("/main.do")) { //메인
+			//action = new MainAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:main.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/view.do")) { //글보기(뒤에 no등 파라미터)
+			//action = new ViewAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:view.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewModify.do")) { //글수정 폼
+			//action = new viewModifyAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewModify.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewModifyOk.do")) { //글수정 처리
+			//action = new viewModifyOkAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewModifyOk.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewRemove.do")) { //글삭제
+			//action = new viewRemoveAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewRemove.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/coWriteOk.do")) { //댓글쓰기 처리
+			//action = new coWriteOkAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:coWriteOk.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewCoModifyOk.do")) { //댓글수정 처리
+			//action = new viewCoModifyOkAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewCoModifyOk.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewCoRemove.do")) { //댓글삭제 처리
+			//action = new viewCoRemoveAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewCoRemove.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewDone.do")) { //거래완료 처리
+			//action = new viewDoneAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewDone.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewCancel.do")) { //거래완료취소 처리
+			//action = new viewCancelAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewCancel.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewAfter.do")) { //다음글
+			//action = new viewAfterAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewAfter.do 에러: "+e.getMessage());
+			}
+		}else if(command.equals("/viewBefore.do")) { //이전글
+			//action = new viewBeforeAction();
+			try {
+				forward = action.execute(request, response);
+			}catch(Exception e) {
+				System.out.println("FC:viewBefore.do 에러: "+e.getMessage());
+			}
+		}//매핑 추가 + loginOk, joinOk, logoutOk
 		
 		if(forward != null) {
 			if(forward.isRedirect()) {
 				response.sendRedirect(forward.getPath());
-			}else {
+			}else{
 				RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 				dispatcher.forward(request, response);
 			}
 		}
-		
 	}//doProcess
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,5 +142,4 @@ public class FrontController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request,response);
 	}
-
 }//end of class
