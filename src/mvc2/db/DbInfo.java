@@ -22,7 +22,7 @@ public class DbInfo {
  *   Connection 객체를 통한 DBMS 작업을 수행한다.
  *   모든 작업이 끝나면 DataSource 객체를 통해서 Connection Pool에 Connection을 반납한다. - rs/stmt/con close
  https://opentutorials.org/module/3569/21223 */
-			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");
+			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");//xml에 db연결 정보 읽는, 우린 연결되는거 확인했으니 생략가능 
 			con = ds.getConnection();
 			con.setAutoCommit(false); // 오토커밋을 false로 지정
 		} catch (Exception e) {
