@@ -31,7 +31,7 @@
 	<form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
 	-->
 <%--서블릿 적용 전, 정상 작동 확인--%>
- <form class="contact-form" id="write" name="write" method="post" action="/anbd2/writeOk.do?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
+ <form class="contact-form" id="write" name="writeForm" method="post" action="/anbd2/writeOk.do?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -106,16 +106,17 @@
 <div class="Lst">
 	<button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button>
 </div>
-<script>
-	var loginId = <%=loginId%>;
-	if(loginId==null){ //주소에 http://localhost:8080/anbd2/write.do로 바로 접근시
-		alert("글쓰기는 로그인 후 가능합니다.");
-		location.href = "/anbd2/common/login.jsp";
-	}
+<script type="text/javascript">
+	//var loginId = <%--=loginId--%>;
+	//if(<%=loginId%>==null){ //주소에 http://localhost:8080/anbd2/write.do로 바로 접근시
+		//alert("글쓰기는 로그인 후 가능합니다.");
+		//location.href = "/anbd2/common/login.jsp";
+	//}else{}
 	$(document).ready(function()
 	{
 		$("#save").click(function()
-		{
+		{	
+			var writeForm = document.writeForm; //document.getElementById("write");
 			var title = $("#title").val(); 
 			var content = $("#content").val(); 
 			if(title == "")
@@ -136,19 +137,22 @@
 			//전송할  Form의 데이터를 얻을 준비를 한다.
 			var mPostData = new FormData(mForm);
 			var path = "${pageContext.request.contextPath}";
-			var urlSer = path+"/writeSer?userNo=${pageScope.userNo}";
-			var urlJsp = "writeOk.jsp?userNo=${pageScope.userNo}";
-			$.ajax
+			var urlSer = path+"/writeOk.do?userNo=${pageScope.userNo}";
+			//var urlJsp = "writeOk.jsp?userNo=${pageScope.userNo}";
+			writeForm.action = urlSer;
+			writeForm.submit(); 
+			/*$.ajax
 			({
 				type:"POST",
 				enctype: "multipart/form-data",
-				url:urlJsp,
+				url: urlMvc2,
 				data: mPostData,
 				processData: false,
 				contentType: false,				
 				dataType:"html",
 				success: function (data) 
-				{
+				{	
+					console.log(data);
 					var array = data.split(",");
 					var menu = array[1].toString();//메뉴
 					var no = array[0]*1;//글번호
@@ -162,7 +166,7 @@
 	            	console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            	//alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            }
-			});//ajax FLOW
+			});//ajax FLOW*/
 		});//save 클릭 이벤트
 		$("input[name='menu']").change(function()
 			{
@@ -184,11 +188,12 @@
 				$.ajax
 					({
 						type:"GET",
-						url:"writeSigun.jsp",
+						url:"/anbd2/main/writeSigun.jsp", 
 						data: "sido=" + encodeURIComponent(changeSigun),
 						dataType: "html",
 						success: function (data) 
 						{
+							console.log(data);
 							$("#sigun").html(data);
 							/* ******* 
 							 * [2020.06.29]

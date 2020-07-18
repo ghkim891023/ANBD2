@@ -24,17 +24,17 @@ public class WriteOkAction implements Action {
 		int size=10*1024*1024;
 		ServletContext context = request.getServletContext();
 		realFolder=context.getRealPath(saveFolder);  
-		System.out.println("WriteOkAction:context: "+context);
-		System.out.println("WriteOkAction:realFolder: "+realFolder);
 		
 		MultipartRequest multi=new MultipartRequest(request, realFolder, size, "UTF-8", new DefaultFileRenamePolicy());
 		boardVo = new BoardVO();
-		boardVo.setNo(Integer.parseInt(multi.getParameter("no")));
+		//boardVo.setNo(Integer.parseInt(multi.getParameter("no")));
 		boardVo.setMenu(multi.getParameter("menu"));
 		boardVo.setTitle(multi.getParameter("title"));
 		boardVo.setContent(multi.getParameter("content"));
 		boardVo.setPhoto(multi.getParameter("photo"));
-		boardVo.setJusoNo(Integer.parseInt(multi.getParameter("jusoNo")));
+		String[] SigunNo = multi.getParameter("sigun").split(":");
+		int jusoNo = Integer.parseInt(SigunNo[0]);
+		boardVo.setJusoNo(jusoNo);
 		//UserVo userVo = new UserVo();
 		//userVo.setUserNo(multi.getParameter("userNo"));
 		boardVo.setUserNo(Integer.parseInt(multi.getParameter("userNo")));

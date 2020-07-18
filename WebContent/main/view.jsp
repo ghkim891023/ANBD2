@@ -37,8 +37,8 @@
 	//dao.selViewComment(vo, hereNo);
 	int pNo = vo.getNo();
 	String loginId = (String)session.getAttribute("loginId");
-	boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
-	int loginUserNo = vo.getLoginUserNo();
+	//boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
+	int loginUserNo = dao.selLoginUserNo(vo, loginId);//vo.getLoginUserNo();
 	int writerUserNo = vo.getUserNo();
 	%>
 	<c:if test="${vo.getMenu() eq '바다'}">

@@ -7,7 +7,8 @@
 		password="1234"
 		driverClassName="com.mysql.cj.jdbc.Driver"
 		factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
-		url="jdbc:mysql://localhost:3306/anbd"
+		url="jdbc:mysql://127.0.0.1:3306/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC" 
+		<!-- "jdbc:mysql://localhost:3306/anbd"  -->
 		maxActive="500"
 	/>
 </Context>

@@ -180,7 +180,6 @@ public class AnbdDAO extends DbInfo{
 //	public boolean selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기_boolean형
 //		try {
 //			String SQL  = "SELECT userNo from user where id='"+id+"'";
-//			System.out.println("selLoginUserNo: "+SQL);
 //			getConnection();
 //			prepareStatement(SQL);
 //			executeQuery();
@@ -201,7 +200,6 @@ public class AnbdDAO extends DbInfo{
 	public int selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기_int형
 		try {
 			String SQL  = "SELECT userNo from user where id='"+id+"'";
-			System.out.println("selLoginUserNo: "+SQL);
 			getConnection();
 			prepareStatement(SQL);
 			executeQuery();
@@ -980,7 +978,7 @@ public class AnbdDAO extends DbInfo{
 				   selSidoSql += "FROM juso \n";
 				   selSidoSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSidoSql);
-			System.out.println(selSidoSql);
+			//System.out.println(selSidoSql);
 			executeQuery();
 			if(rs.next())
 			{
@@ -1031,7 +1029,7 @@ public class AnbdDAO extends DbInfo{
 				   selSigunSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSigunSql);
 			pstate.setString(1, sido);
-			System.out.println(selSigunSql);
+			//System.out.println(selSigunSql);
 			executeQuery();
 			if(rs.next())
 			{

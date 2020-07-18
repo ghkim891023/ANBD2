@@ -24,6 +24,7 @@ public class FrontController extends HttpServlet {
 		String contextPath    = request.getContextPath(); //출력: /anbd2
 		
 		String command	      = RequestURI.substring(contextPath.length());
+		System.out.println("command: "+command);
 		ActionForward forward = null;
 		Action action 		  = null;
 		
@@ -38,6 +39,7 @@ public class FrontController extends HttpServlet {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
 				System.out.println("FC:writeOk.do 에러: "+e.getMessage());
+				e.printStackTrace();
 			}
 		}else if(command.equals("/main.do")) { //메인
 			//action = new MainAction();
