@@ -177,7 +177,28 @@ public class AnbdDAO extends DbInfo{
 	}
 		
 	//========글보기/수정/삭제, 댓글 보기/쓰기/수정/삭제, 나눔완료/취소 메소드========
-	public boolean selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기
+//	public boolean selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기_boolean형
+//		try {
+//			String SQL  = "SELECT userNo from user where id='"+id+"'";
+//			System.out.println("selLoginUserNo: "+SQL);
+//			getConnection();
+//			prepareStatement(SQL);
+//			executeQuery();
+//			if(rs.next()) { 
+//				vo.setLoginUserNo(rs.getInt("userNo"));
+//				System.out.println("회원번호: "+vo.getLoginUserNo());
+//			}
+//		}catch (Exception e) {
+//			System.out.println("selLoginUserNo() 에러: "+e.getMessage());
+//			return false;
+//		}
+//   	   	rsClose();
+//		pstateClose();
+//		conClose();
+//		return true;
+//	}
+	
+	public int selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기_int형
 		try {
 			String SQL  = "SELECT userNo from user where id='"+id+"'";
 			System.out.println("selLoginUserNo: "+SQL);
@@ -186,16 +207,16 @@ public class AnbdDAO extends DbInfo{
 			executeQuery();
 			if(rs.next()) { 
 				vo.setLoginUserNo(rs.getInt("userNo"));
-				System.out.println("회원번호: "+vo.getLoginUserNo());
+				return vo.getLoginUserNo(); 
 			}
 		}catch (Exception e) {
 			System.out.println("selLoginUserNo() 에러: "+e.getMessage());
-			return false;
+			return -1;
 		}
    	   	rsClose();
 		pstateClose();
 		conClose();
-		return true;
+		return 0;
 	}
 	
 	public void selViewBoard(AnbdVO vo, int no) { //글보기

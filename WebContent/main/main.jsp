@@ -190,13 +190,13 @@ request.setAttribute("key", mEncodeKey);
 		%>
 			<input type="button" id="write" class="Wrt2" value="글쓰기" onclick="javascript:doAlert();">
 		<%
-	}
-	else
+	}else
 	{
 		String loginId = (String)session.getAttribute("loginId");
 		//out.print(session.getAttribute("loginId"));
 		%>
-		<input type="button" id="write" class="Wrt2" value="글쓰기" onclick="location.href='write.jsp'">
+		<!-- <input type="button" id="write" class="Wrt2" value="글쓰기" onclick="location.href='write.jsp'"> -->
+		<input type="button" id="write" class="Wrt2" value="글쓰기" onclick="location.href='/anbd2/write.do'">
 		<%
 	}
 	%>
