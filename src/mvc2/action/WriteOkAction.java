@@ -41,14 +41,14 @@ public class WriteOkAction implements Action {
 		//boardVo.setFILE(multi.getOriginalFileName((String)multi.getFileNames().nextElement()));
 		
 		WriteOkService writeOk = new WriteOkService();
-		boolean isWriteSuccess = writeOk.registArticle(boardVo);
+		boolean isWriteSuccess = writeOk.registArticle(boardVo, request, boardVo.getUserNo());
 
 		if(!isWriteSuccess){
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('글쓰기 등록에 실패하였습니다.')");
-			out.println("history.back();");
+			//out.println("history.back();");
 			out.println("</script>");
 		}else{ //글쓰기 성공하면
 			forward = new ActionForward();

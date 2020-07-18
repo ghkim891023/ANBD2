@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 public class DbInfo {
 	
 	//책 복붙 + 우리꺼랑 섞기?
+	/*
 	public static Connection getConnection(){
 		Connection con=null;
 		try {
@@ -22,7 +23,7 @@ public class DbInfo {
  *   Connection 객체를 통한 DBMS 작업을 수행한다.
  *   모든 작업이 끝나면 DataSource 객체를 통해서 Connection Pool에 Connection을 반납한다. - rs/stmt/con close
  https://opentutorials.org/module/3569/21223 */
-			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");//xml에 db연결 정보 읽는, 우린 연결되는거 확인했으니 생략가능 
+/*			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");//xml에 db연결 정보 읽는, 우린 연결되는거 확인했으니 생략가능 
 			con = ds.getConnection();
 			con.setAutoCommit(false); // 오토커밋을 false로 지정
 		} catch (Exception e) {
@@ -71,114 +72,114 @@ public class DbInfo {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 //학원
 //	String 			  url 	 = "jdbc:mysql://192.168.0.77/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+	String 			  driver = "com.mysql.cj.jdbc.Driver";
+	String 			  id  	 = "kanu";
+	String 			  pw  	 = "1234";
+//집
+//	String 			  url 	 = "jdbc:mysql://127.0.0.1:3307/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+	String 			  url 	 = "jdbc:mysql://127.0.0.1:3306/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
 //	String 			  driver = "com.mysql.cj.jdbc.Driver";
-//	String 			  id  	 = "kanu";
-//	String 			  pw  	 = "1234";
-////집
-////	String 			  url 	 = "jdbc:mysql://127.0.0.1:3307/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
-////	String 			  url 	 = "jdbc:mysql://127.0.0.1:3306/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
-////	String 			  driver = "com.mysql.cj.jdbc.Driver";
-////	String 			  id  	 = "root";
-////	String 			  pw  	 = "111111";
-//	
-//	Statement 		  state  = null; 
-//	ResultSet 		  rs	 = null; 
-//	Connection 		  con 	 = null; 
-//	PreparedStatement pstate = null;
-//
-//	public Connection getConnection(){
-//		try{
-//		Class.forName(driver);
-//		con = DriverManager.getConnection(url, id, pw);
-//		System.out.println("===DB 연결===");
-//		}
-//		catch(SQLException se){   
-//			se.printStackTrace();
-//			System.out.println("DB 엑세스 에러: "+se.getMessage() );
-//		}catch(Exception e){
-//			System.out.println("getConnection() 에러: "+e.getMessage() );
-//		}
-//		return con;
-//	}//getConnection
-//	
-// 	public void prepareStatement(String sql){ 
-//		try{
-//			pstate = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-//		}catch (SQLException e){
-//			System.out.println("prepareStatement() 에러: "+e.getMessage() );
-//		}
-//	}//prepareStatement
-// 	
-// 	public void createStatement(){ 
-//		try{
-//			state = con.createStatement();
-//		} catch (SQLException e){
-//			System.out.println("createStatement() 에러: "+e.getMessage() );
-//		}
-//	}//createStatement
-// 	
-//	//Insert, Update, Delete 쿼리
-//	public void executeUpdate(){ 
-//		try {
-//			pstate.executeUpdate();
-//		} catch (SQLException e) {
-//			System.out.println("executeUpdate() 에러: "+e.getMessage() );
-//		}
-//	}//executeUpdate
-//	
-//	//Select 쿼리
-//	public void executeQuery() {
-//		try {
-//			rs = pstate.executeQuery(); //쿼리를 실행하고 결과를 ResultSet 객체에 담는다.
-//		} catch (SQLException e) {
-//			System.out.println("executeQuery() 에러: "+e.getMessage() );
-//		}
-//	}//executeQuery
-//	
-//	//닫기
-//	public void stateClose() {
-//		try {
-//			if (state != null) {
-//				state.close();
-//			}
-//		} catch (SQLException e) {
-//			System.out.println("stateClose() 에러: "+e.getMessage() );
-//		}
-//	}//stateClose
-//	
-//	public void pstateClose() {
-//		try 
-//		{
-//			if(pstate!=null||!pstate.isClosed()){
-//				pstate.close();
-//			}
-//		} catch (SQLException e) {
-//			System.out.println("pstateClose() 에러: "+e.getMessage() );
-//		}
-//	}//pstateClose
-//	
-//	public void conClose() {
-//		try {
-//			if (con != null) {
-//				con.close();
-//			}
-//		} catch (SQLException e) {
-//			System.out.println("conClose() 에러: "+e.getMessage() );
-//		}
-//	}//conClose
-//	
-//	public void rsClose(){
-//		try{
-//			if(rs!=null||!rs.isClosed()){
-//				rs.close();
-//			}
-//		}catch (SQLException e){
-//			System.out.println("rsClose() 에러: "+e.getMessage() );
-//		}
-//	}//rsClose
+//	String 			  id  	 = "root";
+//	String 			  pw  	 = "111111";
+	
+	Statement 		  state  = null; 
+	ResultSet 		  rs	 = null; 
+	Connection 		  con 	 = null; 
+	PreparedStatement pstate = null;
+
+	public Connection getConnection(){
+		try{
+		Class.forName(driver);
+		con = DriverManager.getConnection(url, id, pw);
+		System.out.println("===DB 연결===");
+		}
+		catch(SQLException se){   
+			se.printStackTrace();
+			System.out.println("DB 엑세스 에러: "+se.getMessage() );
+		}catch(Exception e){
+			System.out.println("getConnection() 에러: "+e.getMessage() );
+		}
+		return con;
+	}//getConnection
+	
+ 	public void prepareStatement(String sql){ 
+		try{
+			pstate = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		}catch (SQLException e){
+			System.out.println("prepareStatement() 에러: "+e.getMessage() );
+		}
+	}//prepareStatement
+ 	
+ 	public void createStatement(){ 
+		try{
+			state = con.createStatement();
+		} catch (SQLException e){
+			System.out.println("createStatement() 에러: "+e.getMessage() );
+		}
+	}//createStatement
+ 	
+	//Insert, Update, Delete 쿼리
+	public void executeUpdate(){ 
+		try {
+			pstate.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("executeUpdate() 에러: "+e.getMessage() );
+		}
+	}//executeUpdate
+	
+	//Select 쿼리
+	public void executeQuery() {
+		try {
+			rs = pstate.executeQuery(); //쿼리를 실행하고 결과를 ResultSet 객체에 담는다.
+		} catch (SQLException e) {
+			System.out.println("executeQuery() 에러: "+e.getMessage() );
+		}
+	}//executeQuery
+	
+	//닫기
+	public void stateClose() {
+		try {
+			if (state != null) {
+				state.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("stateClose() 에러: "+e.getMessage() );
+		}
+	}//stateClose
+	
+	public void pstateClose() {
+		try 
+		{
+			if(pstate!=null||!pstate.isClosed()){
+				pstate.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("pstateClose() 에러: "+e.getMessage() );
+		}
+	}//pstateClose
+	
+	public void conClose() {
+		try {
+			if (con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("conClose() 에러: "+e.getMessage() );
+		}
+	}//conClose
+	
+	public void rsClose(){
+		try{
+			if(rs!=null||!rs.isClosed()){
+				rs.close();
+			}
+		}catch (SQLException e){
+			System.out.println("rsClose() 에러: "+e.getMessage() );
+		}
+	}//rsClose
 		
 }
