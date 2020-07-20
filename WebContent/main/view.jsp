@@ -4,7 +4,7 @@
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 <%@ page import="api.*"%> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <style>
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
@@ -24,6 +24,9 @@
 </style>
 <div class="container" id="view">
 	<% 
+	String uri = request.getRequestURI();
+	System.out.println("==uri: "+uri);
+	
 	webutil.Init(request);
 	int pageno = webutil._I("page","1");
 	String menu   = webutil._S("menu","");
@@ -155,9 +158,9 @@
 			<div id="div"></div>
 </div><!--container 클래스 마지막-->
 <div class="Lst">
-	<button class="site-btn" id="before" onclick="javascript:doGoPage('viewBefore.jsp');">이전글</button>
-	<button class="site-btn" id="list" onclick="javascript:doGoPage('main.jsp');">목록</button>
-	<button class="site-btn" id="after" onclick="javascript:doGoPage('viewAfter.jsp');">다음글</button>
+	<button class="site-btn" id="before" onclick="javascript:doGoPage('/anbd2/main/viewBefore.jsp');">이전글</button>
+	<button class="site-btn" id="list" onclick="javascript:doGoPage('/anbd2/main/main.jsp');">목록</button>
+	<button class="site-btn" id="after" onclick="javascript:doGoPage('/anbd2/main/viewAfter.jsp');">다음글</button>
 </div>
 <%@include file="../include/footer.jsp"%>
 	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
@@ -175,6 +178,7 @@
 	var img	  = document.getElementsByClassName("slide"); //이미지 요소 목록
 	var imgCnt = img.length*1;										 //이미지 갯수
 	var btn 	  = document.getElementsByClassName("sl");    //좌우 버튼
+	//console.log("imgCnt: "+imgCnt);
 	if(imgCnt>1){  //이미지 갯수가 1이상이면, 버튼 보이기
 		for (var j = 0; j < 2; j++) {		  //버튼 갯수, 2만큼 for 돌면서
 		   btn[j].style.display = "block"; //버튼 보이기
@@ -188,7 +192,10 @@
 	}
 	function showDivs(n) {
 	  var img	  = document.getElementsByClassName("slide");
-	  if(imgCnt>0){
+	  var imgCnt = img.length*1;
+	  //사진없을때, 위에서는 0찍히는데, 여기서는 1찍힘.. -> 윗줄에서 변수 다시 선언해줌
+	  //console.log("imgCnt: "+imgCnt);
+	  if(imgCnt>=1){
 		  if (n > img.length) {slideIndex = 1}
 		  if (n < 1) {slideIndex = img.length}{
 			  for (var i = 0; i < img.length; i++) {

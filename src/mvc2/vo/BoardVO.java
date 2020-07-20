@@ -39,11 +39,9 @@ public class BoardVO { //UserVO, CommentVO 별도
 	private String sido    = "";
 	private int    jusoNo  = 0;
 	
-	/* **************************************************
-	 * 정규화 [시작]
-	 * jsp에서 메소드를 활용하면 어떤 역할을 하는지 한 눈에 알아볼 수 있음
-	 * protected로만 접근할 수 있던 변수를 get을 이용해 바꿔 쓸 수 있다
-	 ****************************************************/
+	/* ******************************
+	 * 생성자							*
+	 ********************************/
 	public BoardVO(){
 		fileList = new <String>ArrayList();
 		SaveFileName = new <String>ArrayList();   //글쓰기 파일리스트 생성
@@ -52,24 +50,20 @@ public class BoardVO { //UserVO, CommentVO 별도
 		SimpleDateFormat sDate = new SimpleDateFormat("yyyy/MM/dd");
 		strDate = sDate.format(Calendar.getInstance().getTime());
 	}
-	// 파일
-	// 첨부파일 이름, 첨부파일 이름을 리스트 길이만큼 가져옴
-	public int GetFileSize(){
-		return SaveFileName.size();
-	}
+	
 	// 글쓰기 파일리스트
-	public int getFileSize()
-	{
+	public int getFileSize(){
 		return SaveFileName.size();
 	}
-	//mvc2 첨부파일 파일명s 저장
+	//mvc2 글쓰기 - 첨부파일 실제 파일명들 저장
 	public void addSaveFileName(String File){
 		SaveFileName.add(File); 
 	}
-	//mvc2 첨부파일 파일명s 가져오기
+	//mvc2 글쓰기 - 첨부파일 실제 파일명들 가져오기
 	public String getSaveFileName(int i){ 
 		return (String)SaveFileName.get(i); 
 	}
+	
 	// key, 키워드
 	public String getKey(){
 		return tagName;

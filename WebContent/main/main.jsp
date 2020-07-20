@@ -145,8 +145,10 @@ request.setAttribute("key", mEncodeKey);
 					<c:when test="${pageList.menu ne '공지'}">
 						<td>[${pageList.menu}]</td>
 						<td>
-							<!--기존: <a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}"> -->
-							<a href="javascript:doGoPage('/anbd2/main/view.jsp','<%= currentPage %>','${pageList.no}');">
+							<!--기존1: <a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}"> 
+								  기존2: <a href="javascript:doGoPage('/anbd2/main/view.jsp','<%= currentPage %>','${pageList.no}');">
+							-->
+							<a href="javascript:doGoPage('/anbd2/view.do','<%= currentPage %>','${pageList.no}');">
 							<c:choose>
 								<c:when test="${pageList.status eq 'done'}">
 									<span id="status">[거래완료]</span>

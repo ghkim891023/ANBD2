@@ -6,90 +6,22 @@ import javax.sql.DataSource;
 
 public class DbInfo {
 	
-	//책 복붙 + 우리꺼랑 섞기?
-	/*
-	public static Connection getConnection(){
-		Connection con=null;
-		try {
-			Context initCtx = new InitialContext(); //JNDI 서버 객체 새성
-			Context envCtx = (Context)initCtx.lookup("java:comp/env");
-/* DataSource
- *   커넥션 풀의 Connection을 관리하기 위한 객체..
- *   DataSource 객체를 통해서 필요한 Connection을 획득, 반납 등의 작업을 한다.
- *   
- * DataSource를 이용하려면 다음의 절차를 따릅니다.
- *   JNDI Server에서 lookup( ) 메소드를 통해 DataSource 객체를 획득한다.
- *   DataSource 객체의 getConnection( ) 메소드를 통해서 Connection Pool에서 Free 상태의 Connection 객체를 획득한다.
- *   Connection 객체를 통한 DBMS 작업을 수행한다.
- *   모든 작업이 끝나면 DataSource 객체를 통해서 Connection Pool에 Connection을 반납한다. - rs/stmt/con close
- https://opentutorials.org/module/3569/21223 */
-/*			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");//xml에 db연결 정보 읽는, 우린 연결되는거 확인했으니 생략가능 
-			con = ds.getConnection();
-			con.setAutoCommit(false); // 오토커밋을 false로 지정
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return con;
-	}
-	
-	public static void close(Connection con){
-		try {
-			con.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void close(Statement stmt){
-		try {
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void close(ResultSet rs){
-		try {
-			rs.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	//트랜잭션(Transaction)의 commit 을 수행, 기본적으로는 auto 커밋됨 - https://hyeonstorage.tistory.com/113
-	public static void commit(Connection con){
-		try {
-			con.commit(); 
-			System.out.println("commit success");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void rollback(Connection con){
-		try {
-			con.rollback(); //트랜잭션(Transaction)의 rollback, Exception 발생시 rollback 
-			System.out.println("rollback success");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-	
 //학원
-//	String 			  url 	 = "jdbc:mysql://192.168.0.77/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+	String 			  url 	 = "jdbc:mysql://192.168.0.77/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
 	String 			  driver = "com.mysql.cj.jdbc.Driver";
 	String 			  id  	 = "kanu";
 	String 			  pw  	 = "1234";
 //집
 //	String 			  url 	 = "jdbc:mysql://127.0.0.1:3307/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
-	String 			  url 	 = "jdbc:mysql://127.0.0.1:3306/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
+//	String 			  url 	 = "jdbc:mysql://127.0.0.1:3306/anbd?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC";
 //	String 			  driver = "com.mysql.cj.jdbc.Driver";
 //	String 			  id  	 = "root";
 //	String 			  pw  	 = "111111";
 	
-	Statement 		  state  = null; 
-	ResultSet 		  rs	 = null; 
-	Connection 		  con 	 = null; 
-	PreparedStatement pstate = null;
+	protected Statement 	    state  = null; 
+	protected ResultSet 	    rs	   = null; 
+	protected Connection	    con    = null; 
+	protected PreparedStatement pstate = null;
 
 	public Connection getConnection(){
 		try{
@@ -182,4 +114,72 @@ public class DbInfo {
 		}
 	}//rsClose
 		
+	
+	//책 복붙
+	/*
+	public static Connection getConnection(){
+		Connection con=null;
+		try {
+			Context initCtx = new InitialContext(); //JNDI 서버 객체 새성
+			Context envCtx = (Context)initCtx.lookup("java:comp/env");
+/* DataSource
+ *   커넥션 풀의 Connection을 관리하기 위한 객체..
+ *   DataSource 객체를 통해서 필요한 Connection을 획득, 반납 등의 작업을 한다.
+ *   
+ * DataSource를 이용하려면 다음의 절차를 따릅니다.
+ *   JNDI Server에서 lookup( ) 메소드를 통해 DataSource 객체를 획득한다.
+ *   DataSource 객체의 getConnection( ) 메소드를 통해서 Connection Pool에서 Free 상태의 Connection 객체를 획득한다.
+ *   Connection 객체를 통한 DBMS 작업을 수행한다.
+ *   모든 작업이 끝나면 DataSource 객체를 통해서 Connection Pool에 Connection을 반납한다. - rs/stmt/con close
+ https://opentutorials.org/module/3569/21223 */
+/*			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");//xml에 db연결 정보 읽는, 우린 연결되는거 확인했으니 생략가능 
+			con = ds.getConnection();
+			con.setAutoCommit(false); // 오토커밋을 false로 지정
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+	
+	public static void close(Connection con){
+		try {
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void close(Statement stmt){
+		try {
+			stmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void close(ResultSet rs){
+		try {
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//트랜잭션(Transaction)의 commit 을 수행, 기본적으로는 auto 커밋됨 - https://hyeonstorage.tistory.com/113
+	public static void commit(Connection con){
+		try {
+			con.commit(); 
+			System.out.println("commit success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void rollback(Connection con){
+		try {
+			con.rollback(); //트랜잭션(Transaction)의 rollback, Exception 발생시 rollback 
+			System.out.println("rollback success");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
 }

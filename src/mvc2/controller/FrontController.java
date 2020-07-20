@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mvc2.action.Action;
+import mvc2.action.ViewAction;
 import mvc2.action.WriteOkAction;
 import mvc2.vo.ActionForward;
 
@@ -41,7 +42,7 @@ public class FrontController extends HttpServlet {
 				System.out.println("FC:writeOk.do 에러: "+e.getMessage());
 				e.printStackTrace();
 			}
-		}else if(command.equals("/main.do")) { //메인
+		}else if(command.equals("/main.do")) { //메인 - 일단 jsp로 연결
 //			action = new MainAction();
 //			try {
 //				forward = action.execute(request, response);
@@ -51,10 +52,11 @@ public class FrontController extends HttpServlet {
 			forward = new ActionForward();
 			forward.setPath("/main/main.jsp");
 		}else if(command.equals("/view.do")) { //글보기(뒤에 no등 파라미터)
-			//action = new ViewAction();
+			action = new ViewAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
+				e.printStackTrace();
 				System.out.println("FC:view.do 에러: "+e.getMessage());
 			}
 		}else if(command.equals("/viewModify.do")) { //글수정 폼

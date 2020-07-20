@@ -311,7 +311,7 @@ public class AnbdDAO extends DbInfo{
 		rsClose();
 		pstateClose();
 		conClose();
-		System.out.println("coList 사이즈:"+ coList.size());
+		//System.out.println("coList 사이즈:"+ coList.size());
 		return coList;
 	}
 	
