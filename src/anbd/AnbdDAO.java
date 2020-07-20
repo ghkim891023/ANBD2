@@ -291,7 +291,7 @@ public class AnbdDAO extends DbInfo{
 				AnbdVO vo = new AnbdVO();
 				vo.setCoNo(rs.getInt("coNo"));
 				vo.setId(rs.getString("id"));
-					System.out.println("댓글 작성자: "+vo.getId());
+					//System.out.println("댓글 작성자: "+vo.getId());
 				//XSS 대책 [시작]
 					vo.setcContent(rs.getString("content"));
 					String cContent = vo.getcContent(); 
@@ -302,7 +302,7 @@ public class AnbdDAO extends DbInfo{
 				vo.setWdate(rs.getString("wdate"));
 				
 				vo.setCWriterNo(rs.getInt("userNo"));
-					System.out.println("댓글 작성자 번호: "+vo.getCWriterNo());
+					//System.out.println("댓글 작성자 번호: "+vo.getCWriterNo());
 				coList.add(vo);
 			}
 		}catch (SQLException e) {

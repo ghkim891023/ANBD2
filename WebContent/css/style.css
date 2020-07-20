@@ -1714,7 +1714,7 @@ button#cWrite{
 }
 span#cWriter{
 	display: inline-block;
-	width: 77px;
+	width: 100px;
 }
 span#cContent{ 
 	display: inline-block;
@@ -1730,7 +1730,7 @@ div#view button:not(.sl){ /*view.jsp 버튼*/
 div#view button#cModify,
 div#view button#cRemove{
 	padding: 2px 3px;
-	min-width: 55px;
+	min-width: 50px;
 	font-size: 15px;
 	background-color: #D3D3D3 !important;
 	color: #295253;
@@ -1755,16 +1755,16 @@ div#view p.coRow>span{
 	display: inline-block; /*아래 공백이 생김*/
 	min-height: 30px;
 	vertical-align: middle;
-	margin-left: 5px;
+	/*margin-left: 5px;*/
 	font-size: 15px;
 }
 div#view span#cContent{ 
 	display: inline-block;
-	min-width: 420px;
+	min-width: 400px;
 	width: calc(100% - 300px);  /*60%*/
 }
 div#view span.coEdit{ 
-	width : 116px;
+	width : 110px;
 }
 div#view input#cModContent{
 	width: 420px;

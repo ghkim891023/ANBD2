@@ -86,7 +86,7 @@
 			<div id="slider">
 				<% for(int i=0;i<vo.GetFileCount();i++) //jstl형식은 forEach
 					{
-						out.print("<img class='slide' src='../upload/"+vo.GetFile(i)+"' width='300px'><br>");
+						out.print("<img class='slide' src='/anbd2/upload/"+vo.GetFile(i)+"' width='300px'><br>");
 					}
 				%>
 				<button class="w3-button w3-black w3-display-left sl left" onclick="plusDivs(-1)">&#10094;</button>
@@ -132,10 +132,10 @@
 						switch(vo.getMenu())
 						{
 						case "아나":
-							out.print("<img src='../img/writerGreen.png' width='45px'></span>");
+							out.print("<img src='/anbd2/img/writerGreen.png' width='45px'></span>");
 							break;
 						case "바다":
-							out.print("<img src='../img/writerBlue.png' width='45px'></span>");
+							out.print("<img src='/anbd2/img/writerBlue.png' width='45px'></span>");
 							break;
 						}
 				}else
@@ -272,7 +272,7 @@
 					//return true;
 					//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
 					//document.coForm.submit(); 
-					doSubmitPage('viewCoWrite.jsp', document.coForm);
+					doSubmitPage('/anbd2/main/viewCoWrite.jsp', document.coForm);
 				}//if, else
 			}//first else FLOW
 		}//second if FLOW
@@ -380,16 +380,16 @@ $(document).ready(function(){
 				alert("댓글을 입력하세요.");
 				return false;
 			}else{
-				//return true;
 				//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
 				//document.coForm.submit();
-				doSubmitPage('viewCoWrite.jsp', document.coForm);
+				doSubmitPage('/anbd2/main/viewCoWrite.jsp', document.coForm);
 			}
 		}
 	});
 	$("#modify").click(function(){ //글 수정 버튼 클릭시 -onclick="location.href='modify.jsp'"
 		//location.href="viewModify.jsp?no=<%=vo.getNo() %>";
-		doGoPage('viewModify.jsp');
+		//doGoPage('/anbd2/main/viewModify.jsp');
+		doGoPage('/anbd2/viewModify.do');
 	});
 	$("#remove").click(function(){ //글 삭제 버튼  //jsp이동 안하고, 바로 메소드 가능? https://all-record.tistory.com/145
 		var msg = confirm("글을 정말 삭제하시겠습니까?");

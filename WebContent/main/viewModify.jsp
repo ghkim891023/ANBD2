@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@include file="../include/header.jsp"%>
+<%@include file="../include/headerKgh.jsp"%>
 <%@include file="../include/fix.jsp"%>
 <style>
 	#share, #reuse{ width:130px; }
@@ -73,7 +73,7 @@
 	  action="javascript:doGoPage('viewModifyOk.jsp');"
 -->
 <form class="contact-form" id="modify" name="modify" enctype="multipart/form-data" 
-		  method="post" action="javascript:doGoPage('viewModifyOk.jsp');">
+		  method="post" action="javascript:doGoPage('/anbd2/viewModifyOk.do');">
 	<input type="hidden" id="sno" name="no" value="<%= hereNo %>">
 	<input type="hidden" id="spage" name="page" value="<%= pageno %>">
 	<input type="hidden" id="smenu" name="menu" value="<%=menu%>">

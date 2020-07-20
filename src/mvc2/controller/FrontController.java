@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import mvc2.action.Action;
 import mvc2.action.ViewAction;
 import mvc2.action.WriteOkAction;
+import mvc2.action.viewModifyOkAction;
 import mvc2.vo.ActionForward;
 
 @WebServlet("*.do")
@@ -51,7 +52,7 @@ public class FrontController extends HttpServlet {
 //			}
 			forward = new ActionForward();
 			forward.setPath("/main/main.jsp");
-		}else if(command.equals("/view.do")) { //글보기(뒤에 no등 파라미터)
+		}else if(command.equals("/view.do")) { //글보기 - 현재 페이지 전달기능만 함
 			action = new ViewAction();
 			try {
 				forward = action.execute(request, response);
@@ -59,15 +60,17 @@ public class FrontController extends HttpServlet {
 				e.printStackTrace();
 				System.out.println("FC:view.do 에러: "+e.getMessage());
 			}
-		}else if(command.equals("/viewModify.do")) { //글수정 폼
-			//action = new viewModifyAction();
-			try {
-				forward = action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("FC:viewModify.do 에러: "+e.getMessage());
-			}
+		}else if(command.equals("/viewModify.do")) { //글수정 폼 - 페이지 전달만..
+			forward = new ActionForward();
+			forward.setPath("/main/viewModify.jsp"); 
+//			action = new viewModifyAction();
+//			try {
+//				forward = action.execute(request, response);
+//			}catch(Exception e) {
+//				System.out.println("FC:viewModify.do 에러: "+e.getMessage());
+//			}
 		}else if(command.equals("/viewModifyOk.do")) { //글수정 처리
-			//action = new viewModifyOkAction();
+			action = new viewModifyOkAction();
 			try {
 				forward = action.execute(request, response);
 			}catch(Exception e) {
