@@ -349,7 +349,7 @@ public class AnbdDAO extends DbInfo{
 		conClose();
 	}
 	
-	public boolean upModifyBoard(AnbdVO vo, HttpServletRequest request) { 
+	public boolean upModifyBoard(AnbdVO vo, HttpServletRequest request) { //글수정
 		try{
 			String savePath = request.getSession().getServletContext().getRealPath("/upload");
 				System.out.println("저장 경로: "+savePath);
@@ -536,7 +536,7 @@ public class AnbdDAO extends DbInfo{
 				   selectSql += "LEFT JOIN juso j \n";
 				   selectSql += "ON b.jusoNo = j.jusoNo \n";
 				   selectSql += "WHERE b.menu='공지' ";
-			System.out.println(selectSql);
+			//System.out.println(selectSql);
 			
 			prepareStatement(selectSql);
 			executeQuery();
@@ -786,135 +786,47 @@ public class AnbdDAO extends DbInfo{
 		return true;
 	}//====insertWriteQuery METHOD
 	
-	public boolean inWriteMVC2(BoardVO vo, HttpServletRequest request, int userNo) 
-	{
-//		MultipartRequest multi;
-//		vo.SaveFileName = new ArrayList<>();
-//		
-//		try{
-//			multi = new MultipartRequest(request,vo.uploadPath,vo.size,"UTF-8",new DefaultFileRenamePolicy());
-//			
-//			//name에 담긴 값을 enumeration 집합에 집어넣음
-//			Enumeration contents = multi.getFileNames();
-//			
-//			//contents에 요소가 있는지 검사
-//			while(contents.hasMoreElements()) 
-//			{
-//				//태그의 name 값을 가져옴
-//				vo.tagName  = (String)contents.nextElement();
-//				vo.saveName = (String) multi.getFilesystemName(vo.tagName);
-//				if(vo.saveName != null) 
-//				{
-//					//태그의 name값이 ~인 것에 담긴 value값을 가져옴
-//					vo.SaveFileName.add(vo.saveName);
-//				}//if FLOW
-//			}//====while FLOW
-//		} //=======try FLOW
-//		catch (IOException e) 
-//		{
-//			e.printStackTrace();
-//			System.out.println("첨부파일 에러" +e.getMessage());
-//			return false;
-//		}//========catch FLOW
-		
-		//쿼리 구문
-		try 
-		{
+	public boolean inWriteMVC2(BoardVO vo){ //mvc2용 글쓰기 메소드
+		try{
 			getConnection();
-			//==글 insert 시작
-//			String menu   = multi.getParameter("menu");
-//			String title  = multi.getParameter("title");
-//			String sigun  = multi.getParameter("sigun");
-//			String sido  = multi.getParameter("sido");
-//			String content= multi.getParameter("content");
-			
-//			String[] jusoNoArray = sigun.split(":");
-//			String jusoNo = jusoNoArray[0];
-//			if(sido.equals("기타"))
-//			{
-//				jusoNo = "251";
-//			}
-//			vo.setMenu(menu);
-//			vo.setTitle(title);
-//			vo.setContent(content);
-//			vo.setSigun(sigun);
-//			if(vo.getSigun().equals("")||vo.getSigun() == null)
-//			{
-//				vo.setSigun("251");
-//			}
-//			
-//			if(vo.saveName == null)
-//			{
-//				vo.setPhoto("N");
-//			}
-//			else 
-//			{
-//				vo.setPhoto("Y");
-//			}
-			
-			//XSS 대책 [시작]
-//			String xssContent = xssReplaceAll(content);
-//			vo.setContent(xssContent);
-			//XSS 대책 [종료]
-			
+			//글 insert 시작
 			String insertBoardSql  = "INSERT INTO board ";
 			insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
 			insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?, ?)";
 			
 			prepareStatement(insertBoardSql);
-			
 			pstate.setString(1, vo.getMenu());
-			pstate.setString(2, vo.getTagName());
+			pstate.setString(2, vo.getTitle());
 			pstate.setString(3, vo.getContent());
 			pstate.setInt(4, vo.getUserNo());
 			pstate.setString(5, vo.getPhoto());
 			pstate.setInt(6, vo.getJusoNo());
-			
-//			System.out.println("insertBoardSql: "+insertBoardSql);
-//			System.out.println("saveName = "+vo.saveName);
-//			System.out.println("SaveFileName = "+vo.SaveFileName);
-//			System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
-			
 			executeUpdate();
 			
-			//==글 insert 종료
-			
-			//==글 번호 구하기 시작
+			//글 번호 구하기
 			int insertNo = selLastInsert();
 			vo.setNo(insertNo);
-			//==글 번호 구하기 종료
 			
-			//==파일 insert 시작
-			
-			//if(vo.SaveFileName.isEmpty())
-//			if(vo.SaveFileName != null || !vo.SaveFileName.equals("") || vo.SaveFileName.size() != 1){
-//				System.out.println("===========파일을 첨부하지 않았음, null===========");
-//			}
-//			if(!vo.SaveFileName.isEmpty() ){
-//				System.out.println("===========파일을 첨부했음, not null===========");
-//				
-//				for(int i=0; i<vo.SaveFileName.size(); i++){
-//					String insertFileSql  = "INSERT INTO file ";
-//					insertFileSql += "(saveFileName, no) ";
-//					insertFileSql += "VALUES (?, ?)"; 
-//					prepareStatement(insertFileSql);
-//					pstate.setString(1, vo.getSaveName(i));
-//					pstate.setInt(2, vo.getNo());
-//					executeUpdate();
-//					System.out.println(insertFileSql);
-//				}//for FLOW
-//			}//====if FLOW == 파일 insert 종료
-		}//====try FLOW
-		catch (SQLException e) {
-			System.out.println("insert 쿼리 실행 불가");
-			e.printStackTrace();
+			//파일 insert
+			if(vo.getFileSize() >0) { //파일이 있을때만 file insert 실행
+				for(int i=0; i<vo.getFileSize(); i++) {
+					String SQL  = "INSERT INTO file (saveFileName, no) ";
+					SQL += "VALUES (?, ?) ";
+					prepareStatement(SQL);
+					pstate.setString(1, vo.getSaveFileName(i));
+					pstate.setInt(2, vo.getNo());
+					executeUpdate();
+				}
+			}
+		}catch (SQLException e) {
+			System.out.println("inWriteMVC2() 에러: "+e.getMessage());
 			return false;
 		}finally{
 			pstateClose();		
 			conClose();	
 		}
 		return true;
-	}//====insertWriteQuery METHOD
+	}//inWriteMVC2
 	
 	/* ******************************************************
 	 * 

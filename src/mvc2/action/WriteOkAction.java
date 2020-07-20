@@ -1,12 +1,15 @@
 package mvc2.action;
 
 import java.io.PrintWriter;
+import java.util.Enumeration;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import anbd.AnbdDAO;
 import mvc2.service.WriteOkService;
 import mvc2.vo.ActionForward;
 import mvc2.vo.BoardVO;
@@ -26,22 +29,43 @@ public class WriteOkAction implements Action {
 		realFolder=context.getRealPath(saveFolder);  
 		
 		MultipartRequest multi=new MultipartRequest(request, realFolder, size, "UTF-8", new DefaultFileRenamePolicy());
+		Enumeration inputFileNames = multi.getFileNames();//file태그  name 값들
+		
 		boardVo = new BoardVO();
-		//boardVo.setNo(Integer.parseInt(multi.getParameter("no")));
+		
+		while(inputFileNames.hasMoreElements()) { //inputFileNames 요소가 있으면 true
+			String inputFileName = (String)inputFileNames.nextElement(); //name들 중에 name 한개
+			String serverSaveName;
+				serverSaveName = (String)multi.getFilesystemName(inputFileName);//filename1번의 업로드된 파일명
+				if( serverSaveName == null) { 
+					boardVo.setPhoto("N"); 
+				}else { //첨부파일 있으면
+					System.out.println("업로드된 파일명: "+serverSaveName);
+					boardVo.setPhoto("Y");
+					boardVo.addSaveFileName(serverSaveName);
+				}
+		}
+		System.out.println("====="+boardVo.getFileSize());
+		
 		boardVo.setMenu(multi.getParameter("menu"));
 		boardVo.setTitle(multi.getParameter("title"));
-		boardVo.setContent(multi.getParameter("content"));
-		boardVo.setPhoto(multi.getParameter("photo"));
+		//글내용 XSS 공격 방지
+		//boardVo.setContent(multi.getParameter("content"));
+		AnbdDAO dao = new AnbdDAO();
+		boardVo.setContent(dao.xssReplaceAll(multi.getParameter("content")));
 		String[] SigunNo = multi.getParameter("sigun").split(":");
 		int jusoNo = Integer.parseInt(SigunNo[0]);
 		boardVo.setJusoNo(jusoNo);
 		//UserVo userVo = new UserVo();
-		//userVo.setUserNo(multi.getParameter("userNo"));
 		boardVo.setUserNo(Integer.parseInt(multi.getParameter("userNo")));
+		/*getFileNames()
+		 *	업로드 된 파일 태그의 name 속성값을 Enumeration객체에 String형태로 담아 반환한다.
+		 *nextElement()
+		 *	파일 이름을 받아와 string으로 저장  */
 		//boardVo.setFILE(multi.getOriginalFileName((String)multi.getFileNames().nextElement()));
 		
 		WriteOkService writeOk = new WriteOkService();
-		boolean isWriteSuccess = writeOk.registArticle(boardVo, request, boardVo.getUserNo());
+		boolean isWriteSuccess = writeOk.registArticle(boardVo);
 
 		if(!isWriteSuccess){
 			response.setContentType("text/html;charset=UTF-8");

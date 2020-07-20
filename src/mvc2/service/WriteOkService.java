@@ -13,14 +13,14 @@ import mvc2.vo.BoardVO;
 public class WriteOkService extends DbInfo{
 
 	//나중에 책처럼 HttpServletRequest request, int userNo 빼는 메소드로 수정
-	public boolean registArticle(BoardVO boardVo, HttpServletRequest request, int userNo) throws Exception{
+	public boolean registArticle(BoardVO boardVo) throws Exception{
 		
 		boolean isWriteSuccess = false;
 		//Connection con = getConnection();
 		getConnection();
 		
 		AnbdDAO dao = new AnbdDAO();
-		boolean inWrite = dao.inWriteMVC2(boardVo, request, userNo);
+		boolean inWrite = dao.inWriteMVC2(boardVo);
 		System.out.println("inWrite 결과: "+inWrite);
 
 		return inWrite;

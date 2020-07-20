@@ -42,12 +42,14 @@ public class FrontController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}else if(command.equals("/main.do")) { //메인
-			//action = new MainAction();
-			try {
-				forward = action.execute(request, response);
-			}catch(Exception e) {
-				System.out.println("FC:main.do 에러: "+e.getMessage());
-			}
+//			action = new MainAction();
+//			try {
+//				forward = action.execute(request, response);
+//			}catch(Exception e) {
+//				System.out.println("FC:main.do 에러: "+e.getMessage());
+//			}
+			forward = new ActionForward();
+			forward.setPath("/main/main.jsp");
 		}else if(command.equals("/view.do")) { //글보기(뒤에 no등 파라미터)
 			//action = new ViewAction();
 			try {

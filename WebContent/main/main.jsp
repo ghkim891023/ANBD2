@@ -114,7 +114,7 @@ request.setAttribute("key", mEncodeKey);
 						<a href="view.jsp?no=${selNotice.no}&menu=notice">${selNotice.title}
 							<c:choose>
 								<c:when test="${selNotice.photo eq 'Y'}">
-									<img src="../img/green.png" style="width:20px;">
+									<img src="/anbd2/img/green.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -163,10 +163,10 @@ request.setAttribute("key", mEncodeKey);
 								<c:when test="${pageList.photo eq 'Y'}">
 									<c:choose>
 										<c:when test="${param.menu eq 'reuse'}">
-											<img src="../img/skyblue.png" style="width:20px;">
+											<img src="/anbd2/img/skyblue.png" style="width:20px;">
 										</c:when>
 										<c:otherwise>
-											<img src="../img/green.png" style="width:20px;">
+											<img src="/anbd2/img/green.png" style="width:20px;">
 										</c:otherwise>
 									</c:choose>
 								</c:when>

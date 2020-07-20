@@ -57,6 +57,19 @@ public class BoardVO { //UserVO, CommentVO 별도
 	public int GetFileSize(){
 		return SaveFileName.size();
 	}
+	// 글쓰기 파일리스트
+	public int getFileSize()
+	{
+		return SaveFileName.size();
+	}
+	//mvc2 첨부파일 파일명s 저장
+	public void addSaveFileName(String File){
+		SaveFileName.add(File); 
+	}
+	//mvc2 첨부파일 파일명s 가져오기
+	public String getSaveFileName(int i){ 
+		return (String)SaveFileName.get(i); 
+	}
 	// key, 키워드
 	public String getKey(){
 		return tagName;
@@ -93,11 +106,7 @@ public class BoardVO { //UserVO, CommentVO 별도
 	public ArrayList GetFileList(){
 		return fileList;
 	}
-	// 글쓰기 파일리스트
-	public int getFileSize()
-	{
-		return SaveFileName.size();
-	}
+
 	//tagName - input file의 name값
 	//정도희 사용 - jsp의 name 이름
 	public String getTagName(){ 
