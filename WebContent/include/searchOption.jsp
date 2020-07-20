@@ -80,13 +80,60 @@
 					</c:choose>
 					 --%>
 				</div>
+				<div>
+					<select class="showResult" name="showResult" style="display:none">
+					</select>
+				</div>
 			</form>
 		</div>
 	<!-- </div>-->
-<script language="javascript">
+<!-- 자동완성 기능을 위한 웹UI개발 플러그인 --> 
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" ></script>
+<script type="text/javascript">
 	var key2 = '<%=mKey2%>';
 	var option = '<%=option%>';
 	$(document).ready(function() {
+		var autoUrl = '../include/autocomplete.jsp';
+		//자동완성을 위한 AJAX
+		$(function()
+			{
+				$("#key").autocomplete({
+					//[source] - input 필드에 입력하면 동작함
+					source : function(request, response)
+					{
+						$.ajax({
+							url : autoUrl,
+							type : 'POST',
+							datatype : 'HTML',
+							//request.term은 $("#key").val();랑 같음
+							data : {key : request.term},
+							success : function(result)
+								{
+								var keyResult = result.split(",");
+								var html = "";
+									$(keyResult).each(function(j){
+										html += "<option value='"+keyResult[j]+"'>"+keyResult[j]+"</option>";
+									});//key에 입력한 결과 개수만큼 each로 가져오기
+									$(".showResult").change(function()
+										{
+											var selectValue = $('.showResult option:selected').val();
+											$('#key').val(selectValue);
+										});
+									
+									//url의 내용을 가져온다.
+									$(".showResult").html(html);
+									$(".showResult").show();
+								},
+							error : function(request, status, error)
+								{
+									alert("자동완성/검색 기능을 수행할 수 없습니다");
+								},
+						})//end of ajax FLOW
+					}//end of source FUNTION
+				})//end of key autocomplete
+			})
+		
+		
 		if( !key2==""){ 			//검색어가 있으면
 			$('#key').val(key2); //검색칸에 검색어 넣기
 		}
@@ -94,8 +141,10 @@
 		if(option==""){
 			option ='title';
 		}
-		console.log("옵션: ["+option+"]");
+		//console.log("옵션: ["+option+"]");
 		
 		$('input:radio[name=option]:input[value='+ option +']').attr("checked", true);
+		
+		
 	});
 </script>
