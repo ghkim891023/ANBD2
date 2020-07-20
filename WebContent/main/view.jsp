@@ -175,7 +175,7 @@
 	var img	  = document.getElementsByClassName("slide"); //이미지 요소 목록
 	var imgCnt = img.length*1;										 //이미지 갯수
 	var btn 	  = document.getElementsByClassName("sl");    //좌우 버튼
-	if(imgCnt>0){  //이미지 갯수가 0이상이면
+	if(imgCnt>1){  //이미지 갯수가 1이상이면, 버튼 보이기
 		for (var j = 0; j < 2; j++) {		  //버튼 갯수, 2만큼 for 돌면서
 		   btn[j].style.display = "block"; //버튼 보이기
 		}
@@ -183,6 +183,8 @@
 		function plusDivs(n) {// > 클릭하면, < 클릭하면
 		  showDivs(slideIndex += n);
 		}
+	}else if(imgCnt=1){ //이미지가 1개이면, 버튼은 안보이고, 그림만 보이기
+		showDivs(slideIndex);
 	}
 	function showDivs(n) {
 	  var img	  = document.getElementsByClassName("slide");
