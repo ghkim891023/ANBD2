@@ -92,6 +92,8 @@
 <script type="text/javascript">
 	var key2 = '<%=mKey2%>';
 	var option = '<%=option%>';
+	var showResult = $(".showResult");
+	var keyCount = 0;
 	$(document).ready(function() {
 		var autoUrl = '../include/autocomplete.jsp';
 		//자동완성을 위한 AJAX
@@ -114,6 +116,16 @@
 									$(keyResult).each(function(j){
 										html += "<option value='"+keyResult[j]+"'>"+keyResult[j]+"</option>";
 									});//key에 입력한 결과 개수만큼 each로 가져오기
+									$("#key").keydown(function()
+										{
+											if(event.keyCode == 40)
+											{
+												//2020.07.20[의문] ↓를 누를 때마다 1씩 keyCount가 1씩 증가하는 방법은 없을까?
+												var selectValue = $('.showResult option:first').val();
+												$('#key').val(selectValue);
+												console.log("****************다운 누른 회수 : "+keyCount);
+											}
+										});
 									$(".showResult").change(function()
 										{
 											var selectValue = $('.showResult option:selected').val();
@@ -132,7 +144,6 @@
 					}//end of source FUNTION
 				})//end of key autocomplete
 			})
-		
 		
 		if( !key2==""){ 			//검색어가 있으면
 			$('#key').val(key2); //검색칸에 검색어 넣기
