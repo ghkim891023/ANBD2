@@ -68,7 +68,6 @@
 					</span>
 				</td>
 			</tr>
-			
 			<tr>
 				<td>제목</td>
 				<td>
@@ -76,14 +75,12 @@
 						    autofocus style="width:580px; ime-mode:active;">
 				</td>
 			</tr>
-			
 			<tr>
 				<td>내용</td>
 				<td>
 					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
 				</td>
 			</tr>
-			
 			<tr >
 				<td>파일</td>
 				<td class="moreFile">
@@ -104,14 +101,14 @@
 	</div>
 </form>
 <div class="Lst">
-	<button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button>
+	<button class="site-btn" id="list" onclick="location.href='/anbd2/main/main.jsp'">목록</button>
 </div>
 <script type="text/javascript">
-	//var loginId = <%--=loginId--%>;
-	//if(<%=loginId%>==null){ //주소에 http://localhost:8080/anbd2/write.do로 바로 접근시
-		//alert("글쓰기는 로그인 후 가능합니다.");
-		//location.href = "/anbd2/common/login.jsp";
-	//}else{}
+	var loginId = '<%=loginId%>'; //''안하면 js 정의되지 않았다고 에러남
+	if(loginId==null || loginId=='null'){ 
+		alert("글쓰기는 로그인 후 가능합니다.");
+		location.href = "/anbd2/login.do"; // /anbd2/common/login.jsp
+	}
 	$(document).ready(function()
 	{
 		$("#save").click(function()

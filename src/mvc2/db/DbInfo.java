@@ -63,6 +63,15 @@ public class DbInfo {
 		}
 	}//executeUpdate
 	
+	public int executeUpdateInt(){  //int형
+		try {
+			return pstate.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("executeUpdate() 에러: "+e.getMessage() );
+			return 0;
+		}
+	}
+	
 	//Select 쿼리
 	public void executeQuery() {
 		try {

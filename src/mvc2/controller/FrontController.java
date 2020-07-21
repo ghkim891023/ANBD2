@@ -43,7 +43,7 @@ public class FrontController extends HttpServlet {
 				System.out.println("FC:writeOk.do 에러: "+e.getMessage());
 				e.printStackTrace();
 			}
-		}else if(command.equals("/main.do")) { //메인 - 일단 jsp로 연결
+		}else if(command.equals("/main.do")) { //메인 - 일단 jsp로 연결, header수정 ★★
 //			action = new MainAction();
 //			try {
 //				forward = action.execute(request, response);
@@ -132,7 +132,11 @@ public class FrontController extends HttpServlet {
 			}catch(Exception e) {
 				System.out.println("FC:viewBefore.do 에러: "+e.getMessage());
 			}
-		}//매핑 추가 + loginOk, joinOk, logoutOk
+		}//매핑 추가 + loginOk, joinOk, logoutOk ★★★
+		else if(command.equals("/login.do")) {
+			forward = new ActionForward();
+			forward.setPath("/common/login.jsp");
+		}
 		
 		if(forward != null) {
 			if(forward.isRedirect()) {

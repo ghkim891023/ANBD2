@@ -14,15 +14,22 @@ public class WriteOkService extends DbInfo{
 
 	public boolean registArticle(BoardVO boardVo) throws Exception{
 		
-		boolean isWriteSuccess = false;
-		getConnection();
-		
-		//AnbdDAO dao = new AnbdDAO();
-		BoardDAO dao = new BoardDAO();
-		boolean inWrite = dao.inWriteMVC2(boardVo);
-		System.out.println("inWrite 결과: "+inWrite);
+		try {
+			boolean isWriteSuccess = false;
+			//getConnection();
+			
+			//AnbdDAO dao = new AnbdDAO();
+			BoardDAO dao = new BoardDAO();
+			boolean inWrite = dao.inWriteMVC2(boardVo);
+			System.out.println("inWrite 결과: "+inWrite);
+			return inWrite;
+		}catch(Exception e) {
+			System.out.println("WriteOkService: registArticle() 에러"+e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
 
-		return inWrite;
+		//return inWrite;
 	}
 	
 	//책

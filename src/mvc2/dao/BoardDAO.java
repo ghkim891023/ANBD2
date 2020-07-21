@@ -66,6 +66,55 @@ public class BoardDAO extends DbInfo{
 		return true;
 	}//inWriteMVC2
 	
+	//책 - 글 수정
+//	public int updateArticle(BoardBean article){
+//
+//		int updateCount = 0;
+//		PreparedStatement pstmt = null;
+//		String sql="update board set BOARD_SUBJECT=?,BOARD_CONTENT=? where BOARD_NUM=?";
+//
+//		try{
+//			pstmt = con.prepareStatement(sql);
+//			pstmt.setString(1, article.getBOARD_SUBJECT());
+//			pstmt.setString(2, article.getBOARD_CONTENT());
+//			pstmt.setInt(3, article.getBOARD_NUM());
+//			updateCount = pstmt.executeUpdate();
+//		}catch(Exception ex){
+//			System.out.println("boardModify 에러 : " + ex);
+//		}finally{
+//			close(pstmt);
+//		}
+//		return updateCount;
+//	}
+	
+	public int upModifyBoard(BoardVO vo) {
+		int updateCount = 0;
+		getConnection();
+		//글 수정 시작
+		String SQL  = "UPDATE board SET menu=?, title=?, content=?, photo=?, jusoNo=? ";
+			   SQL += "where no=?";
+		prepareStatement(SQL);
+		try {
+			pstate.setString(1, vo.getMenu());
+			pstate.setString(2, vo.getTitle());
+			pstate.setString(3, vo.getContent());
+			pstate.setString(4, vo.getPhoto());
+			pstate.setInt(5, vo.getJusoNo());
+			pstate.setInt(6, vo.getNo());
+			updateCount = executeUpdateInt();
+		} catch (SQLException e) {
+			System.out.println("BoardDAO: upModifyBoard() 에러 "+e.getMessage());
+			e.printStackTrace();
+		}
+		//파일도 수정
+		
+		
+		//XSS
+		
+		
+		return updateCount;
+	}
+	
 	//책
 //	DataSource ds;
 //	Connection con;
