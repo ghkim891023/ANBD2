@@ -25,11 +25,13 @@ public class BoardVO { //UserVO, CommentVO 별도
 	private int 			  size		     = 10*1024*1024; //10MB
 	private ArrayList<String> fileList 	     = null;  //글보기 파일리스트
 	private ArrayList<String> modifyFileList = null;  //글수정 파일리스트
+	private ArrayList<String> delFileList    = null;  //글수정 파일 삭제리스트
 	private ArrayList<String> SaveFileName   = null;  //글쓰기 파일리스트
 	private String 			  fileName	     = "";
 	private String 			  uploadPath     = "";
 	private String 			  tagName	     = "";
 	private String 			  saveName	     = "";
+	private int 			  delFileCount;  //글수정에서 삭제하는 파일 갯수
 	
 	/* ******************************
 	 * 그 외 변수						*
@@ -46,6 +48,7 @@ public class BoardVO { //UserVO, CommentVO 별도
 		fileList = new <String>ArrayList();
 		SaveFileName = new <String>ArrayList();   //글쓰기 파일리스트 생성
 		modifyFileList = new <String>ArrayList(); //글수정 파일리스트 생성
+		delFileList = new <String>ArrayList();    //글수정에서 파일 삭제한거 리스트
 		//날짜 생성
 		SimpleDateFormat sDate = new SimpleDateFormat("yyyy/MM/dd");
 		strDate = sDate.format(Calendar.getInstance().getTime());
@@ -64,7 +67,7 @@ public class BoardVO { //UserVO, CommentVO 별도
 		return (String)SaveFileName.get(i); 
 	}
 	
-	// key, 키워드
+	// key
 	public String getKey(){
 		return tagName;
 	}
@@ -130,6 +133,29 @@ public class BoardVO { //UserVO, CommentVO 별도
 	public ArrayList getModifyFileList(){
 		return modifyFileList;
 	}
+	
+	// 글수정 삭제할 파일 리스트 - delFileList
+	public void addDelFileList(String modifyFile){
+		modifyFileList.add(modifyFile); 
+	}
+	public int getDelFileCount(){
+		return fileList.size(); 
+	}
+	public String getDelFile(int i){
+		return (String)modifyFileList.get(i); //jsp에서 for문으로 파일명 가져오기
+	}
+	public ArrayList getDelFileList(){
+		return modifyFileList;
+	}
+	
+	// 삭제할 파일 갯수 delFileCount
+//	public int getDelFileCount(){
+//		return delFileCount;
+//	}
+//	public void addDelFileCount(int delFile){
+//		this.delFileCount = delFile;
+//	}
+	
 	// 글쓰기 - 실제 파일 위치
 	public String getUploadPath(){
 		return uploadPath;

@@ -71,7 +71,7 @@ webutil.Init(request);
 				</c:when>
 				<c:when test="${sessionScope.loginId eq null}">
 					<a href="/anbd2/common/join.jsp" class="login">회원가입</a>
-					<a href="/anbd2/common/login.jsp" class="register">로그인</a>
+					<a href="/anbd2/login.do" class="register">로그인</a> <!-- /anbd2/common/login.jsp -->
 
 				</c:when>
 			</c:choose>

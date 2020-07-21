@@ -371,12 +371,12 @@ public class AnbdDAO extends DbInfo{
 			//기존 파일의 파일명 불러오기
 			for(int i=1; i<=preFileCount; i++) {
 				String preFile = multi.getParameter("filename"+i);//이전 파일을 val을 name값을 통해 가져오기
-					System.out.println("기존 filename "+i+"번재 파일명 : "+preFile);
+					//System.out.println("기존 filename "+i+"번재 파일명 : "+preFile);
 				//기존 파일을 삭제해서 파일명(val)이 공백이면
 				if(preFile==null || preFile.equals("")){ //수정페이지에서 삭제를 눌러서 val값이 없으면 해당파일 삭제
 					String hiddenfilename = multi.getParameter("hiddenfilename"+i);//input hidden의 해당 i번째 val(파일명)을 가져와서 삭제
 					String SQL2  = "delete from file where saveFileName='"+hiddenfilename+"'";
-						System.out.println(i+"번재 기존 파일 삭제: "+SQL2);
+						//System.out.println(i+"번재 기존 파일 삭제: "+SQL2);
 					prepareStatement(SQL2);
 					executeUpdate(); 
 					delCount++; //삭제파일갯수 증가

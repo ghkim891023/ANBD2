@@ -257,8 +257,8 @@ request.setAttribute("key", mEncodeKey);
 		document.location = page;
 	}
 	function doAlert(){
-		alert("글쓰기는 로그인 후 가능합니다");
-		location.href="../common/login.jsp";
+		alert("글쓰기는 로그인 후 가능합니다.");
+		location.href="/anbd2/login.do"; //jsp경로: /anbd2/common/login.jsp
 	}
 	$(document).ready(function(){
 		var noDone = '<%=noDoneYN%>';

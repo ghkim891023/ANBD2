@@ -171,7 +171,7 @@
 </form>
 <div class="Lst">
 	<!-- button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button> -->
-	<button class="site-btn" id="list" onclick="javascript:doGoPage('main.jsp');">목록</button>
+	<button class="site-btn" id="list" onclick="javascript:doGoPage('/anbd2/main.do');">목록</button>
 </div>
 <script type="text/javascript">
 document.title="ANBD | 아나바다-글수정";

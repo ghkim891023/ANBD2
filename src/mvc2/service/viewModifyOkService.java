@@ -22,20 +22,16 @@ public class viewModifyOkService extends DbInfo{
 	public boolean modifyArticle(BoardVO vo) throws Exception {
 		
 		boolean isModifySuccess = false;
-		//getConnection();
 		
 		BoardDAO dao = new BoardDAO();
-		//boardDAO.setConnection(con);
 		int updateCount = dao.upModifyBoard(vo); //int형 메소드
 		
 		if(updateCount > 0){
-			//commit(con);
 			isModifySuccess=true;
 		}else{
 			//rollback(con);
 		}
 		
-		//close(con);
 		return isModifySuccess;
 	}
 }
