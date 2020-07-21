@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <jsp:useBean id="webutil2" class="anbd.WebUtil" scope="page"/>
+<style>
+	.search-input
+	{margin-bottom:0px;}
+</style>
 <%
 	webutil2.Init(request);
 	
@@ -51,7 +55,7 @@
 				<!-- 검색창, Ajax기술 활용 방안 -> 키워드 입력시 자동완성 -->
 				<div class="search-input">
 					<input type="text" placeholder="검색 키워드를 입력해주세요." name="key" id="key">
-					<button class="site-btn" id="search">검색</button>
+					<button class="site-btn" id="search">검색</button><br/>
 					<%
 						//세션 변수에 저장된 userId값이 비어있으면 로그인 안한것
 						if(session.getAttribute("loginId")==null)
@@ -80,10 +84,8 @@
 					</c:choose>
 					 --%>
 				</div>
-				<div>
-					<select class="showResult" name="showResult" style="display:none">
+					<select class="showResult" name="showResult" style="display:none;">
 					</select>
-				</div>
 			</form>
 		</div>
 	<!-- </div>-->
@@ -93,7 +95,6 @@
 	var key2 = '<%=mKey2%>';
 	var option = '<%=option%>';
 	var showResult = $(".showResult");
-	var keyCount = 0;
 	$(document).ready(function() {
 		var autoUrl = '../include/autocomplete.jsp';
 		//자동완성을 위한 AJAX
@@ -114,16 +115,15 @@
 								var keyResult = result.split(",");
 								var html = "";
 									$(keyResult).each(function(j){
-										html += "<option value='"+keyResult[j]+"'>"+keyResult[j]+"</option>";
+										html += "<option value='"+keyResult[j]+"' tabindex="+j+">"+keyResult[j]+"</option>";
 									});//key에 입력한 결과 개수만큼 each로 가져오기
-									$("#key").keydown(function()
+									$("#key").keydown(function(e)
 										{
 											if(event.keyCode == 40)
 											{
 												//2020.07.20[의문] ↓를 누를 때마다 1씩 keyCount가 1씩 증가하는 방법은 없을까?
-												var selectValue = $('.showResult option:first').val();
-												$('#key').val(selectValue);
-												console.log("****************다운 누른 회수 : "+keyCount);
+												//2020.07.21[해결] ↓를 누르면 셀렉트 박스로 포커스를 옮김, 간단!!
+												$(".showResult").focus();
 											}
 										});
 									$(".showResult").change(function()
@@ -143,7 +143,19 @@
 						})//end of ajax FLOW
 					}//end of source FUNTION
 				})//end of key autocomplete
-			})
+				$(".showResult").keydown(function(e)
+					{
+						if(event.keyCode == 13)
+						{
+							//역방향 캐싱 오류
+							//$("#search").click();
+							//[문제]제목+엔터로 검색했을 때 결과가 없음
+							//[해결]autocomplete.jsp의 내용에 공백 제거
+							$("#searchFrm").submit();
+							console.log("이벤트13 실행 후");
+						}
+					})
+			});//자동완성 [종료]
 		
 		if( !key2==""){ 			//검색어가 있으면
 			$('#key').val(key2); //검색칸에 검색어 넣기
