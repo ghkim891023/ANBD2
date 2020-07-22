@@ -99,14 +99,17 @@ public class BoardDAO extends DbInfo{
 					prepareStatement(SQL);
 					pstate.setString(1, vo.getDelFile(i));
 					executeUpdate();
+					System.out.println("===파일 삭제 완료===");
 				}catch (SQLException e) {
 					System.out.println("BoardDAO: upModifyBoard() 파일 삭제 에러: "+e.getMessage());
 					e.printStackTrace();
 				}
 			}
+		}else {
+			System.out.println("파일 삭제된거 없음");
 		}
 		
-		//1-2.추가한 파잉 추가
+		//1-2.추가한 파일 추가
 		if(vo.getModifyFileCount() >0 ) { //저장된 파일이 있거나, (남은 파일 갯수가 0이상이면-> 그냥 나둬도 될듯?)
 			for(int i=0; i<vo.getModifyFileCount(); i++) {
 				String SQL  = "INSERT INTO file (saveFileName, no) VALUES (?, ?) ";
@@ -116,11 +119,14 @@ public class BoardDAO extends DbInfo{
 					pstate.setString(1, vo.getModifyFile(i));
 					pstate.setInt(2, vo.getNo());
 					executeUpdate();
+					System.out.println("===파일 수정 완료===");
 				}catch (SQLException e) {
 					System.out.println("BoardDAO: upModifyBoard() 파일 수정 에러: "+e.getMessage());
 					e.printStackTrace();
 				}
 			}
+		}else {
+			System.out.println("파일 추가된거 없음");
 		}
 		
 		//3.글 수정 시작
