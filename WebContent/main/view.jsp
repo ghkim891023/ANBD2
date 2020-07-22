@@ -363,11 +363,11 @@ $(document).ready(function(){
 	});//캡차 취소 클릭 [종료]
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
 		//location.href="viewDone.jsp?no= <%=vo.getNo() %>"; 
-		doGoPage('viewDone.jsp'); 
+		doGoPage('/anbd2/main/viewDone.jsp'); 
 	});
 	$("#cancel").click(function(){ //거래완료취소 클릭시
 		//location.href="viewCancel.jsp?no=<%=vo.getNo() %>";
-		doGoPage('viewCancel.jsp'); 
+		doGoPage('/anbd2/main/viewCancel.jsp'); 
 	});
 	$("#cWrite").click(function(){ //댓글쓰기 클릭시, 내용이 없으면 alert + 로그인 안하고 클릭시 alert 및 이동
 		var login= '<%=loginId%>';
@@ -395,7 +395,7 @@ $(document).ready(function(){
 		var msg = confirm("글을 정말 삭제하시겠습니까?");
 		if(msg==true){
 			//location.href="viewRemove.jsp?no=<%=vo.getNo() %>";
-			doGoPage('viewRemove.jsp');
+			doGoPage('/anbd2/main/viewRemove.jsp');
 		}else{
 			return false;
 		}
