@@ -62,7 +62,7 @@ public class viewModifyOkAction implements Action {
 		Enumeration inputFileNames = multi.getFileNames();  //input file태그의  name 속성값을 모두 가져옴
 		while(inputFileNames.hasMoreElements()) { //inputFileNames의 요소가 있으면 true, 아니면 false 반환
 			String inputFileName = (String)inputFileNames.nextElement(); //name들 중에 name 한개
-				System.out.println("추가한 input file name: '"+inputFileName+ "' : 파일있음");
+				System.out.println("input file name='"+inputFileName+ "' : 파일추가");
 			String serverSaveName = (String)multi.getFilesystemName(inputFileName);//실제 저장된 파일명
 				//추가된 파일 있거나 or 남은 파일 있으면 (--> and? 기존파일에서 남기만 한거면 insert안해줘도?)
 				System.out.println(inputFileName + " : " +serverSaveName );

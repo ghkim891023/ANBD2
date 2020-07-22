@@ -105,6 +105,7 @@ public class BoardDAO extends DbInfo{
 					e.printStackTrace();
 				}
 			}
+		}
 		
 		//1-2.추가한 파일 추가
 		if(vo.getModifyFileCount() >0 ) { //글수정시 추가된 파일이 있으면 (남은 파일 갯수가 0이상이면-> 그냥 나둬도 될듯?)
@@ -146,60 +147,5 @@ public class BoardDAO extends DbInfo{
 		}
 		return updateCount;
 	}
-	
-	//책
-//	DataSource ds;
-//	Connection con;
-//	private static BoardDAO boardDAO;
-//
-//	public static BoardDAO getInstance(){
-//		if(boardDAO == null){
-//			boardDAO = new BoardDAO();
-//		}
-//		return boardDAO;
-//	}
-//
-//	public void setConnection(Connection con){
-//		this.con = con;
-//	}
-//	
-//	public int insertArticle(BoardVO bVo){
-//
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		int num =0;
-//		String sql="";
-//		int insertCount=0;
-//
-//		try{pstmt=con.prepareStatement("select max(board_num) from board");
-//			rs = pstmt.executeQuery();
-//
-//			if(rs.next())
-//				num =rs.getInt(1)+1;
-//			else
-//				num=1;
-//
-//			sql  = "insert into board (menu, title, content, userNo, wdate, photo, jusoNo)";
-//			sql += "VALUES (?, ?, ?, ?, curdate(), ?, ?)";
-//
-//			pstmt = con.prepareStatement(sql);
-//			pstmt.setInt(1, bVo.getNo());
-//			pstmt.setString(2, bVo.getMenu());
-//			pstmt.setString(3, bVo.getTitle());
-//			pstmt.setString(4, bVo.getContent());
-//			pstmt.setString(5, bVo.getPhoto());
-//			pstmt.setInt(6, bVo.getJusoNo());
-//			pstmt.setInt(7, bVo.getUserNo());
-//
-//			insertCount=pstmt.executeUpdate();
-//			
-//		}catch(Exception ex){
-//			System.out.println("boardInsert 에러 : "+ex);
-//		}finally{
-//			close(rs);
-//			close(pstmt);
-//		}
-//		return insertCount;
-//	}
 
 }//class
