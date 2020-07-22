@@ -48,6 +48,7 @@ public class viewModifyOkAction implements Action {
 			if(preFile==null || preFile.equals("")){ //기존 파일을 삭제해서 파일명(val)이 공백이면
 				String hiddenfilename = multi.getParameter("hiddenfilename"+i);//input hidden의 해당 i번째 val(파일명)을 가져와서 삭제
 				vo.addDelFileList(hiddenfilename);
+				System.out.println("지울 파일 있음, 파일명: "+hiddenfilename);
 			}
 		}
 		int remainFileCount = preFileCount - vo.getDelFileCount(); //남은 파일 =기존 파일 갯수-삭제 파일 갯수
@@ -61,17 +62,15 @@ public class viewModifyOkAction implements Action {
 		Enumeration inputFileNames = multi.getFileNames();  //input file태그의  name 속성값을 모두 가져옴
 		while(inputFileNames.hasMoreElements()) { //inputFileNames의 요소가 있으면 true, 아니면 false 반환
 			String inputFileName = (String)inputFileNames.nextElement(); //name들 중에 name 한개
-				System.out.println("name='"+inputFileName+ "' : 파일있음");
+				System.out.println("추가한 input file name: '"+inputFileName+ "' : 파일있음");
 			String serverSaveName = (String)multi.getFilesystemName(inputFileName);//실제 저장된 파일명
 				//추가된 파일 있거나 or 남은 파일 있으면 (--> and? 기존파일에서 남기만 한거면 insert안해줘도?)
 				System.out.println(inputFileName + " : " +serverSaveName );
 				if( serverSaveName != null || remainFileCount>0 ) { 
 					vo.setPhoto("Y");
 					vo.addModifyFile(serverSaveName);
-					System.out.println("if here");
 				}else {
 					vo.setPhoto("N");
-					System.out.println("else here");
 				}
 		}
 		

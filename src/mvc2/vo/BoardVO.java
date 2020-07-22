@@ -125,7 +125,7 @@ public class BoardVO { //UserVO, CommentVO 별도
 		modifyFileList.add(modifyFile); 
 	}
 	public int getModifyFileCount(){
-		return fileList.size(); 
+		return modifyFileList.size(); 
 	}
 	public String getModifyFile(int i){
 		return (String)modifyFileList.get(i); //jsp에서 for문으로 파일명 가져오기
@@ -135,17 +135,17 @@ public class BoardVO { //UserVO, CommentVO 별도
 	}
 	
 	// 글수정 삭제할 파일 리스트 - delFileList
-	public void addDelFileList(String modifyFile){
-		modifyFileList.add(modifyFile); 
+	public void addDelFileList(String delFile){
+		delFileList.add(delFile); 
 	}
 	public int getDelFileCount(){
-		return fileList.size(); 
+		return delFileList.size(); 
 	}
 	public String getDelFile(int i){
-		return (String)modifyFileList.get(i); //jsp에서 for문으로 파일명 가져오기
+		return (String)delFileList.get(i); //jsp에서 for문으로 파일명 가져오기
 	}
 	public ArrayList getDelFileList(){
-		return modifyFileList;
+		return delFileList;
 	}
 	
 	// 삭제할 파일 갯수 delFileCount
