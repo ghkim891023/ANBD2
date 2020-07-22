@@ -655,10 +655,6 @@ public class AnbdDAO extends DbInfo{
 			String sigun  = multi.getParameter("sigun");
 			String sido  = multi.getParameter("sido");
 			String content= multi.getParameter("content");
-			/*
-			 * String[] jusoNoArray = sigun.split(":"); String jusoNo = jusoNoArray[0];
-			 * if(sido.equals("기타") || sido.equals("")) { jusoNo = "251"; }
-			 */
 			vo.setMenu(menu);
 			vo.setTitle(title);
 			vo.setContent(content);
@@ -668,10 +664,6 @@ public class AnbdDAO extends DbInfo{
 				vo.setSido("기타");
 				vo.setSigun("251");
 			}
-//			if(vo.getSigun().equals("")||vo.getSigun() == null)
-//			{
-//				vo.setSigun("251");
-//			}
 			
 			if(vo.saveName == null)
 			{
@@ -702,11 +694,11 @@ public class AnbdDAO extends DbInfo{
 			pstate.setString(6, vo.getSigun());
 
 			/*
-			 * System.out.println(insertBoardSql);
-			 * System.out.println("saveName = "+vo.saveName);
-			 * System.out.println("SaveFileName = "+vo.SaveFileName);
-			 * System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
 			 */
+			 System.out.println(insertBoardSql);
+			 System.out.println("saveName = "+vo.saveName);
+			 System.out.println("SaveFileName = "+vo.SaveFileName);
+			 System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
 			
 			executeUpdate();
 			
@@ -727,7 +719,6 @@ public class AnbdDAO extends DbInfo{
 			if(!vo.SaveFileName.isEmpty() )
 			{
 				System.out.println("===========파일을 첨부했음, not null===========");
-				
 				for(int i=0; i<vo.SaveFileName.size(); i++)
 				{
 					String insertFileSql  = "INSERT INTO file ";

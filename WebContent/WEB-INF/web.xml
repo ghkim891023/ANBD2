@@ -12,7 +12,7 @@
   
   <error-page>
   	<error-code>404</error-code>
-  	<location>/main/errorPage.jsp</location>
+  	<location>/main/404errorPage.jsp</location>
   </error-page>
   <error-page>
   	<error-code>500</error-code>

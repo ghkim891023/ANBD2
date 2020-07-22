@@ -100,25 +100,37 @@
 		//자동완성을 위한 AJAX
 		$(function()
 			{
+			//autocomplete
+			//플러그인을 선언해줘야만 사용 가능
+			//http://code.jquery.com/ui/1.10.3/jquery-ui.js
 				$("#key").autocomplete({
 					//[source] - input 필드에 입력하면 동작함
 					source : function(request, response)
 					{
 						$.ajax({
+							//autoUrl 주소에 자동완성 단어 있음
 							url : autoUrl,
 							type : 'POST',
 							datatype : 'HTML',
 							//request.term은 $("#key").val();랑 같음
 							data : {key : request.term},
+							//통신 성공
+							//html 형식으로 가져오니까 function의 파라미터는 아무 단어를 써도 무방
+							//json 형식으로 가져올 때는 중요
 							success : function(result)
 								{
+								//autoUrl 내용 참고
+								//실행문을 , 단위로 잘라서 option 태그에 value로 사용
 								var keyResult = result.split(",");
 								var html = "";
+									//key에 입력한 결과 개수만큼 each로 가져오기
 									$(keyResult).each(function(j){
 										html += "<option value='"+keyResult[j]+"' tabindex="+j+">"+keyResult[j]+"</option>";
-									});//key에 입력한 결과 개수만큼 each로 가져오기
+									});
+									//키워드 입력 칸에서 자판 입력 이벤트
 									$("#key").keydown(function(e)
 										{
+											//↓ 입력 이벤트
 											if(event.keyCode == 40)
 											{
 												//2020.07.20[의문] ↓를 누를 때마다 1씩 keyCount가 1씩 증가하는 방법은 없을까?
@@ -126,6 +138,8 @@
 												$(".showResult").focus();
 											}
 										});
+									//자동입력 셀렉트박스의 selected된 항목이 변할 때마다
+									//키워드 칸에 입력
 									$(".showResult").change(function()
 										{
 											var selectValue = $('.showResult option:selected').val();
@@ -145,6 +159,7 @@
 				})//end of key autocomplete
 				$(".showResult").keydown(function(e)
 					{
+						//엔터 입력 이벤트
 						if(event.keyCode == 13)
 						{
 							//역방향 캐싱 오류

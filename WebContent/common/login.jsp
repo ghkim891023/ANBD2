@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@include file="../include/header.jsp"%>
+<%@include file="../include/headerKgh.jsp"%>
 
 <!-- Contact Section (로그인 화면) -->
 <section class="contact-section">
@@ -32,6 +32,9 @@
 		</form>
 	</div><!--=====container 클래스 마지막-->
 </section><!--=====Contact Section end -->
+<script type="text/javascript">
+document.title="ANBD | 아나바다-로그인";
+</script>
 
 	<%@include file="../include/footer.jsp"%>
 
