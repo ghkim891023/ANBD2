@@ -72,7 +72,7 @@
 			<input type="hidden" id="key" name="key">
 			<span><img id="captchar" src=""></span>
 		   <input type="text" size="15" id="userInput" name="userInput"/>
-		   <span id="refresh" style="cursor:pointer"><img src="..\img\Refresh19px.png">새로고침</span>
+		   <span id="refresh" style="cursor:pointer"><img src="/anbd2/img\Refresh19px.png">새로고침</span>
 		   <input type="button" id="confirm" value="확인"/>
 		   <input type="button" id="capCancel" value="취소"/>
 	   </form>
@@ -289,7 +289,7 @@ $(document).ready(function(){
 			alert("로그인 후 이메일 보기가 가능합니다.");
 			return false;}
 		$.ajax({ 
-			url: "getCaptchar.jsp",
+			url: "/anbd2/main/getCaptchar.jsp",
 			dataType: "json",
 			success: function(result){
 				//alert(result);													  //object 형태
@@ -336,7 +336,7 @@ $(document).ready(function(){
 		var capFormData = $("#capForm").serialize(); //form의 모든 값 받기
 		$.ajax({ 
 			type: "post",
-			url: "capOk.jsp",
+			url: "/anbd2/main/capOk.jsp",
 			data: capFormData,
 			dataType: "json",//html
 			success: function(data){
