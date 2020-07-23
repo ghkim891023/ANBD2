@@ -9,7 +9,21 @@
 
 /* Template default CSS
 /*----------------------------------------*/
+select {
+  width: 150px;
+  padding: .5em .5em;
+  font-family: inherit;
+  background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat white 95% 50%;  
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 1px solid #999;
+  border-radius: 0px;
+}
 
+select::-ms-expand { /* for IE 11 */
+    display: none;
+}
 html,
 body {
 	height: 100%;

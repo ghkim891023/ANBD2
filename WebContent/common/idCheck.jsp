@@ -4,7 +4,7 @@
 
 <jsp:useBean id="idc" class="anbd.AnbdVO" scope="page"/>
 
-<script language="javascript">
+<script type="text/javascript">
 function doUse(){
 	opener.isMemberCheck = 1; //부모창에 값 전달
 	window.close();

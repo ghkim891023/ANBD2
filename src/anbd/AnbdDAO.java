@@ -499,7 +499,7 @@ public class AnbdDAO extends DbInfo{
 				   selectSql += "FROM board b \n";
 				   selectSql += "LEFT JOIN juso j \n";
 				   selectSql += "ON b.jusoNo = j.jusoNo \n";
-				   selectSql += "WHERE b.menu='공지' ";
+				   selectSql += "WHERE b.menu='notice' ";
 			System.out.println(selectSql);
 			
 			prepareStatement(selectSql);
@@ -655,19 +655,13 @@ public class AnbdDAO extends DbInfo{
 			String sigun  = multi.getParameter("sigun");
 			String sido  = multi.getParameter("sido");
 			String content= multi.getParameter("content");
-			
-			String[] jusoNoArray = sigun.split(":");
-			String jusoNo = jusoNoArray[0];
-			if(sido.equals("기타"))
-			{
-				jusoNo = "251";
-			}
 			vo.setMenu(menu);
 			vo.setTitle(title);
 			vo.setContent(content);
 			vo.setSigun(sigun);
-			if(vo.getSigun().equals("")||vo.getSigun() == null)
+			if(menu.equals("바다"))
 			{
+				vo.setSido("기타");
 				vo.setSigun("251");
 			}
 			
@@ -680,6 +674,7 @@ public class AnbdDAO extends DbInfo{
 				vo.setPhoto("Y");
 			}
 			
+			System.out.println("시군 = "+vo.getSigun());
 			//XSS 대책 [시작]
 			String xssContent = xssReplaceAll(content);
 			vo.setContent(xssContent);
@@ -696,12 +691,14 @@ public class AnbdDAO extends DbInfo{
 			pstate.setString(3, vo.getContent());
 			pstate.setInt(4, userNo);
 			pstate.setString(5, vo.getPhoto());
-			pstate.setString(6, jusoNo);
+			pstate.setString(6, vo.getSigun());
 
-			System.out.println(insertBoardSql);
-			System.out.println("saveName = "+vo.saveName);
-			System.out.println("SaveFileName = "+vo.SaveFileName);
-			System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
+			/*
+			 */
+			 System.out.println(insertBoardSql);
+			 System.out.println("saveName = "+vo.saveName);
+			 System.out.println("SaveFileName = "+vo.SaveFileName);
+			 System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
 			
 			executeUpdate();
 			
@@ -722,7 +719,6 @@ public class AnbdDAO extends DbInfo{
 			if(!vo.SaveFileName.isEmpty() )
 			{
 				System.out.println("===========파일을 첨부했음, not null===========");
-				
 				for(int i=0; i<vo.SaveFileName.size(); i++)
 				{
 					String insertFileSql  = "INSERT INTO file ";
@@ -732,9 +728,10 @@ public class AnbdDAO extends DbInfo{
 					pstate.setString(1, vo.getSaveName(i));
 					pstate.setInt(2, vo.getNo());
 					executeUpdate();
-					System.out.println(insertFileSql);
+//					System.out.println(insertFileSql);
 				}//for FLOW
 			}//====if FLOW == 파일 insert 종료
+			System.out.println("글 등록 OK");
 		}//====try FLOW
 		catch (SQLException e) 
 		{
@@ -986,6 +983,10 @@ public class AnbdDAO extends DbInfo{
 		boardList = new ArrayList<AnbdVO>();
 		try 
 		{
+			if(sido == null || sido.equals(""))
+			{
+				vo.setSido("251:기타");
+			}
 			getConnection();
 			String selSigunSql =  "";
 				   selSigunSql += "SELECT sido, sigun, jusoNo \n";

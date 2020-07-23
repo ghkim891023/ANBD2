@@ -8,12 +8,20 @@ public class PostMan
 {
 	public static void main(String[] args) 
 	{
+		
+	}//end of main method
+	
+	public static void postMain(String email, String id) 
+	{
+		anbd.AnbdVO vo = new anbd.AnbdVO();
+		vo.setEmail(email);
+		vo.setId(id);
 		String from = "progJdoh302@gmail.com";
-		String to = "jdoh302@naver.com";
+		String to = vo.getEmail();
 		String cc = to;
 		String subject = "html 링크 보내기";
-		String content = "아래 링크를 클릭하면 본인인증을 마칩니다.\n";
-		content += "<a href=\"http://192.168.0.65:8090/anbd2/main/main.jsp\">본인인증 완료하기</a>";
+		String content = "링크를 클릭하면 본인인증을 마칩니다.\n";
+			   content += "<a href=\"http://192.168.0.65:8090/anbd2/main/autenthicate.jsp?id="+vo.getId()+"\">본인인증 완료하기</a>\n";
 		
 		if(from.trim().equals(""))
 		{
@@ -42,7 +50,7 @@ public class PostMan
 				System.out.println("메일 전송 실패");
 			}
 		}
-	}//end of main method
+	}//end of postMain method
 	
 	
 }//end of PostMan

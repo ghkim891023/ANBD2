@@ -53,7 +53,14 @@
 				}
 			}else{ }
 			%>
-		[${vo.getMenu()}]
+		<c:choose>
+			<c:when test="${vo.getMenu() eq 'notice'}">
+				[공지]
+			</c:when>
+			<c:otherwise>
+				[${vo.getMenu()}]
+			</c:otherwise>
+		</c:choose>
 	 <%-- String menu = vo.getMenu();
 			switch(menu) {
 				case "share":
@@ -88,7 +95,7 @@
 				<% //file도 jstl쓰면 forEach로 가져올 수 있음 
 					for(int i=0;i<vo.GetFileCount();i++)
 					{
-						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px'><br>");
+						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px' alt="+vo.GetFile(i)+"><br>");
 					}
 				%>
 			</div>

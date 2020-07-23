@@ -4,6 +4,16 @@
 <%@include file="../include/searchOption.jsp"%>
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 <jsp:useBean id="pg" class="anbd.PageDAO" scope="page"/>
+<style>
+	#jusoSort
+	{
+		width:100px;
+		height:39px;
+		border:0;
+		outline:0;
+		color:#363636;
+	}
+</style>
 <% 
 request.setCharacterEncoding("utf-8");
 int currentPage = 1;  //현재 페이지번호
@@ -24,7 +34,7 @@ if(mKey==null){     //그냥 검색안하면 null
 String mEncodeKey = URLEncoder.encode(mKey, "UTF-8"); //url에 검색어 한글을 %로 바꿔줌(인코딩)*/
 request.setAttribute("key", mEncodeKey);
 %>
-<script language="javascript">
+<script type="text/javascript">
 	var key = '<%=mKey%>';
 	if( key==""){ 	//검색어가 없으면
 		document.title="ANBD | 아나바다-목록";
@@ -84,19 +94,21 @@ request.setAttribute("key", mEncodeKey);
 	<link rel="stylesheet" type="text/css" href="/anbd2/css/reuseStyle.css">
 </c:if>
 <div style="padding: 20px 40px 20px;">
-	<div align="right">
-		<select id="sido" name="sido">
-			<option value="시/도">시/도</option>
-			<c:forEach items="${selJuso}" var="selJuso">
-				<option value="${selJuso.sido}">${selJuso.sido}</option>
-			</c:forEach>	
-		</select>
-		<select id="sigun" name="sigun">
-			<option value="시/군/구">시/군/구</option>
-		</select>
-		<input type="button" id="jusoSort" value="확인"/>
-		<img id="noDone" style="width:22px;" src="/anbd2/img/checkGray.png"/> 거래완료 안보기
-	</div>
+	<c:if test="${param.menu ne 'reuse'}">
+		<div align="right">
+			<select id="sido" name="sido">
+				<option value="시/도">시/도</option>
+				<c:forEach items="${selJuso}" var="selJuso">
+					<option value="${selJuso.sido}">${selJuso.sido}</option>
+				</c:forEach>	
+			</select>
+			<select id="sigun" name="sigun">
+				<option value="시/군/구">시/군/구</option>
+			</select>
+			<input type="button" id="jusoSort" style="width:" value="확인"/>
+			<img id="noDone" style="width:22px;" src="/anbd2/img/checkGray.png"/> 거래완료 안보기
+		</div>
+	</c:if>
 	<table id="board">
 		<tr>
 			<th width="160px">구분</th>
@@ -107,9 +119,9 @@ request.setAttribute("key", mEncodeKey);
 		</tr>
 		<!-- 공지 상단 고정 시작============================ -->
 			<c:forEach items="${selNotice}" var="selNotice">
-				<c:if test="${selNotice.menu eq '공지'}">
+				<c:if test="${selNotice.menu eq 'notice'}">
 					<tr>
-						<td>[${selNotice.menu}]</td>
+						<td>[공지]</td>
 						<td>
 						<a href="view.jsp?no=${selNotice.no}&menu=notice">${selNotice.title}
 							<c:choose>
@@ -183,23 +195,6 @@ request.setAttribute("key", mEncodeKey);
 		</c:forEach>
 	</table>
 	<!--=========================== 목록 불러오기 끝 -->
-	<%
-	//세션 변수에 저장된 userId값이 비어있으면 로그인 안한것
-	if(session.getAttribute("loginId")==null)
-	{
-		%>
-			<input type="button" id="write" class="Wrt2" value="글쓰기" onclick="javascript:doAlert();">
-		<%
-	}
-	else
-	{
-		String loginId = (String)session.getAttribute("loginId");
-		//out.print(session.getAttribute("loginId"));
-		%>
-		<input type="button" id="write" class="Wrt2" value="글쓰기" onclick="location.href='write.jsp'">
-		<%
-	}
-	%>
 </div>
 <!--페이지 번호 -->
 <div class="site-pagination" align="center">
