@@ -19,7 +19,12 @@
 	<p> 이름 	 : <%=joinBean.getName() %>  </p>
 	<p> 이메일     : <%=joinBean.getEmail() %> </p>
 	
-	<% int i = joinBean2.inJoin(joinBean); 
+	<% 
+		int i = joinBean2.inJoin(joinBean);
+		
+		String email = joinBean.getEmail();
+		String id = joinBean.getId();
+		mail.postMain(email, id);
 		
 		if(i!=1){ //1은 회원가입 성공 리턴값
 			%>

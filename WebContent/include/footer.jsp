@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<jsp:useBean id="footerDao" class="anbd.AnbdDAO" scope="page"/>
 <body>
+<%
+//=======공지 [시작]
+footerDao.selNotice();
+pageContext.setAttribute("selNotice", footerDao.getBoardList());
+//=======공지 [종료]
+%>
 	<!-- Footer Section -->
 	<footer class="footer-section">
-	<a href="view.jsp?no=285">
+	<c:forEach items="${selNotice}" var="selNotice">
+	<a href="view.jsp?no=${selNotice.no}&menu=notice">
 	<img src="../img/logo.png" style="width:10%" alt="필독!공지입니다로 가는 로고입니다">
 	필독! 공지입니다
 	</a>
+	</c:forEach>
 		<div class="copyright">
 			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 			Copyright &copy;<script>document.write(new Date().getFullYear());</script>

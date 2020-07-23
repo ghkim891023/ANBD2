@@ -61,7 +61,23 @@
 				}
 			}else{ }
 			%>
-		[${vo.getMenu()}]
+		<c:choose>
+			<c:when test="${vo.getMenu() eq 'notice'}">
+				[공지]
+			</c:when>
+			<c:otherwise>
+				[${vo.getMenu()}]
+			</c:otherwise>
+		</c:choose>
+	 <%-- String menu = vo.getMenu();
+			switch(menu) {
+				case "share":
+					--%><!-- b id="menu">[아나]</b><%--
+					break;
+				case "reuse":
+					--%><b id="menu">[바다]</b> --><%--
+					break;
+			} --%>
 		<b id="title"><%= vo.getTitle() %></b> 
 	</h3>
 	<p>
@@ -86,7 +102,7 @@
 			<div id="slider">
 				<% for(int i=0;i<vo.GetFileCount();i++) //jstl형식은 forEach
 					{
-						out.print("<img class='slide' src='/anbd2/upload/"+vo.GetFile(i)+"' width='300px'><br>");
+						out.print("<img class='slide' src='/anbd2/upload/"+vo.GetFile(i)+"' width='300px' alt="+vo.GetFile(i)+"><br>");
 					}
 				%>
 				<button class="w3-button w3-black w3-display-left sl left" onclick="plusDivs(-1)">&#10094;</button>

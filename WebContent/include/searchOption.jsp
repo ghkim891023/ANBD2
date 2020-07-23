@@ -1,6 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <jsp:useBean id="webutil2" class="anbd.WebUtil" scope="page"/>
+<style>
+	.search-input
+	{margin-bottom:0px;}
+</style>
 <%
 	webutil2.Init(request);
 	
@@ -51,7 +55,7 @@
 				<!-- 검색창, Ajax기술 활용 방안 -> 키워드 입력시 자동완성 -->
 				<div class="search-input">
 					<input type="text" placeholder="검색 키워드를 입력해주세요." name="key" id="key">
-					<button class="site-btn" id="search">검색</button>
+					<button class="site-btn" id="search">검색</button><br/>
 					<%
 						//세션 변수에 저장된 userId값이 비어있으면 로그인 안한것
 						if(session.getAttribute("loginId")==null)
@@ -80,13 +84,94 @@
 					</c:choose>
 					 --%>
 				</div>
+					<select class="showResult" name="showResult" style="display:none;">
+					</select>
 			</form>
 		</div>
 	<!-- </div>-->
-<script language="javascript">
+<!-- 자동완성 기능을 위한 웹UI개발 플러그인 --> 
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js" ></script>
+<script type="text/javascript">
 	var key2 = '<%=mKey2%>';
 	var option = '<%=option%>';
+	var showResult = $(".showResult");
 	$(document).ready(function() {
+		var autoUrl = '../include/autocomplete.jsp';
+		//자동완성을 위한 AJAX
+		$(function()
+			{
+			//autocomplete
+			//플러그인을 선언해줘야만 사용 가능
+			//http://code.jquery.com/ui/1.10.3/jquery-ui.js
+				$("#key").autocomplete({
+					//[source] - input 필드에 입력하면 동작함
+					source : function(request, response)
+					{
+						$.ajax({
+							//autoUrl 주소에 자동완성 단어 있음
+							url : autoUrl,
+							type : 'POST',
+							datatype : 'HTML',
+							//request.term은 $("#key").val();랑 같음
+							data : {key : request.term},
+							//통신 성공
+							//html 형식으로 가져오니까 function의 파라미터는 아무 단어를 써도 무방
+							//json 형식으로 가져올 때는 중요
+							success : function(result)
+								{
+								//autoUrl 내용 참고
+								//실행문을 , 단위로 잘라서 option 태그에 value로 사용
+								var keyResult = result.split(",");
+								var html = "";
+									//key에 입력한 결과 개수만큼 each로 가져오기
+									$(keyResult).each(function(j){
+										html += "<option value='"+keyResult[j]+"' tabindex="+j+">"+keyResult[j]+"</option>";
+									});
+									//키워드 입력 칸에서 자판 입력 이벤트
+									$("#key").keydown(function(e)
+										{
+											//↓ 입력 이벤트
+											if(event.keyCode == 40)
+											{
+												//2020.07.20[의문] ↓를 누를 때마다 1씩 keyCount가 1씩 증가하는 방법은 없을까?
+												//2020.07.21[해결] ↓를 누르면 셀렉트 박스로 포커스를 옮김, 간단!!
+												$(".showResult").focus();
+											}
+										});
+									//자동입력 셀렉트박스의 selected된 항목이 변할 때마다
+									//키워드 칸에 입력
+									$(".showResult").change(function()
+										{
+											var selectValue = $('.showResult option:selected').val();
+											$('#key').val(selectValue);
+										});
+									
+									//url의 내용을 가져온다.
+									$(".showResult").html(html);
+									$(".showResult").show();
+								},
+							error : function(request, status, error)
+								{
+									alert("자동완성/검색 기능을 수행할 수 없습니다");
+								},
+						})//end of ajax FLOW
+					}//end of source FUNTION
+				})//end of key autocomplete
+				$(".showResult").keydown(function(e)
+					{
+						//엔터 입력 이벤트
+						if(event.keyCode == 13)
+						{
+							//역방향 캐싱 오류
+							//$("#search").click();
+							//[문제]제목+엔터로 검색했을 때 결과가 없음
+							//[해결]autocomplete.jsp의 내용에 공백 제거
+							$("#searchFrm").submit();
+							console.log("이벤트13 실행 후");
+						}
+					})
+			});//자동완성 [종료]
+		
 		if( !key2==""){ 			//검색어가 있으면
 			$('#key').val(key2); //검색칸에 검색어 넣기
 		}
@@ -94,8 +179,10 @@
 		if(option==""){
 			option ='title';
 		}
-		console.log("옵션: ["+option+"]");
+		//console.log("옵션: ["+option+"]");
 		
 		$('input:radio[name=option]:input[value='+ option +']').attr("checked", true);
+		
+		
 	});
 </script>
