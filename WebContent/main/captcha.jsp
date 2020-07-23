@@ -9,6 +9,8 @@
 <%@page import="nl.captcha.backgrounds.FlatColorBackgroundProducer" %>
 <%@page import="java.awt.Color" %>
 <%
+//선생님 추천 캡차
+
 //========= 웹 파라메터 분석 구간 [ 시작 ] =====
 String sign_mode   = request.getParameter("mode");
 if(sign_mode == null)

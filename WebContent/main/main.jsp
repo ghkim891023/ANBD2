@@ -126,7 +126,7 @@ request.setAttribute("key", mEncodeKey);
 						<a href="view.jsp?no=${selNotice.no}&menu=notice">${selNotice.title}
 							<c:choose>
 								<c:when test="${selNotice.photo eq 'Y'}">
-									<img src="../img/green.png" style="width:20px;">
+									<img src="/anbd2/img/green.png" style="width:20px;">
 								</c:when>
 								<c:otherwise></c:otherwise>
 							</c:choose>
@@ -157,8 +157,10 @@ request.setAttribute("key", mEncodeKey);
 					<c:when test="${pageList.menu ne '공지'}">
 						<td>[${pageList.menu}]</td>
 						<td>
-							<!--기존: <a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}"> -->
-							<a href="javascript:doGoPage('/anbd2/main/view.jsp','<%= currentPage %>','${pageList.no}');">
+							<!--기존1: <a href="view.jsp?menu=reuse&no=${pageList.no}&key=${key}"> 
+								  기존2: <a href="javascript:doGoPage('/anbd2/main/view.jsp','<%= currentPage %>','${pageList.no}');">
+							-->
+							<a href="javascript:doGoPage('/anbd2/view.do','<%= currentPage %>','${pageList.no}');">
 							<c:choose>
 								<c:when test="${pageList.status eq 'done'}">
 									<span id="status">[거래완료]</span>
@@ -175,10 +177,10 @@ request.setAttribute("key", mEncodeKey);
 								<c:when test="${pageList.photo eq 'Y'}">
 									<c:choose>
 										<c:when test="${param.menu eq 'reuse'}">
-											<img src="../img/skyblue.png" style="width:20px;">
+											<img src="/anbd2/img/skyblue.png" style="width:20px;">
 										</c:when>
 										<c:otherwise>
-											<img src="../img/green.png" style="width:20px;">
+											<img src="/anbd2/img/green.png" style="width:20px;">
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -250,8 +252,8 @@ request.setAttribute("key", mEncodeKey);
 		document.location = page;
 	}
 	function doAlert(){
-		alert("글쓰기는 로그인 후 가능합니다");
-		location.href="../common/login.jsp";
+		alert("글쓰기는 로그인 후 가능합니다.");
+		location.href="/anbd2/login.do"; //jsp경로: /anbd2/common/login.jsp
 	}
 	$(document).ready(function(){
 		var noDone = '<%=noDoneYN%>';

@@ -69,7 +69,7 @@
 							String loginId = (String)session.getAttribute("loginId");
 							//out.print(session.getAttribute("loginId"));
 							%>
-							<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:location.href='write.jsp'">
+							<input type="button" id="write" class="Wrt" value="글쓰기" onclick="javascript:location.href='/anbd2/main/write.jsp'">
 							<%
 						}
 					%>

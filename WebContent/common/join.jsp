@@ -12,8 +12,8 @@
 <body>
 <section class="contact-section">
 	<div class="container">
-		<h2>회원가입</h2>
-		<form class="contact-form" id="joinfrm" name="joinfrm"  method="post" action="joinBean_ok.jsp">
+		<h2>회원가입</h2> <!-- action="joinBean_ok.jsp" -->
+		<form class="contact-form" id="joinfrm" name="joinfrm"  method="post" action="/anbd2/joinBean_ok">
 			<div class="row join">
 				<div class="col-lg-12">
 					<p align="left">아이디</p>

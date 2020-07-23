@@ -6,7 +6,7 @@
 	<div class="container">
 		<h2>로그인</h2>
 		<!-- <form class="contact-form" id="login" name="login" method="post" action="loginBean_ok.jsp"> -->
-		<form class="contact-form" id="login" name="login" method="post" action="../loginBean_ok">
+		<form class="contact-form" id="login" name="login" method="post" action="/anbd2/loginBean_ok">
 			<div class="row">
 				<div class="col-lg-12">
 					<p align="left">아이디</p>
@@ -22,7 +22,7 @@
 		<!-- 	<a href="#" style="float:right" id="pwReset">비밀번호 재설정</a> -->
 			<br/>
 			<input type="submit" class="site-btn sb-big" id="login" value="로그인"/>
-						<a  class="site-btn sb-big" id="join" name="join" href="../common/join.jsp">회원가입</a>
+						<a  class="site-btn sb-big" id="join" name="join" href="/anbd2/common/join.jsp">회원가입</a>
 			
 			<!-- 아이디 입력창 커서 깜빡이게 자동focus -->
 			<script type="text/javascript">

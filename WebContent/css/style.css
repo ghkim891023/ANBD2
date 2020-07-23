@@ -1728,14 +1728,14 @@ button#cWrite{
 }
 span#cWriter{
 	display: inline-block;
-	width: 77px;
+	width: 100px;
 }
 span#cContent{ 
 	display: inline-block;
 	width: 500px;
 	margin-left: 5px;
 }
-div#view button{ /*view.jsp 버튼*/
+div#view button:not(.sl){ /*view.jsp 버튼*/
 	float:right;
 	margin-left: 5px;
 	padding: 10px 10px;
@@ -1744,7 +1744,7 @@ div#view button{ /*view.jsp 버튼*/
 div#view button#cModify,
 div#view button#cRemove{
 	padding: 2px 3px;
-	min-width: 55px;
+	min-width: 50px;
 	font-size: 15px;
 	background-color: #D3D3D3 !important;
 	color: #295253;
@@ -1769,16 +1769,16 @@ div#view p.coRow>span{
 	display: inline-block; /*아래 공백이 생김*/
 	min-height: 30px;
 	vertical-align: middle;
-	margin-left: 5px;
+	/*margin-left: 5px;*/
 	font-size: 15px;
 }
 div#view span#cContent{ 
 	display: inline-block;
-	min-width: 420px;
+	min-width: 400px;
 	width: calc(100% - 300px);  /*60%*/
 }
 div#view span.coEdit{ 
-	width : 116px;
+	width : 110px;
 }
 div#view input#cModContent{
 	width: 420px;
@@ -1846,3 +1846,18 @@ table#board a{
 table#board a:hover{
 	text-decoration:underline;
 }
+/*슬라이드 버튼 css https://www.w3schools.com/w3css/4/w3.css 에서 필요부분만 가져옴*/
+.w3-btn,.w3-button{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
+.w3-btn,.w3-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}   
+.w3-disabled,.w3-btn:disabled,.w3-button:disabled{cursor:not-allowed;opacity:0.3}.w3-disabled *,:disabled *{pointer-events:none}
+.w3-btn.w3-disabled:hover,.w3-btn:disabled:hover{box-shadow:none}
+.w3-dropdown-hover:hover > .w3-button:first-child,.w3-dropdown-click:hover > .w3-button:first-child{background-color:#ccc;color:#000;}
+.w3-bar-block .w3-dropdown-hover .w3-button,.w3-bar-block .w3-dropdown-click .w3-button{width:100%;text-align:left;padding:8px 16px;}
+.w3-bar .w3-button{white-space:normal}
+.w3-dropdown-hover.w3-mobile,.w3-dropdown-hover.w3-mobile .w3-btn,.w3-dropdown-hover.w3-mobile .w3-button,.w3-dropdown-click.w3-mobile,.w3-dropdown-click.w3-mobile .w3-btn,.w3-dropdown-click.w3-mobile .w3-button{width:100%}}
+.w3-button:hover{color:#000!important;background-color:#ccc!important;}
+.w3-black,.w3-hover-black:hover{color:#fff!important;background-color:#000!important;}
+.w3-display-left{position:absolute;top:50%;left:0%;transform:translate(0%,-50%);-ms-transform:translate(-0%,-50%)}
+.w3-display-right{position:absolute;top:50%;right:0%;transform:translate(0%,-50%);-ms-transform:translate(0%,-50%)}
+.w3-button:hover{color:#000!important;background-color:#ccc!important}
+

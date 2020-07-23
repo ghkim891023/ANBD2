@@ -3,18 +3,30 @@
 <%@include file="../include/fix.jsp"%>
 <%@ page import="java.net.URLEncoder" %> <!-- 브라우저 때문에.. -->
 <%@ page import="api.*"%> 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <style>
 	h3{ margin-bottom: 10px;}
 	b#status{ color:gray; }
 	#refresh{ font-size: 10pt; color: #565855; }
 	#showEmail, #confirm, #capCancel{ font-size: 11pt; border:0; background-color: #D3D3D3; }
+	.slide, .sl{ display:none; }
+	.left{
+		position: relative;
+		top: -200px;
+	}
+	.right{
+		position: relative;
+		top: -240px;
+		right: none;
+		left: 260px;
+	}
 </style>
 <div class="container" id="view">
 	<% 
+	String uri = request.getRequestURI();
+	System.out.println("==uri: "+uri);
+	
 	webutil.Init(request);
 	int pageno = webutil._I("page","1");
 	String menu   = webutil._S("menu","");
@@ -23,17 +35,13 @@
 	String mEncodeKey = webutil._E("key","");
 	Integer jusoNo = webutil._I("jusoNo","0");
 	String noDoneYN = webutil._S("noDone","N");
-	/*선생님 메소드로 수정
-	String key = request.getParameter("key"); 
-	if(key==null){ key=""; }
-	key = URLEncoder.encode(key, "UTF-8");*/
-	int hereNo = Integer.parseInt(request.getParameter("no"));
+	int hereNo = webutil._I("no","1");
 	dao.selViewBoard(vo, hereNo);
 	//dao.selViewComment(vo, hereNo);
 	int pNo = vo.getNo();
 	String loginId = (String)session.getAttribute("loginId");
-	boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
-	int loginUserNo = vo.getLoginUserNo();
+	//boolean loginYesNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 
+	int loginUserNo = dao.selLoginUserNo(vo, loginId);//vo.getLoginUserNo();
 	int writerUserNo = vo.getUserNo();
 	%>
 	<c:if test="${vo.getMenu() eq '바다'}">
@@ -80,7 +88,7 @@
 			<input type="hidden" id="key" name="key">
 			<span><img id="captchar" src=""></span>
 		   <input type="text" size="15" id="userInput" name="userInput"/>
-		   <span id="refresh" style="cursor:pointer"><img src="..\img\Refresh19px.png">새로고침</span>
+		   <span id="refresh" style="cursor:pointer"><img src="/anbd2/img\Refresh19px.png">새로고침</span>
 		   <input type="button" id="confirm" value="확인"/>
 		   <input type="button" id="capCancel" value="취소"/>
 	   </form>
@@ -89,19 +97,22 @@
 		<span>아이디 </span>
 		<span id="id"><%= vo.getId() %> </span>
 	</p>
-	<div id="content">
+	
 		<p>
 			<div id="slider">
-				<% //file도 jstl쓰면 forEach로 가져올 수 있음 
-					for(int i=0;i<vo.GetFileCount();i++)
+				<% for(int i=0;i<vo.GetFileCount();i++) //jstl형식은 forEach
 					{
-						out.print("<img src='../upload/"+vo.GetFile(i)+"' width='300px' alt="+vo.GetFile(i)+"><br>");
+						out.print("<img class='slide' src='/anbd2/upload/"+vo.GetFile(i)+"' width='300px' alt="+vo.GetFile(i)+"><br>");
 					}
 				%>
+				<button class="w3-button w3-black w3-display-left sl left" onclick="plusDivs(-1)">&#10094;</button>
+				<button class="w3-button w3-black w3-display-right sl right" onclick="plusDivs(1)">&#10095;</button>
 			</div>
-			<%= vo.getContent().replace("\n","<br>") %><br>
+			<div id="content">
+			
+				<%= vo.getContent().replace("\n","<br>") %><br>
+			</div>
 		</p>
-	</div>
 	<div class="contentBtn" style="margin-bottom: 10px;">
 		<c:if test="${vo.getLoginUserNo() eq vo.getUserNo()}">
 			<button class="site-btn" id="modify">수정</button>
@@ -120,24 +131,12 @@
 				</c:choose>
 			</c:if>
 		</c:if>
-		<%--	switch(st){
-				case "nostatus":
-					--%><!-- button class="site-btn" id="done">거래완료</button><%--
-					break;	
-				case "done" :
-					--%><button class="site-btn" id="cancel">거래완료취소</button><%--
-					break;
-				case "cancel":
-					--%><button class="site-btn" id="done">거래완료</button> --><%--
-					break;
-				}}--%>
 	</div>
 	<form method="post" id="coForm" name="coForm" action="view.jsp" onsubmit="return false;">
 		<input type="text" placeholder="로그인 후 댓글 입력" id="comment" name="comment" style="width:85%" onkeyup="pressEnter();">
 		<button type="button" class="readmore-btn" id="cWrite" style="float:none;">댓글쓰기</button>
 	</form>
 	<% 
-		//댓글 영역_v2 - jstl 잘 안됨..if문에서 jsp의 loginUserNo 번호를 못읽어...
 		ArrayList<AnbdVO> coList = dao.selViewComment(pNo);
 		//session.setAttribute("cc", coList);
 		//댓글 영역_v3
@@ -151,14 +150,13 @@
 						switch(vo.getMenu())
 						{
 						case "아나":
-							out.print("<img src='../img/writerGreen.png' width='45px'></span>");
+							out.print("<img src='/anbd2/img/writerGreen.png' width='45px'></span>");
 							break;
 						case "바다":
-							out.print("<img src='../img/writerBlue.png' width='45px'></span>");
+							out.print("<img src='/anbd2/img/writerBlue.png' width='45px'></span>");
 							break;
 						}
-				}
-				else
+				}else
 				{
 					out.print("<span id='cWriter'>"+covo.getId()+"</span>");
 				}
@@ -178,9 +176,9 @@
 			<div id="div"></div>
 </div><!--container 클래스 마지막-->
 <div class="Lst">
-	<button class="site-btn" id="before" onclick="javascript:doGoPage('viewBefore.jsp');">이전글</button>
-	<button class="site-btn" id="list" onclick="javascript:doGoPage('main.jsp');">목록</button>
-	<button class="site-btn" id="after" onclick="javascript:doGoPage('viewAfter.jsp');">다음글</button>
+	<button class="site-btn" id="before" onclick="javascript:doGoPage('/anbd2/main/viewBefore.jsp');">이전글</button>
+	<button class="site-btn" id="list" onclick="javascript:doGoPage('/anbd2/main/main.jsp');">목록</button>
+	<button class="site-btn" id="after" onclick="javascript:doGoPage('/anbd2/main/viewAfter.jsp');">다음글</button>
 </div>
 <%@include file="../include/footer.jsp"%>
 	<form id="pageForm" name="pageForm" method="post" action="main.jsp">
@@ -194,6 +192,41 @@
 	</form>	
 <script type="text/javascript"> 
 	document.title="ANBD | 아나바다-글보기";
+	var slideIndex = 1; //슬라이드 처음 값
+	var img	  = document.getElementsByClassName("slide"); //이미지 요소 목록
+	var imgCnt = img.length*1;										 //이미지 갯수
+	var btn 	  = document.getElementsByClassName("sl");    //좌우 버튼
+	//var content = document.getElementById("content");
+	//console.log("imgCnt: "+imgCnt);
+	if(imgCnt>=2){  //이미지 갯수가 2개 이상이면, 버튼 보이기
+		for (var j = 0; j < 2; j++) {		  //버튼 갯수, 2만큼 for 돌면서
+		   btn[j].style.display = "block"; //버튼 보이기
+		}
+		showDivs(slideIndex); //처음화면 이미지 보여주기
+		function plusDivs(n) {// > 클릭하면, < 클릭하면
+		  showDivs(slideIndex += n);
+		}
+	}else if(imgCnt=1){ //이미지가 1개이면, 버튼은 안보이고, 그림만 보이기
+		showDivs(slideIndex);
+	}
+	//if(imgCnt>=1){
+		//content.style.top="-200px";
+	//}
+	function showDivs(n) {
+	  var img	  = document.getElementsByClassName("slide");
+	  var imgCnt = img.length*1;
+	  //사진없을때, 위에서는 0찍히는데, 여기서는 1찍힘.. -> 윗줄에서 변수 다시 선언해줌
+	  //console.log("imgCnt: "+imgCnt);
+	  if(imgCnt>=1){
+		  if (n > img.length) {slideIndex = 1}
+		  if (n < 1) {slideIndex = img.length}{
+			  for (var i = 0; i < img.length; i++) {
+				  img[i].style.display = "none";  
+			  }
+			  img[slideIndex-1].style.display = "block";  
+		  }
+	  }
+	}
 	function doGoPage(url, coNo){
 		var f = document.pageForm;
 		var mParam  = "";
@@ -261,7 +294,7 @@
 					//return true;
 					//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
 					//document.coForm.submit(); 
-					doSubmitPage('viewCoWrite.jsp', document.coForm);
+					doSubmitPage('/anbd2/main/viewCoWrite.jsp', document.coForm);
 				}//if, else
 			}//first else FLOW
 		}//second if FLOW
@@ -278,7 +311,7 @@ $(document).ready(function(){
 			alert("로그인 후 이메일 보기가 가능합니다.");
 			return false;}
 		$.ajax({ 
-			url: "getCaptchar.jsp",
+			url: "/anbd2/main/getCaptchar.jsp",
 			dataType: "json",
 			success: function(result){
 				//alert(result);													  //object 형태
@@ -325,7 +358,7 @@ $(document).ready(function(){
 		var capFormData = $("#capForm").serialize(); //form의 모든 값 받기
 		$.ajax({ 
 			type: "post",
-			url: "capOk.jsp",
+			url: "/anbd2/main/capOk.jsp",
 			data: capFormData,
 			dataType: "json",//html
 			success: function(data){
@@ -352,11 +385,11 @@ $(document).ready(function(){
 	});//캡차 취소 클릭 [종료]
 	$("#done").click(function(){ //거래완료 클릭시  -나중에는 get.parameter받는 변수로?
 		//location.href="viewDone.jsp?no= <%=vo.getNo() %>"; 
-		doGoPage('viewDone.jsp'); 
+		doGoPage('/anbd2/main/viewDone.jsp'); 
 	});
 	$("#cancel").click(function(){ //거래완료취소 클릭시
 		//location.href="viewCancel.jsp?no=<%=vo.getNo() %>";
-		doGoPage('viewCancel.jsp'); 
+		doGoPage('/anbd2/main/viewCancel.jsp'); 
 	});
 	$("#cWrite").click(function(){ //댓글쓰기 클릭시, 내용이 없으면 alert + 로그인 안하고 클릭시 alert 및 이동
 		var login= '<%=loginId%>';
@@ -369,22 +402,22 @@ $(document).ready(function(){
 				alert("댓글을 입력하세요.");
 				return false;
 			}else{
-				//return true;
 				//document.coForm.action =  "viewCoWrite.jsp?no=<%=pNo%>&userNo=<%=loginUserNo%>";
 				//document.coForm.submit();
-				doSubmitPage('viewCoWrite.jsp', document.coForm);
+				doSubmitPage('/anbd2/main/viewCoWrite.jsp', document.coForm);
 			}
 		}
 	});
 	$("#modify").click(function(){ //글 수정 버튼 클릭시 -onclick="location.href='modify.jsp'"
 		//location.href="viewModify.jsp?no=<%=vo.getNo() %>";
-		doGoPage('viewModify.jsp');
+		//doGoPage('/anbd2/main/viewModify.jsp');
+		doGoPage('/anbd2/viewModify.do');
 	});
 	$("#remove").click(function(){ //글 삭제 버튼  //jsp이동 안하고, 바로 메소드 가능? https://all-record.tistory.com/145
 		var msg = confirm("글을 정말 삭제하시겠습니까?");
 		if(msg==true){
 			//location.href="viewRemove.jsp?no=<%=vo.getNo() %>";
-			doGoPage('viewRemove.jsp');
+			doGoPage('/anbd2/main/viewRemove.jsp');
 		}else{
 			return false;
 		}

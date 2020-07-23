@@ -14,6 +14,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import anbd.AnbdVO;
 import anbd.DbInfo;
+import mvc2.vo.BoardVO;
 
 public class AnbdDAO extends DbInfo{
 	
@@ -97,7 +98,7 @@ public class AnbdDAO extends DbInfo{
 	public boolean selLogin(String id , String pw) { //로그인 ID 검사, 비밀번호 검사
 		//boolean result = false;
 		getConnection();
-		String SQL= "select id from user where id = '"+id+"' and pw= '"+pw+"' ";
+		String SQL= "select id from user where id = '"+id+"' and pw= '"+pw+"'";
 			
 		prepareStatement(SQL);    //쿼리를 미리 준비해서 메모리에 저장시키는 거
 		executeQuery(); 		//쿼리 실행
@@ -112,6 +113,46 @@ public class AnbdDAO extends DbInfo{
 		pstateClose();
 	    conClose();
 		return false;
+	}
+	
+	public int selLoginEmail(String id , String pw) { //로그인 ID, 비밀번호, 로그인 인증여부 검사
+		int login = 0;
+		// id나 비밀번호 틀리면 -1, 로그인 인증안했으면 -2, 로그인 되면 1
+		getConnection();
+		//String SQL= "select id from user where id= ? and pw= ? and emailOk='Y'";
+		String SQL= "select emailOk from user where id= ? and pw= ?";
+			
+		try {
+			prepareStatement(SQL);  //쿼리를 미리 준비해서 메모리에 저장시키는 거
+			pstate.setString(1, id);
+			pstate.setString(2, pw);
+			executeQuery(); 		//쿼리 실행
+			if(rs.next()){
+				if( rs.getString("emailOk").equals("Y") ) { //이메일 인증 완료
+					return 1; 	 //로그인 성공
+				}else return -2; //이메일 인증 안함
+			}return -1;	 		 //id,pw 틀림, 가입안했거나
+		}catch (Exception e) {
+			System.out.println("selLoginEmail() 에러: "+e.getMessage());
+		}
+		rsClose();
+		pstateClose();
+	    conClose();
+		return login; //sql에러시
+	}
+	
+	public void upUserEmailOk(String id) { //이메일 인증 - 이메일에서 링크 클릭시
+		getConnection();
+		String SQL  = "UPDATE user SET emailOk='Y' where id=?";
+		prepareStatement(SQL);
+		try {
+			pstate.setString(1, id);
+			executeUpdate(); 
+		} catch (Exception e) {
+			System.out.println("upUserEmailOk() 에러: "+e.getMessage());
+		}
+		pstateClose(); 
+		conClose(); 
 	}
 	
 	public int selLogin2(String id , String pw) { //로그인 - id가 틀렸는지, pw가 틀렸는지
@@ -135,51 +176,46 @@ public class AnbdDAO extends DbInfo{
 	    conClose();
 		return -2;	//DB 에러
 	}
-	
-	//데이터 베이스에 데이터를  insert 하는 method 
-	public void dbtest2insert (String id, String pw, String name, String email) {
-	   //dbtest2 db = new dbtest2( 1,  id, pw,  name,  email);	 
-//	   //데이터베이스 접속하기
-//	   try {
-//		    getConnection();
-//	 	    if (con != null) {System.out.println("성공");}   //접속 결과 출력
-//			else {System.out.println("실패");}
-//	   String sql = "insert into user "
-//	   		+ "(id, pw, name, email)"    //컬럼명
-//	   		+ " values (?, ?, ?, ?)";	 //값
-//	   pstate = con.prepareStatement(sql);
-//	   pstate.setString(1, id);
-//	   pstate.setString(2, pw);
-//	   pstate.setString(3, name);
-//	   pstate.setString(4, email);
-//	   pstate.executeUpdate();      //executeUpdatd는 insert, update, delete문에서 사용하는거
-//	   pstate.close();
-//	   con.close();
-//	   }catch (SQLException e) {
-//		   System.out.println("SQL Exception : " + e.getMessage());
-//	   }
-	 }
-	
+		
 	//========글보기/수정/삭제, 댓글 보기/쓰기/수정/삭제, 나눔완료/취소 메소드========
-	public boolean selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기
+//	public boolean selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기_boolean형
+//		try {
+//			String SQL  = "SELECT userNo from user where id='"+id+"'";
+//			getConnection();
+//			prepareStatement(SQL);
+//			executeQuery();
+//			if(rs.next()) { 
+//				vo.setLoginUserNo(rs.getInt("userNo"));
+//				System.out.println("회원번호: "+vo.getLoginUserNo());
+//			}
+//		}catch (Exception e) {
+//			System.out.println("selLoginUserNo() 에러: "+e.getMessage());
+//			return false;
+//		}
+//   	   	rsClose();
+//		pstateClose();
+//		conClose();
+//		return true;
+//	}
+	
+	public int selLoginUserNo(AnbdVO vo, String id) { //세션 id로 회원번호 가져오기_int형
 		try {
 			String SQL  = "SELECT userNo from user where id='"+id+"'";
-			System.out.println("selLoginUserNo: "+SQL);
 			getConnection();
 			prepareStatement(SQL);
 			executeQuery();
 			if(rs.next()) { 
 				vo.setLoginUserNo(rs.getInt("userNo"));
-				System.out.println("회원번호: "+vo.getLoginUserNo());
+				return vo.getLoginUserNo(); 
 			}
 		}catch (Exception e) {
 			System.out.println("selLoginUserNo() 에러: "+e.getMessage());
-			return false;
+			return -1;
 		}
    	   	rsClose();
 		pstateClose();
 		conClose();
-		return true;
+		return 0;
 	}
 	
 	public void selViewBoard(AnbdVO vo, int no) { //글보기
@@ -255,7 +291,7 @@ public class AnbdDAO extends DbInfo{
 				AnbdVO vo = new AnbdVO();
 				vo.setCoNo(rs.getInt("coNo"));
 				vo.setId(rs.getString("id"));
-					System.out.println("댓글 작성자: "+vo.getId());
+					//System.out.println("댓글 작성자: "+vo.getId());
 				//XSS 대책 [시작]
 					vo.setcContent(rs.getString("content"));
 					String cContent = vo.getcContent(); 
@@ -266,7 +302,7 @@ public class AnbdDAO extends DbInfo{
 				vo.setWdate(rs.getString("wdate"));
 				
 				vo.setCWriterNo(rs.getInt("userNo"));
-					System.out.println("댓글 작성자 번호: "+vo.getCWriterNo());
+					//System.out.println("댓글 작성자 번호: "+vo.getCWriterNo());
 				coList.add(vo);
 			}
 		}catch (SQLException e) {
@@ -275,7 +311,7 @@ public class AnbdDAO extends DbInfo{
 		rsClose();
 		pstateClose();
 		conClose();
-		System.out.println("coList 사이즈:"+ coList.size());
+		//System.out.println("coList 사이즈:"+ coList.size());
 		return coList;
 	}
 	
@@ -313,7 +349,7 @@ public class AnbdDAO extends DbInfo{
 		conClose();
 	}
 	
-	public boolean upModifyBoard(AnbdVO vo, HttpServletRequest request) { 
+	public boolean upModifyBoard(AnbdVO vo, HttpServletRequest request) { //글수정
 		try{
 			String savePath = request.getSession().getServletContext().getRealPath("/upload");
 				System.out.println("저장 경로: "+savePath);
@@ -335,12 +371,12 @@ public class AnbdDAO extends DbInfo{
 			//기존 파일의 파일명 불러오기
 			for(int i=1; i<=preFileCount; i++) {
 				String preFile = multi.getParameter("filename"+i);//이전 파일을 val을 name값을 통해 가져오기
-					System.out.println("기존 filename "+i+"번재 파일명 : "+preFile);
+					//System.out.println("기존 filename "+i+"번재 파일명 : "+preFile);
 				//기존 파일을 삭제해서 파일명(val)이 공백이면
 				if(preFile==null || preFile.equals("")){ //수정페이지에서 삭제를 눌러서 val값이 없으면 해당파일 삭제
 					String hiddenfilename = multi.getParameter("hiddenfilename"+i);//input hidden의 해당 i번째 val(파일명)을 가져와서 삭제
 					String SQL2  = "delete from file where saveFileName='"+hiddenfilename+"'";
-						System.out.println(i+"번재 기존 파일 삭제: "+SQL2);
+						//System.out.println(i+"번재 기존 파일 삭제: "+SQL2);
 					prepareStatement(SQL2);
 					executeUpdate(); 
 					delCount++; //삭제파일갯수 증가
@@ -747,6 +783,48 @@ public class AnbdDAO extends DbInfo{
 		return true;
 	}//====insertWriteQuery METHOD
 	
+	public boolean inWriteMVC2(BoardVO vo){ //mvc2용 글쓰기 메소드
+		try{
+			getConnection();
+			//글 insert 시작
+			String insertBoardSql  = "INSERT INTO board ";
+			insertBoardSql += "(menu, title, content, userNo, wdate, photo, jusoNo) ";
+			insertBoardSql += "VALUES (?, ?, ?, ?, curdate(), ?, ?)";
+			
+			prepareStatement(insertBoardSql);
+			pstate.setString(1, vo.getMenu());
+			pstate.setString(2, vo.getTitle());
+			pstate.setString(3, vo.getContent());
+			pstate.setInt(4, vo.getUserNo());
+			pstate.setString(5, vo.getPhoto());
+			pstate.setInt(6, vo.getJusoNo());
+			executeUpdate();
+			
+			//글 번호 구하기
+			int insertNo = selLastInsert();
+			vo.setNo(insertNo);
+			
+			//파일 insert
+			if(vo.getFileSize() >0) { //파일이 있을때만 file insert 실행
+				for(int i=0; i<vo.getFileSize(); i++) {
+					String SQL  = "INSERT INTO file (saveFileName, no) ";
+					SQL += "VALUES (?, ?) ";
+					prepareStatement(SQL);
+					pstate.setString(1, vo.getSaveFileName(i));
+					pstate.setInt(2, vo.getNo());
+					executeUpdate();
+				}
+			}
+		}catch (SQLException e) {
+			System.out.println("inWriteMVC2() 에러: "+e.getMessage());
+			return false;
+		}finally{
+			pstateClose();		
+			conClose();	
+		}
+		return true;
+	}//inWriteMVC2
+	
 	/* ******************************************************
 	 * 
 	 * 로그인 메소드 [시작]
@@ -940,7 +1018,7 @@ public class AnbdDAO extends DbInfo{
 				   selSidoSql += "FROM juso \n";
 				   selSidoSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSidoSql);
-			System.out.println(selSidoSql);
+			//System.out.println(selSidoSql);
 			executeQuery();
 			if(rs.next())
 			{
@@ -995,7 +1073,7 @@ public class AnbdDAO extends DbInfo{
 				   selSigunSql += "ORDER BY jusoNo asc ";
 			prepareStatement(selSigunSql);
 			pstate.setString(1, sido);
-			System.out.println(selSigunSql);
+			//System.out.println(selSigunSql);
 			executeQuery();
 			if(rs.next())
 			{

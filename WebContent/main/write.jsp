@@ -16,20 +16,22 @@
 	}
 </style>
 <%
-	int userNo = 2;
+	//int userNo = 2;
 	dao.selJuso();
-	pageContext.setAttribute("boardList", dao.getBoardList());
-	pageContext.setAttribute("userNo", userNo);
+	pageContext.setAttribute("boardList", dao.getBoardList()); //주소 정보
+	
 	String loginId = (String)session.getAttribute("loginId");
+	int loginUserNo = dao.selLoginUserNo(vo, loginId); //id세션으로 회원번호 얻기, 로그인 여부 -> 로그인 안하고 write.do접속시 처리
+	pageContext.setAttribute("userNo", loginUserNo);
 %>
-<%--
-서블릿 적용 전, 정상 작동 확인
- --%>
- <form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
-<!-- 
-서블릿 적용 후
-<form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
- -->
+<%--서블릿 적용 전, 정상 작동 확인
+	<form class="contact-form" id="write" name="write" method="post" action="writeOk.jsp?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
+	--%>
+<!--서블릿 적용 후
+	<form class="contact-form" id="write" name="write" method="post" action="writeSer" enctype="multipart/form-data" onsubmit="return false;">
+	-->
+<%--서블릿 적용 전, 정상 작동 확인--%>
+ <form class="contact-form" id="write" name="writeForm" method="post" action="/anbd2/writeOk.do?userNo=${pageScope.userNo}" enctype="multipart/form-data" onsubmit="return false;"> 
 	<div class="container" id="Wrt">
 		<!--테이블 형식 본문-->
 		<table>
@@ -48,7 +50,6 @@
 					</div><!--==== search-type2 클래스 마지막 -->
 				</td>
 			</tr>
-			
 			<tr>
 				<td>지역</td>
 				<td>
@@ -69,7 +70,6 @@
 					</span>
 				</td>
 			</tr>
-			
 			<tr>
 				<td>제목</td>
 				<td>
@@ -77,14 +77,12 @@
 						    autofocus style="width:580px; ime-mode:active;">
 				</td>
 			</tr>
-			
 			<tr>
 				<td>내용</td>
 				<td>
 					<textarea style="width:580px" id="content" name="content" placeholder="내용을 입력하세요"></textarea>
 				</td>
 			</tr>
-			
 			<tr >
 				<td>파일</td>
 				<td class="moreFile">
@@ -94,7 +92,6 @@
 					<input type="button" class="site-btn" id="remove" value="삭제"/><!-- 파라미터 안받는건 name필요x -->
 				</td>
 			</tr>
-			
 			<tr>
 				<td colspan="2" style="padding-top:30px;">		
 					<button class="site-btn" id="save">등록</button>
@@ -106,13 +103,19 @@
 	</div>
 </form>
 <div class="Lst">
-	<button class="site-btn" id="list" onclick="location.href='main.jsp'">목록</button>
+	<button class="site-btn" id="list" onclick="location.href='/anbd2/main/main.jsp'">목록</button>
 </div>
-<script>
+<script type="text/javascript">
+	var loginId = '<%=loginId%>'; //''안하면 js 정의되지 않았다고 에러남
+	if(loginId==null || loginId=='null'){ 
+		alert("글쓰기는 로그인 후 가능합니다.");
+		location.href = "/anbd2/login.do"; // /anbd2/common/login.jsp
+	}
 	$(document).ready(function()
 	{
 		$("#save").click(function()
-		{
+		{	
+			var writeForm = document.writeForm; //document.getElementById("write");
 			var title = $("#title").val(); 
 			var content = $("#content").val(); 
 			if(title == "")
@@ -133,19 +136,22 @@
 			//전송할  Form의 데이터를 얻을 준비를 한다.
 			var mPostData = new FormData(mForm);
 			var path = "${pageContext.request.contextPath}";
-			var urlSer = path+"/writeSer?userNo=${pageScope.userNo}";
-			var urlJsp = "writeOk.jsp?userNo=${pageScope.userNo}";
-			$.ajax
+			var urlSer = path+"/writeOk.do?userNo=${pageScope.userNo}";
+			//var urlJsp = "writeOk.jsp?userNo=${pageScope.userNo}";
+			writeForm.action = urlSer;
+			writeForm.submit(); 
+			/*$.ajax
 			({
 				type:"POST",
 				enctype: "multipart/form-data",
-				url:urlJsp,
+				url: urlMvc2,
 				data: mPostData,
 				processData: false,
 				contentType: false,				
 				dataType:"html",
 				success: function (data) 
-				{
+				{	
+					console.log(data);
 					var array = data.split(",");
 					var menu = array[1].toString();//메뉴
 					var no = array[0]*1;//글번호
@@ -159,9 +165,8 @@
 	            	console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            	//alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            }
-			});//ajax FLOW
+			});//ajax FLOW*/
 		});//save 클릭 이벤트
-		
 		$("input[name='menu']").change(function()
 			{
 				var categoryName = $("input[name='menu']:checked").val();
@@ -178,46 +183,43 @@
 			});//메뉴 바꿈
 		
 			$("#sido").change(function()
-					{
-					//선택한 시도 값 구하기
-					var changeSigun = $("#sido").val();
-					$.ajax
-						({
-							type:"GET",
-							url:"writeSigun.jsp",
-							data: "sido=" + encodeURIComponent(changeSigun),
-							dataType: "html",
-							success: function (data) 
-							{
-								$("#sigun").html(data);
-								/* ******* 
-								 * [2020.06.29]
-								 * json 형태의 코드, json 타입으로 변환하지 못했음
-								alert(data);
-				            	alert("AJAX success!!!!!!!!!!!");
-				            	i = 0;
-				            	$.each(data, function(name, value)
-				            	{
-				            		if( i <= 2)
-				            		{
-				            			alert(name);
-				            			alert(value);
-				            		}
-				            		$("#sigun").append('<option value=' + value + '>' + value + '</option>');
-				            		i++;
-				            	});
-				            	******* */
-				            },
-				            error: function(xhr, status, error)
-				            {
-				            	alert("지역 정보를 조회할 수 없습니다");
-				            }
-						});//ajax FLOW
-						
-					});//시/도 변화 시 시군구 변화
-		
-		
-		
+				{
+				//선택한 시도 값 구하기
+				var changeSigun = $("#sido").val();
+				$.ajax
+					({
+						type:"GET",
+						url:"/anbd2/main/writeSigun.jsp", 
+						data: "sido=" + encodeURIComponent(changeSigun),
+						dataType: "html",
+						success: function (data) 
+						{
+							console.log(data);
+							$("#sigun").html(data);
+							/* ******* 
+							 * [2020.06.29]
+							 * json 형태의 코드, json 타입으로 변환하지 못했음
+							alert(data);
+			            	alert("AJAX success!!!!!!!!!!!");
+			            	i = 0;
+			            	$.each(data, function(name, value)
+			            	{
+			            		if( i <= 2)
+			            		{
+			            			alert(name);
+			            			alert(value);
+			            		}
+			            		$("#sigun").append('<option value=' + value + '>' + value + '</option>');
+			            		i++;
+			            	});
+			            	******* */
+			            },
+			            error: function(xhr, status, error)
+			            {
+			            	alert("지역 정보를 조회할 수 없습니다");
+			            }
+					});//ajax FLOW
+				});//시/도 변화 시 시군구 변화
 		//첨부파일 추가 버튼 방법 - 10개 까지 , name에 '파일명+숫자(count)' 붙임 
 		var count = 2;
 		$(document).on('click','#add',function(event){

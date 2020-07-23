@@ -135,7 +135,7 @@ public class PageDAO extends DbInfo{
 		try {
 			getConnection();
 			prepareStatement(SQL);
-			System.out.println("SQL: "+SQL);
+			//System.out.println("SQL: "+SQL);
 			executeQuery();
 			rs.next();
 			count = Integer.parseInt(rs.getString("count"));
@@ -213,7 +213,7 @@ public class PageDAO extends DbInfo{
 		}
 		
 		SQL += "order by no desc limit " + startRow + "," + pageSize + "  ";
-		System.out.println("=== 19개씩 목록 select : "+SQL);
+		//System.out.println("=== 19개씩 목록 select : "+SQL);
 		try {
 			prepareStatement(SQL);
 			executeQuery();
