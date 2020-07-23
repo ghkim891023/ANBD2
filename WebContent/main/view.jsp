@@ -279,11 +279,12 @@
 	}	
 	//댓글쓰기 엔터
 	function pressEnter(){
+		return;
 		var login= '<%=loginId%>';
 		if(window.event.keyCode == 13){
 			if(login=='null' ){
 				alert("로그인 후 댓글 작성이 가능합니다.");
-				location.href="../common/login.jsp";
+				location.href="/anbd2/login.do";
 				return false;	
 			}//first if FLOW	
 			else{
@@ -395,7 +396,7 @@ $(document).ready(function(){
 		var login= '<%=loginId%>';
 		if(login=='null' ){ 
 			alert("로그인 후 댓글 작성이 가능합니다.");
-			location.href="../common/login.jsp";
+			location.href="/anbd2/login.do";
 			return false;
 		}else{
 			if( $("#comment").val().length==0 || $.trim($("#comment").val())==""){
