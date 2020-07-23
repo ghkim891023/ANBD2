@@ -48,7 +48,7 @@
 3. 회원가입을 하면 인증메일이 발송됩니다. 이메일 url로 인증 후 회원가입이 완료됩니다.
 4. 사용 가능 도메인(com, net, co.kr, go.kr, ac.kr, 한국, info, biz, me, so, co)
 ※ 단, 본 사이트의 이메일을 수집해 이를 악용하는 행위는 처벌을 받을 수 있습니다.</pre>				
-						<input type="email" placeholder="이메일을 입력하세요" name="email" id="email" maxlength="320" value="jdoh302@naver.com">
+						<input type="email" placeholder="이메일을 입력하세요" name="email" id="email" maxlength="320">
 					</div>
 				</div><!--row 클래스 마지막-->
 			
