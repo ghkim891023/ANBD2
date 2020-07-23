@@ -44,8 +44,6 @@
 							 	<label for="share">아/나</label>
 							<input type="radio"  name="menu" id="reuse" value="바다"  >
 								<label for="reuse">바/다</label>
-							<input type="hidden" name="sido" id="sido" value="">
-							<input type="hidden" name="sigun" id="sigun" value="">
 						</div><!-- st-item2  클래스 마지막 -->
 					</div><!--==== search-type2 클래스 마지막 -->
 				</td>
