@@ -119,9 +119,9 @@ request.setAttribute("key", mEncodeKey);
 		</tr>
 		<!-- 공지 상단 고정 시작============================ -->
 			<c:forEach items="${selNotice}" var="selNotice">
-				<c:if test="${selNotice.menu eq '공지'}">
+				<c:if test="${selNotice.menu eq 'notice'}">
 					<tr>
-						<td>[${selNotice.menu}]</td>
+						<td>[공지]</td>
 						<td>
 						<a href="view.jsp?no=${selNotice.no}&menu=notice">${selNotice.title}
 							<c:choose>

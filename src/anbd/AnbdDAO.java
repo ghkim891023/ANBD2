@@ -499,7 +499,7 @@ public class AnbdDAO extends DbInfo{
 				   selectSql += "FROM board b \n";
 				   selectSql += "LEFT JOIN juso j \n";
 				   selectSql += "ON b.jusoNo = j.jusoNo \n";
-				   selectSql += "WHERE b.menu='공지' ";
+				   selectSql += "WHERE b.menu='notice' ";
 			System.out.println(selectSql);
 			
 			prepareStatement(selectSql);

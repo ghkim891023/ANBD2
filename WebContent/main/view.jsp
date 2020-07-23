@@ -53,7 +53,14 @@
 				}
 			}else{ }
 			%>
-		[${vo.getMenu()}]
+		<c:choose>
+			<c:when test="${vo.getMenu() eq 'notice'}">
+				[공지]
+			</c:when>
+			<c:otherwise>
+				[${vo.getMenu()}]
+			</c:otherwise>
+		</c:choose>
 	 <%-- String menu = vo.getMenu();
 			switch(menu) {
 				case "share":
