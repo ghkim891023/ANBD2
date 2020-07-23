@@ -81,7 +81,7 @@
 		<span>아이디 </span>
 		<span id="id"><%= vo.getId() %> </span>
 	</p>
-	<div id="content">
+	
 		<p>
 			<div id="slider">
 				<% for(int i=0;i<vo.GetFileCount();i++) //jstl형식은 forEach
@@ -92,9 +92,11 @@
 				<button class="w3-button w3-black w3-display-left sl left" onclick="plusDivs(-1)">&#10094;</button>
 				<button class="w3-button w3-black w3-display-right sl right" onclick="plusDivs(1)">&#10095;</button>
 			</div>
-			<%= vo.getContent().replace("\n","<br>") %><br>
+			<div id="content">
+			
+				<%= vo.getContent().replace("\n","<br>") %><br>
+			</div>
 		</p>
-	</div>
 	<div class="contentBtn" style="margin-bottom: 10px;">
 		<c:if test="${vo.getLoginUserNo() eq vo.getUserNo()}">
 			<button class="site-btn" id="modify">수정</button>
@@ -178,8 +180,9 @@
 	var img	  = document.getElementsByClassName("slide"); //이미지 요소 목록
 	var imgCnt = img.length*1;										 //이미지 갯수
 	var btn 	  = document.getElementsByClassName("sl");    //좌우 버튼
+	//var content = document.getElementById("content");
 	//console.log("imgCnt: "+imgCnt);
-	if(imgCnt>1){  //이미지 갯수가 1이상이면, 버튼 보이기
+	if(imgCnt>=2){  //이미지 갯수가 2개 이상이면, 버튼 보이기
 		for (var j = 0; j < 2; j++) {		  //버튼 갯수, 2만큼 for 돌면서
 		   btn[j].style.display = "block"; //버튼 보이기
 		}
@@ -190,6 +193,9 @@
 	}else if(imgCnt=1){ //이미지가 1개이면, 버튼은 안보이고, 그림만 보이기
 		showDivs(slideIndex);
 	}
+	//if(imgCnt>=1){
+		//content.style.top="-200px";
+	//}
 	function showDivs(n) {
 	  var img	  = document.getElementsByClassName("slide");
 	  var imgCnt = img.length*1;
