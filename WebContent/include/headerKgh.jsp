@@ -47,7 +47,7 @@ webutil.Init(request);
 	<!-- Header Section -->
 	<header class="header-section">
 	    <!-- 로고 -->
-		<a href="/anbd2/main/main.jsp" class="site-logo">
+		<a href="/anbd2/main.do" class="site-logo"> <!-- /anbd2/main/main.jsp -->
 			<img src="/anbd2/img/logo.png" alt="메인로고입니다">
 		</a>
 
