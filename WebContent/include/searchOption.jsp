@@ -84,9 +84,9 @@
 					</c:choose>
 					 --%>
 				</div>
+			</form>
 					<select class="showResult" name="showResult" style="display:none;">
 					</select>
-			</form>
 		</div>
 	<!-- </div>-->
 <!-- 자동완성 기능을 위한 웹UI개발 플러그인 --> 
@@ -167,7 +167,6 @@
 							//[문제]제목+엔터로 검색했을 때 결과가 없음
 							//[해결]autocomplete.jsp의 내용에 공백 제거
 							$("#searchFrm").submit();
-							console.log("이벤트13 실행 후");
 						}
 					})
 			});//자동완성 [종료]

@@ -40,7 +40,7 @@ public class AnbdVO {
 	protected String 			fileName	   = "";
 	protected String 			uploadPath 	   = "";
 	protected String 			tagName		   = "";
-	protected String 			saveName	   = "";
+	private String 			saveName	   = "";
 	
 	/* ******************************************************
 	 * Comment
@@ -403,5 +403,9 @@ public class AnbdVO {
 	}
 	public void setJusoNo(int jusoNo) {
 		this.jusoNo = jusoNo;
+	}
+
+	public String getSaveName() {
+		return saveName;
 	}
 }

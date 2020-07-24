@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <jsp:useBean id="footerDao" class="anbd.AnbdDAO" scope="page"/>
 <body>
@@ -10,10 +11,10 @@ pageContext.setAttribute("selNotice", footerDao.getBoardList());
 	<!-- Footer Section -->
 	<footer class="footer-section">
 	<c:forEach items="${selNotice}" var="selNotice">
-	<a href="view.jsp?no=${selNotice.no}&menu=notice">
-	<img src="../img/logo.png" style="width:10%" alt="필독!공지입니다로 가는 로고입니다">
-	필독! 공지입니다
-	</a>
+		<a href="view.jsp?no=${selNotice.no}&menu=notice">
+			<img src="../img/logo.png" style="width:10%" alt="필독!공지입니다로 가는 로고입니다">
+			필독! 공지입니다
+		</a>
 	</c:forEach>
 		<div class="copyright">
 			<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
