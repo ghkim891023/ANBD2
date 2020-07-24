@@ -28,6 +28,11 @@
 	int hereNo = Integer.parseInt(request.getParameter("no"));
 	dao.selViewBoard(vo, hereNo);
 	
+	//주소 불러오기[시작]
+	dao.selJuso();
+	pageContext.setAttribute("boardList", dao.getBoardList()); //주소 정보
+	//주소 불러오기[종료]
+	
 	webutil.Init(request);
 	int pageno = webutil._I("page","1");
 	String menu   = webutil._S("menu","");
@@ -113,6 +118,26 @@
 				</td>
 			</tr>
 			<tr>
+				<td>지역</td>
+				<td>
+					<select name="sido" id="sido">
+						<c:forEach items="${boardList}" var="boardList">
+							<c:choose>
+								<c:when test="${boardList.sido eq '기타'}">
+									<option value=${boardList.sido}>${boardList.sido}</option>
+								</c:when>
+								<c:when test="${boardList.sido ne '기타'}">
+									<option value="${boardList.sido}">${boardList.sido}</option>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+					</select>
+					<select name="sigun" id="sigun">
+						<option value="<%= vo.getSigun() %>"><%= vo.getSigun() %></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td>제목</td>
 				<td>
 					<input type="text" placeholder="제목을 입력하세요" id="title" name="title" maxlength="30" 
@@ -177,6 +202,12 @@
 document.title="ANBD | 아나바다-글수정";
 	$(document).ready(function()
 	{
+		var sido = '<%=vo.getSido()%>';
+		if(sido != null)
+		{
+			$("#sido").val(sido).attr("selected", "selected");
+		}
+		
 		$("#save").click(function(){
 			var title = $("#title").val(); 
 			var content = $("#content").val(); 
@@ -234,7 +265,43 @@ document.title="ANBD | 아나바다-글수정";
 		$("#cancel").click(function(){
 			window.history.back();
 		});
-});
+		
+		$("input[name='menu']").change(function()
+				{
+					var categoryName = $("input[name='menu']:checked").val();
+					if(categoryName == "바다")
+					{
+						$("#sido, #sigun").attr('disabled', 'disabled');
+						$("#sido").attr('value', '기타');
+						$("#sigun").attr('value', '251');
+					}
+					if(categoryName == "아나")
+					{
+						$("#sido, #sigun").removeAttr('disabled');
+					}
+				});//메뉴 바꿈
+			
+				$("#sido").change(function()
+					{
+					//선택한 시도 값 구하기
+					var changeSigun = $("#sido").val();
+					$.ajax
+						({
+							type:"GET",
+							url:"/anbd2/main/writeSigun.jsp", 
+							data: "sido=" + encodeURIComponent(changeSigun),
+							dataType: "html",
+							success: function (data) 
+							{
+								$("#sigun").html(data);
+				            },
+				            error: function(xhr, status, error)
+				            {
+				            	alert("지역 정보를 조회할 수 없습니다");
+				            }
+						});//ajax FLOW
+					});//시/도 변화 시 시군구 변화
+	});
 		//2번째 삭제부터는 한줄 다 사라지게
 		$(document).on('click', '.del', function() {
 			$(this).parent().remove();

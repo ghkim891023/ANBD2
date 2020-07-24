@@ -221,9 +221,11 @@ public class AnbdDAO extends DbInfo{
 	public void selViewBoard(AnbdVO vo, int no) { //글보기
 		String SQL  = "";
 		   	   SQL += "SELECT ";
-			   SQL += "	b.no, b.menu, b.status, b.photo, u.id, u.userNo, u.email, b.title, b.content ";
+			   SQL += "	b.no, b.menu, b.status, b.photo, u.id, u.userNo, u.email, b.title, b.content, j.sido, j.sigun ";
 		       SQL += "FROM ";
 		       SQL += "	board AS b LEFT JOIN user AS u ON b.userNo=u.userNo ";
+		       SQL += "	LEFT JOIN juso AS j ";
+		       SQL += "	ON b.jusoNo=j.jusoNo ";
 		       SQL += "WHERE ";
 		       SQL += "	b.no=" + no;
 		//======================== 게시물의 컨텐츠를 얻는 블럭
@@ -247,6 +249,8 @@ public class AnbdDAO extends DbInfo{
 				vo.setUserNo(rs.getInt("userNo"));
 				vo.setEmail(rs.getString("email"));
 				vo.setTitle(rs.getString("title"));
+				vo.setSido(rs.getString("sido"));
+				vo.setSigun(rs.getString("sigun"));
 			}
 		}catch (Exception e) {
 			System.out.println("viewBoard 게시물 rs.next() 에러: "+e.getMessage()); 
@@ -666,11 +670,11 @@ public class AnbdDAO extends DbInfo{
 			{
 				//태그의 name 값을 가져옴
 				vo.tagName  = (String)contents.nextElement();
-				vo.saveName = (String) multi.getFilesystemName(vo.tagName);
-				if(vo.saveName != null) 
+				vo.setSaveName((String) multi.getFilesystemName(vo.tagName));
+				if(vo.getSaveName() != null) 
 				{
 					//태그의 name값이 ~인 것에 담긴 value값을 가져옴
-					vo.SaveFileName.add(vo.saveName);
+					vo.SaveFileName.add(vo.getSaveName());
 				}//if FLOW
 			}//====while FLOW
 		} //=======try FLOW
@@ -701,13 +705,13 @@ public class AnbdDAO extends DbInfo{
 				vo.setSigun("251");
 			}
 			
-			if(vo.saveName == null)
+			if(vo.getSaveName() != null || !vo.getSaveName().equals(""))
 			{
-				vo.setPhoto("N");
+				vo.setPhoto("Y");
 			}
 			else 
 			{
-				vo.setPhoto("Y");
+				vo.setPhoto("N");
 			}
 			
 			System.out.println("시군 = "+vo.getSigun());
@@ -732,7 +736,7 @@ public class AnbdDAO extends DbInfo{
 			/*
 			 */
 			 System.out.println(insertBoardSql);
-			 System.out.println("saveName = "+vo.saveName);
+			 System.out.println("saveName = "+vo.getSaveName());
 			 System.out.println("SaveFileName = "+vo.SaveFileName);
 			 System.out.println("vo.SaveFileName.size() = "+vo.SaveFileName.size());
 			

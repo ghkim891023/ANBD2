@@ -111,6 +111,16 @@
 	}
 	$(document).ready(function()
 	{
+		//초기화 [시작]
+		$("#cancel").click(function()
+			{
+				//이 메소드가 없으면 지역 선택>바다 선택>초기화 클릭 시
+				//지역 초기화 불가능
+				$("#sido, #sigun").removeAttr('disabled');
+				$("#sigun").html("<option value='251'>기타</option>");;
+			})
+		//초기화 [종료]
+		//등록 클릭 [시작]
 		$("#save").click(function()
 		{	
 			var writeForm = document.writeForm; //document.getElementById("write");
@@ -164,7 +174,7 @@
 	            	//alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 	            }
 			});//ajax FLOW*/
-		});//save 클릭 이벤트
+		});//등록 클릭 [종료]
 		$("input[name='menu']").change(function()
 			{
 				var categoryName = $("input[name='menu']:checked").val();
@@ -192,7 +202,6 @@
 						dataType: "html",
 						success: function (data) 
 						{
-							console.log(data);
 							$("#sigun").html(data);
 							/* ******* 
 							 * [2020.06.29]
