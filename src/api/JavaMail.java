@@ -14,7 +14,7 @@ public class JavaMail {
 	public static void sendEmail(String email, String id) {
 
 		String mailId 		= "anbdmaster@gmail.com";  // 구글계정
-		String mailPassword = "anbd1234"; 			   // 구글계정 비밀번호 
+		String mailPassword = "kanu1023!"; 			   // 구글계정 비밀번호 
 		String fromName 	= "ANBD";				   // 보내는사람 이름
 		String fromEmail 	= "anbdmaster@gmail.com";  // 보내는사람 메일
 		String toName 		= id;					   // 받는사람 이름
