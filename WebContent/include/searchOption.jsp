@@ -29,7 +29,7 @@
 <body>
 	<!--  <div class="container">-->
 		<div class="hero-warp">
-			<form class="main-search-form" action="../main/main.jsp" method="get" id="searchFrm" name="searchFrm">
+			<form class="main-search-form" action="/anbd2/main/main.jsp" method="get" id="searchFrm" name="searchFrm">
 				<!-- 검색 옵션 탭 -->
 				<div class="search-type">
 				    <!-- 각 옵션 탭별로 div -->
@@ -85,7 +85,7 @@
 					 --%>
 				</div>
 			</form>
-					<select class="showResult" name="showResult" style="display:none;">
+					<select class="showResult" name="showResult" style="display:none;" size=3>
 					</select>
 		</div>
 	<!-- </div>-->
@@ -96,7 +96,7 @@
 	var option = '<%=option%>';
 	var showResult = $(".showResult");
 	$(document).ready(function() {
-		var autoUrl = '../include/autocomplete.jsp';
+		var autoUrl = '/anbd2/include/autocomplete.jsp';
 		//자동완성을 위한 AJAX
 		$(function()
 			{

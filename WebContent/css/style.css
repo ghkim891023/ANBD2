@@ -20,6 +20,10 @@ select {
   border: 1px solid #999;
   border-radius: 0px;
 }
+select.showResult{
+	background: white;
+	width: 300px;
+}
 
 select::-ms-expand { /* for IE 11 */
     display: none;

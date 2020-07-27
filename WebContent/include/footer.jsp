@@ -11,7 +11,7 @@ pageContext.setAttribute("selNotice", footerDao.getBoardList());
 	<!-- Footer Section -->
 	<footer class="footer-section">
 	<c:forEach items="${selNotice}" var="selNotice">
-		<a href="view.jsp?no=${selNotice.no}&menu=notice">
+		<a href="/anbd2/view.do?no=${selNotice.no}&menu=notice">
 			<img src="../img/logo.png" style="width:10%" alt="필독!공지입니다로 가는 로고입니다">
 			필독! 공지입니다
 		</a>
